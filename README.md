@@ -1,6 +1,6 @@
 # 🦀 LeClaw
 
-**Full Stack RevOps. Built by someone who lived the pain.**
+**Full Stack RevOps. Purposebuilt for your CRMs.**
 
 > Native agents are features inside a single product. LeClaw is infrastructure across your entire GTM stack.
 
@@ -9,8 +9,6 @@
 ## What is LeClaw?
 
 LeClaw is an open-source RevOps agent framework that automates the manual work that lives between your CRM and your revenue targets.
-
-Sellers should never have to learn a CRM process. LeClaw handles the operational layer so your GTM team can live where they're supposed to: in front of the customer.
 
 **Works with:** Salesforce · HubSpot · Slack
 
@@ -75,6 +73,6 @@ SLACK_WEBHOOK_URL=
 
 ---
 
-Built by a Sales Ops practitioner who spent years inside the clicks.
+Built by a Sales Ops practitioner who spent too much time clicking around.
 
 **[leclaw.io](https://leclaw.io) · [LinkedIn](https://www.linkedin.com/company/leclaw/)**
