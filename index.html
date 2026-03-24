@@ -623,6 +623,62 @@
       .arch-terms { grid-template-columns: 1fr 1fr; }
     }
 
+    /* ── DEMO ── */
+    .demo {
+      padding: 100px 0;
+      border-top: 1px solid var(--border-sm);
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .demo-header .section-body {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .demo-frame-wrap {
+      position: relative;
+      max-width: 860px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(126,200,227,0.15);
+      background: #0C1620;
+    }
+
+    .demo-frame-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #111E2C;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .demo-frame-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .demo-frame-url {
+      margin-left: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #8899AA;
+      letter-spacing: 0.04em;
+    }
+
+    .demo-frame-wrap iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+      display: block;
+    }
+
     /* ── HOW IT WORKS ── */
     .how {
       padding: 100px 0;
@@ -805,7 +861,7 @@
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
-      <li><a href="https://app.leclaw.io/demo" style="color:var(--sky);">See it live →</a></li>
+      <li><a href="#demo" style="color:var(--sky);">See it live →</a></li>
     </ul>
     <a href="https://app.leclaw.io" class="btn btn-primary">Get Started Free</a>
   </nav>
@@ -841,7 +897,7 @@
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
             <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
-            <a href="https://app.leclaw.io/demo" class="btn btn-outline btn-lg">See it live →</a>
+            <a href="#demo" class="btn btn-outline btn-lg">See it live →</a>
           </div>
         </div>
 
@@ -1144,6 +1200,35 @@
     </div>
   </section>
 
+  <!-- DEMO -->
+  <section class="demo" id="demo">
+    <div class="container">
+      <div class="demo-header">
+        <div class="section-label">// live demo</div>
+        <h2 class="section-title">Watch une mission run.</h2>
+        <p class="section-body">
+          Le Directeur dispatches les agents. Each files un rapport.
+          Hit "Lancer la mission" and watch it go.
+        </p>
+      </div>
+
+      <div class="demo-frame-wrap">
+        <div class="demo-frame-bar">
+          <div class="demo-frame-dot" style="background:#F87171;"></div>
+          <div class="demo-frame-dot" style="background:#FACC15;"></div>
+          <div class="demo-frame-dot" style="background:#4ADE80;"></div>
+          <span class="demo-frame-url">app.leclaw.io/demo</span>
+        </div>
+        <iframe
+          src="https://app.leclaw.io/demo"
+          title="LeClaw mission demo"
+          loading="lazy"
+          allow="clipboard-write"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
   <!-- HOW IT WORKS -->
   <section class="how" id="how">
     <div class="container">
@@ -1242,7 +1327,7 @@
         </p>
         <div class="cta-btns">
           <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
-          <a href="https://app.leclaw.io/demo" class="btn btn-outline btn-lg">See it live →</a>
+          <a href="#demo" class="btn btn-outline btn-lg">See it live →</a>
         </div>
         <div style="margin-top:12px;">
           <a href="https://github.com/LeRevOps/leclaw" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">View on GitHub →</a>
