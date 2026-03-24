@@ -475,6 +475,154 @@
     .agent-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
     .agent-coming { opacity: 0.45; }
 
+    /* ── ARCHITECTURE ── */
+    .arch {
+      padding: 100px 0;
+      border-top: 1px solid var(--border-sm);
+    }
+
+    .arch-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .arch-header .section-body {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .arch-flow {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .arch-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border-sm);
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .arch-node.arch-special {
+      border-color: rgba(126,200,227,0.2);
+    }
+
+    .arch-node.arch-témoin {
+      border-color: rgba(250,204,21,0.2);
+    }
+
+    .arch-mono-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      min-width: 36px;
+      text-align: center;
+    }
+
+    .arch-badge-ld { background: rgba(126,200,227,0.1); color: var(--sky); }
+    .arch-badge-ag { background: rgba(74,222,128,0.1); color: var(--green); }
+    .arch-badge-lt { background: rgba(250,204,21,0.1); color: #FACC15; }
+
+    .arch-node-content {}
+
+    .arch-node-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .arch-node-name.color-sky { color: var(--sky); }
+    .arch-node-name.color-yellow { color: #FACC15; }
+
+    .arch-node-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .arch-node-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .arch-connector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 32px;
+      position: relative;
+    }
+
+    .arch-connector::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .arch-connector-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 2px 10px;
+      border: 1px solid var(--border-sm);
+      border-radius: 100px;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.06em;
+    }
+
+    .arch-terms {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      max-width: 680px;
+      margin: 40px auto 0;
+    }
+
+    .arch-term {
+      background: var(--bg-card);
+      border: 1px solid var(--border-sm);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .arch-term-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--sky);
+      margin-bottom: 4px;
+    }
+
+    .arch-term-def {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .arch-terms { grid-template-columns: 1fr 1fr; }
+    }
+
     /* ── HOW IT WORKS ── */
     .how {
       padding: 100px 0;
@@ -654,8 +802,10 @@
     </a>
     <ul class="nav-links">
       <li><a href="#agents">Agents</a></li>
+      <li><a href="#architecture">Architecture</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+      <li><a href="https://app.leclaw.io/demo" style="color:var(--sky);">See it live →</a></li>
     </ul>
     <a href="https://app.leclaw.io" class="btn btn-primary">Get Started Free</a>
   </nav>
@@ -689,7 +839,10 @@
             <div class="track-step"><span class="num">02</span> Enable agents from the dashboard</div>
             <div class="track-step"><span class="num">03</span> Get a score, issues list, and AI summary</div>
           </div>
-          <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
+            <a href="https://app.leclaw.io/demo" class="btn btn-outline btn-lg">See it live →</a>
+          </div>
         </div>
 
         <div class="track-divider"></div>
@@ -800,13 +953,13 @@
     <div class="container">
       <div class="agents-header">
         <div>
-          <div class="section-label">// the agent library</div>
+          <div class="section-label">// les agents</div>
           <h2 class="section-title">Each agent owns<br/>a domain.</h2>
         </div>
         <p class="section-body" style="padding-top: 40px;">
-          LeClaw is not a single tool. It's a library of purpose-built agents —
-          each one owning a specific piece of your operational layer.
-          Run one. Run all of them. They work on HubSpot and Salesforce natively.
+          13 specialist agents. Each one fetches only broken records from your CRM —
+          no full scans, no wasted compute. Run one agent or launch a full mission.
+          They share context, compound findings, and produce insights no single tool can.
         </p>
       </div>
 
@@ -816,56 +969,176 @@
             <div class="agent-name">le-data-quality</div>
             <span class="agent-status status-live">live</span>
           </div>
-          <div class="agent-desc">
-            Scans your CRM for duplicates, missing fields, and stale contacts.
-            Generates a health score and AI-written fix list.
-          </div>
+          <div class="agent-desc">Field completeness, relationship hygiene, missing associations. Generates a CRM health score.</div>
         </div>
         <div class="agent-card">
           <div class="agent-card-top">
-            <div class="agent-name">le-plumber</div>
-            <span class="agent-status status-soon">coming soon</span>
+            <div class="agent-name">le-stage-audit</div>
+            <span class="agent-status status-live">live</span>
           </div>
-          <div class="agent-desc">
-            Monitors integration health. Detects broken webhooks and failed syncs
-            before they become rep complaints.
-          </div>
+          <div class="agent-desc">Deal velocity and pipeline health. Stuck deals, missing close dates, past-close opportunities.</div>
         </div>
-        <div class="agent-card agent-coming">
+        <div class="agent-card">
           <div class="agent-card-top">
-            <div class="agent-name">le-lead-router</div>
-            <span class="agent-status status-road">roadmap</span>
+            <div class="agent-name">le-duplicates</div>
+            <span class="agent-status status-soon">bientôt</span>
           </div>
-          <div class="agent-desc">
-            Detects routing failures and misassignments. A single missing field shouldn't strand a lead.
+          <div class="agent-desc">Identity resolution across contacts and companies. Duplicates corrupt every agent above them.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-top">
+            <div class="agent-name">le-bdr</div>
+            <span class="agent-status status-soon">bientôt</span>
           </div>
+          <div class="agent-desc">Follow-up SLA gaps, unworked MQLs, sequence health. BDR performance without the spreadsheet.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-top">
+            <div class="agent-name">le-lead-gen</div>
+            <span class="agent-status status-soon">bientôt</span>
+          </div>
+          <div class="agent-desc">MQL quality, attribution gaps, missing lead source. What enters the funnel shapes everything below.</div>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-top">
+            <div class="agent-name">le-routing</div>
+            <span class="agent-status status-soon">bientôt</span>
+          </div>
+          <div class="agent-desc">Assignment gaps, round-robin health, SLA compliance. A missing field shouldn't strand a lead.</div>
         </div>
         <div class="agent-card agent-coming">
           <div class="agent-card-top">
             <div class="agent-name">le-forecast</div>
             <span class="agent-status status-road">roadmap</span>
           </div>
-          <div class="agent-desc">
-            Pre-built forecast digest and at-risk deal detection. Know before the Friday review.
-          </div>
+          <div class="agent-desc">Commit accuracy, pipeline coverage ratio, category misuse. Know before the Friday review.</div>
         </div>
         <div class="agent-card agent-coming">
           <div class="agent-card-top">
-            <div class="agent-name">le-commission</div>
+            <div class="agent-name">le-deal-desk</div>
             <span class="agent-status status-road">roadmap</span>
           </div>
-          <div class="agent-desc">
-            Automated comp calculation and attainment tracking. Replaces the Excel model.
-          </div>
+          <div class="agent-desc">Missing line items, discount anomalies, approval gaps. Deal structure that holds up to scrutiny.</div>
         </div>
         <div class="agent-card agent-coming">
           <div class="agent-card-top">
-            <div class="agent-name">le-territory</div>
+            <div class="agent-name">le-activities</div>
             <span class="agent-status status-road">roadmap</span>
           </div>
-          <div class="agent-desc">
-            Coverage monitoring, misrouted accounts, rep attrition handling. Territories that stay clean.
+          <div class="agent-desc">Meeting and call logging gaps. Dark contacts with no activity are invisible to forecasting.</div>
+        </div>
+        <div class="agent-card agent-coming">
+          <div class="agent-card-top">
+            <div class="agent-name">le-renewal</div>
+            <span class="agent-status status-road">roadmap</span>
           </div>
+          <div class="agent-desc">Renewal risk, upcoming dates with no outreach, expansion signals going unworked.</div>
+        </div>
+        <div class="agent-card agent-coming">
+          <div class="agent-card-top">
+            <div class="agent-name">le-enrichment</div>
+            <span class="agent-status status-road">roadmap</span>
+          </div>
+          <div class="agent-desc">Identifies records enrichable from external sources. Gaps that can be filled, automatically.</div>
+        </div>
+        <div class="agent-card agent-coming">
+          <div class="agent-card-top">
+            <div class="agent-name">le-workflows</div>
+            <span class="agent-status status-road">roadmap</span>
+          </div>
+          <div class="agent-desc">Broken automations, zero-enrollment workflows, error states. The automation layer, audited.</div>
+        </div>
+        <div class="agent-card agent-coming">
+          <div class="agent-card-top">
+            <div class="agent-name">le-cs</div>
+            <span class="agent-status status-road">roadmap</span>
+          </div>
+          <div class="agent-desc">Health score gaps, missing QBR logs, expansion signals. Post-sale coverage that compounds.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="arch" id="architecture">
+    <div class="container">
+      <div class="arch-header">
+        <div class="section-label">// l'architecture</div>
+        <h2 class="section-title">Orchestrated. Not scripted.</h2>
+        <p class="section-body">
+          LeClaw runs as a coordinated agent hierarchy. Le Directeur dispatches une mission.
+          Each agent files un rapport. Le Témoin guards every write-back.
+        </p>
+      </div>
+
+      <div class="arch-flow">
+
+        <!-- Le Directeur -->
+        <div class="arch-node arch-special">
+          <div class="arch-mono-badge arch-badge-ld">LD</div>
+          <div class="arch-node-content">
+            <div class="arch-node-name color-sky">Le Directeur</div>
+            <div class="arch-node-role">orchestrateur · dispatches une mission</div>
+            <div class="arch-node-desc">
+              The orchestrating agent. Coordinates which agents run, in what order,
+              with what context. Reads every rapport and synthesizes a final insight
+              no individual agent can see.
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector">
+          <span class="arch-connector-label">dispatches → une mission</span>
+        </div>
+
+        <!-- Les Agents -->
+        <div class="arch-node">
+          <div class="arch-mono-badge arch-badge-ag">13</div>
+          <div class="arch-node-content">
+            <div class="arch-node-name">les agents</div>
+            <div class="arch-node-role">spécialistes · each files un rapport</div>
+            <div class="arch-node-desc">
+              Each agent owns a domain: data quality, pipeline stage, BDR follow-up, forecast.
+              They fetch only broken records from your CRM — no full scans, no wasted compute.
+              Every agent returns a structured <em style="color:var(--sky)">rapport</em>: a score, issues list, and AI summary.
+              If a check fails fatally, it exits via <em style="color:#F87171">Le Retrait</em> without tainting the mission.
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector">
+          <span class="arch-connector-label">proposes → write-back</span>
+        </div>
+
+        <!-- Le Témoin -->
+        <div class="arch-node arch-témoin">
+          <div class="arch-mono-badge arch-badge-lt">LT</div>
+          <div class="arch-node-content">
+            <div class="arch-node-name color-yellow">Le Témoin</div>
+            <div class="arch-node-role">validateur · reviews before write-back</div>
+            <div class="arch-node-desc">
+              No change touches your CRM without passing through Le Témoin.
+              Approval can be automatic (high-confidence, low-risk) or require human sign-off.
+              Write-back is always opt-in.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Vocabulary -->
+      <div class="arch-terms">
+        <div class="arch-term">
+          <div class="arch-term-name">une mission</div>
+          <div class="arch-term-def">A coordinated run dispatched by Le Directeur. Multiple agents, one shared context.</div>
+        </div>
+        <div class="arch-term">
+          <div class="arch-term-name">un rapport</div>
+          <div class="arch-term-def">Structured result from each agent: score, issue list, AI summary. Stored as a Bead.</div>
+        </div>
+        <div class="arch-term">
+          <div class="arch-term-name">Le Retrait</div>
+          <div class="arch-term-def">Fail-fast exit. A check that cannot complete exits cleanly without corrupting the mission.</div>
         </div>
       </div>
     </div>
@@ -968,10 +1241,13 @@
           Connect your HubSpot in one click and run your first scan in under 5 minutes.
         </p>
         <div class="cta-btns">
-          <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free</a>
-          <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline btn-lg">View on GitHub</a>
+          <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
+          <a href="https://app.leclaw.io/demo" class="btn btn-outline btn-lg">See it live →</a>
         </div>
-        <p class="cta-note">free tier · le-data-quality · bring your own anthropic key · MIT licensed</p>
+        <div style="margin-top:12px;">
+          <a href="https://github.com/LeRevOps/leclaw" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">View on GitHub →</a>
+        </div>
+        <p class="cta-note" style="margin-top:16px;">free tier · MIT licensed · bring your own anthropic key · no vendor lock-in</p>
       </div>
     </div>
   </section>
