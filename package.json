@@ -1,10 +1,13 @@
 {
   "name": "@leclaw/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Open-source RevOps agent framework for HubSpot and Salesforce",
   "type": "module",
   "main": "./core/index.js",
   "types": "./core/index.d.ts",
+  "bin": {
+    "leclaw": "./cli/index.js"
+  },
   "exports": {
     ".": {
       "import": "./core/index.js",
@@ -15,12 +18,18 @@
     "core/**/*.ts",
     "core/**/*.js",
     "core/**/*.d.ts",
+    "agents/**/*.ts",
+    "agents/**/*.js",
+    "agents/**/*.d.ts",
+    "cli/**/*.js",
+    "cli/**/*.d.ts",
     "examples/",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
+    "cli": "node cli/index.js",
     "setup": "node setup.js",
     "data-quality": "node agents/le-data-quality/index.js"
   },

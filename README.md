@@ -67,6 +67,58 @@ npm run data-quality -- --crm salesforce
 
 ---
 
+## Interactive CLI
+
+Ask Le Directeur questions about your CRM in plain language. It routes to the right agents, runs them, and streams a synthesized answer back.
+
+```bash
+# Run directly (no install needed)
+npx leclaw
+
+# Or after cloning
+npm run build
+npm run cli
+```
+
+Requires `HUBSPOT_TOKEN` and `ANTHROPIC_API_KEY` in your `.env` or shell environment.
+
+```
+┌─────────────────────────────────────────────────┐
+│  LeClaw · Le Directeur                          │
+│  orchestrateur · posez une question             │
+└─────────────────────────────────────────────────┘
+
+Connecté à HubSpot · 4,821 contacts · 312 deals
+
+Type a question or "exit" to quit.
+
+> why is our forecast unreliable?
+
+Le Directeur dispatche les agents...
+
+  ↳ le-stage-audit    ✓ 54/100 · 47 issues
+  ↳ le-data-quality   ✓ 61/100 · 83 issues
+
+Le Directeur · synthèse
+────────────────────────────────────────────────
+
+Your forecast is unreliable primarily because 31
+deals are missing close dates and 19 are past
+their close date without being marked closed lost
+— these distort your pipeline view directly.
+Compounding this, 47 deals have no associated
+contact, making it impossible to validate deal
+legitimacy or assign follow-up. Start by running
+a close date sweep on all open deals in the last
+30 days and mark anything stale as closed lost.
+
+Agents: le-stage-audit (54/100) · le-data-quality (61/100)
+
+>
+```
+
+---
+
 ## How to Build a Custom Agent
 
 Every LeClaw agent is a list of **checks**. A check is a targeted HubSpot search query that fetches only the broken records matching a specific problem — clean records are never touched.
