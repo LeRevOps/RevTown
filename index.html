@@ -883,42 +883,9 @@
         Specialized agents cover every domain of revenue operations — data quality, pipeline health, BDR accountability, forecast integrity. Two agents is a start. Ten agents is a team.
       </p>
 
-      <!-- Two-track -->
-      <div class="hero-tracks">
-        <div class="hero-track">
-          <div class="track-label">// for revops managers</div>
-          <div class="track-headline">No terminal.<br/>No engineer.<br/>Just results.</div>
-          <p class="track-body">
-            Connect your HubSpot in one click. Run agents from a dashboard.
-            LeClaw catches the problems that used to pile up in your queue.
-          </p>
-          <div class="track-steps">
-            <div class="track-step"><span class="num">01</span> Connect HubSpot via OAuth</div>
-            <div class="track-step"><span class="num">02</span> Enable agents from the dashboard</div>
-            <div class="track-step"><span class="num">03</span> Get a score, issues list, and AI summary</div>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
-            <a href="#demo" class="btn btn-outline btn-lg">See it live →</a>
-          </div>
-        </div>
-
-        <div class="track-divider"></div>
-
-        <div class="hero-track">
-          <div class="track-label">// for gtm engineers</div>
-          <div class="track-headline">Fork it.<br/>Extend it.<br/>Deploy it.</div>
-          <p class="track-body">
-            Open-source adapter layer for HubSpot and Salesforce.
-            Build custom agents on the core/ framework. CLI-first, bring your own keys.
-          </p>
-          <div class="track-steps">
-            <div class="track-step"><span class="num">01</span> git clone LeRevOps/leclaw</div>
-            <div class="track-step"><span class="num">02</span> npm run setup</div>
-            <div class="track-step"><span class="num">03</span> npm run data-quality</div>
-          </div>
-          <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline btn-lg">View on GitHub →</a>
-        </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px;">
+        <a href="https://app.leclaw.io" class="btn btn-primary btn-lg">Get Started Free →</a>
+        <a href="#how" class="btn btn-outline btn-lg">See how it works →</a>
       </div>
 
       <!-- Stats -->
@@ -943,65 +910,115 @@
     </div>
   </section>
 
-  <!-- PAIN -->
-  <section class="pain" id="pain">
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how" style="padding: 100px 0; border-top: 1px solid var(--border-sm);">
     <div class="container">
-      <div class="pain-grid">
-        <div>
-          <div class="section-label">// the problem</div>
-          <h2 class="section-title">Your CRM is stuck in tech glut.</h2>
-          <p class="section-body">
-            I spent years in Sales Ops watching the same thing happen everywhere.
-            The RevOps team becomes a ticket queue. A little fix here, a little fix there.
-            Spread across a dozen tools, never getting to strategy.<br /><br />
-            The reps felt the pain. So did I. None of it needed to be manual.
-          </p>
+      <div class="how-header">
+        <div class="section-label">// how it works</div>
+        <h2 class="section-title">Two paths. Same agents.</h2>
+        <p class="section-body" style="max-width:520px;margin:0 auto;">Whether you run it from your terminal or check the dashboard every morning, you're running the same agent library against the same CRM — just at different levels of automation.</p>
+      </div>
+      <div class="how-tracks">
+
+        <!-- RevOps Manager track -->
+        <div class="how-track">
+          <div class="how-track-header">
+            <span class="how-track-label">// hosted dashboard</span>
+            <span class="how-track-audience">RevOps Manager &amp; above</span>
+          </div>
+          <div class="how-steps">
+            <div class="how-step">
+              <div class="how-step-num">01</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Connect your CRM</div>
+                <div class="how-step-desc">OAuth into HubSpot or Salesforce. LeClaw requests only the scopes each agent needs — read-only by default.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">02</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Agents run on schedule</div>
+                <div class="how-step-desc">Le Directeur runs every agent nightly. Each one fetches only broken records — no full scans, no wasted compute.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">03</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Wake up to a scored report</div>
+                <div class="how-step-desc">Dashboard shows severity, issue type, and record count. Slack digest lands in your channel before standup.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">04</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Write-back when you're ready</div>
+                <div class="how-step-desc">Le Témoin (paid) previews every change before making it. Shadow mode until you say go.</div>
+              </div>
+            </div>
+          </div>
+          <div class="how-track-cta">
+            <a href="https://app.leclaw.io" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Get Started Free →</a>
+          </div>
         </div>
-        <div class="pain-items">
-          <div class="pain-item">
-            <div class="pain-icon">🔁</div>
-            <div class="pain-text">
-              <strong>You're not providing business value</strong>
-              Cleaning data, chasing down fields, fixing the same records every quarter.
+
+        <!-- GTM Engineer track -->
+        <div class="how-track">
+          <div class="how-track-header">
+            <span class="how-track-label">// open source CLI</span>
+            <span class="how-track-audience">GTM Engineer &amp; Developer</span>
+          </div>
+          <div class="how-steps">
+            <div class="how-step">
+              <div class="how-step-num">01</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Run the setup wizard</div>
+                <div class="how-step-desc">Opens HubSpot, Anthropic, and Slack in your browser. Verifies connections and writes your <code style="font-family:monospace;font-size:12px;background:rgba(126,200,227,0.08);padding:1px 5px;border-radius:3px;color:var(--sky)">.env</code> file.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">02</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Ask Le Directeur anything</div>
+                <div class="how-step-desc">Natural language REPL routes your question to the right agent — or runs all of them and synthesizes a single answer.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">03</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Fork and extend</div>
+                <div class="how-step-desc">An agent is a list of CRM filterGroups + a summary prompt. Clone the repo, copy an agent, point it at your domain.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">04</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Ship to production</div>
+                <div class="how-step-desc"><code style="font-family:monospace;font-size:12px;background:rgba(126,200,227,0.08);padding:1px 5px;border-radius:3px;color:var(--sky)">@leclaw/core</code> is on npm. Import it, drop it in a cron, add it to your Vercel app.</div>
+              </div>
             </div>
           </div>
-          <div class="pain-item">
-            <div class="pain-icon">🔌</div>
-            <div class="pain-text">
-              <strong>Integrations break silently</strong>
-              Webhooks fail, syncs stop, nobody knows until a rep is missing pipeline.
-            </div>
-          </div>
-          <div class="pain-item">
-            <div class="pain-icon">⏳</div>
-            <div class="pain-text">
-              <strong>Strategy never happens</strong>
-              The ticket queue always wins. You're reactive by default, not by choice.
-            </div>
-          </div>
-          <div class="pain-item">
-            <div class="pain-icon">🗺️</div>
-            <div class="pain-text">
-              <strong>Reps feel it too</strong>
-              Misrouted leads, stale accounts, quotes stuck in approval. The CRM is working against them.
-            </div>
+          <div class="how-track-cta">
+            <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline" style="width:100%;text-align:center;display:block;">View on GitHub →</a>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- BELIEF -->
+  <!-- QUOTE -->
   <section class="belief">
     <div class="container">
       <div class="belief-inner">
         <p class="belief-quote">
-          Sellers should <em>never</em> have to learn a CRM process.
-          They shouldn't know what an account hierarchy is, how territory routing works,
-          or why their quote is stuck in Deal Desk.
-          That's not their job. <em>Their job is the customer.</em>
+          "RevOps is a function spread across every corner of the GTM stack —
+          lead routing, territory carving, order booking, rep compensation.
+          Each one is a manual process someone has to touch.
+          <em>AI allows us to put a specific agent on each one,</em>
+          freeing us up for strategy and better serving the people we're here to support:
+          the sales team in front of the customer."
         </p>
-        <p class="belief-attr">— THE BELIEF LECLAW WAS BUILT ON</p>
+        <p class="belief-attr">— Benjamin LeBlanc, Sales Operations · Docker</p>
       </div>
     </div>
   </section>
@@ -1229,95 +1246,6 @@
           loading="lazy"
           allow="clipboard-write"
         ></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how">
-    <div class="container">
-      <div class="how-header">
-        <div class="section-label">// how it works</div>
-        <h2 class="section-title">Two paths. Same agents.</h2>
-      </div>
-
-      <div class="how-tracks">
-        <!-- RevOps Manager track -->
-        <div class="how-track">
-          <div class="how-track-header">
-            <div class="how-track-label">// revops-manager</div>
-            <div class="how-track-audience">No terminal required</div>
-          </div>
-          <div class="how-steps">
-            <div class="how-step">
-              <div class="how-step-num">01</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Connect your CRM</div>
-                <div class="how-step-desc">Click "Connect HubSpot." OAuth flow. Done. LeClaw stores your token securely — read-only by default.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">02</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Run an agent</div>
-                <div class="how-step-desc">Click "Run now" on any agent from your dashboard. No config, no code, no setup wizard.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">03</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Get your score</div>
-                <div class="how-step-desc">CRM health score, issue list with AI-generated fix suggestions, and a summary you can share with your CRO.</div>
-              </div>
-            </div>
-          </div>
-          <div class="how-track-cta">
-            <a href="https://app.leclaw.io" class="btn btn-primary">Start at app.leclaw.io →</a>
-          </div>
-        </div>
-
-        <!-- GTM Engineer track -->
-        <div class="how-track">
-          <div class="how-track-header">
-            <div class="how-track-label">// gtm-engineer</div>
-            <div class="how-track-audience">CLI-first, open source</div>
-          </div>
-          <div class="how-steps">
-            <div class="how-step">
-              <div class="how-step-num">01</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Run it now</div>
-                <div class="how-step-desc">
-                  <div style="font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--sky); background:rgba(126,200,227,0.06); border:1px solid rgba(126,200,227,0.15); border-radius:8px; padding:12px 16px; margin:8px 0; letter-spacing:0.01em;">npx leclaw</div>
-                  No install. Runs against your HubSpot portal in seconds.
-                </div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">02</div>
-              <div class="how-step-content">
-                <div class="how-step-title">First-time setup</div>
-                <div class="how-step-desc">
-                  <div style="font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--sky); background:rgba(126,200,227,0.06); border:1px solid rgba(126,200,227,0.15); border-radius:8px; padding:12px 16px; margin:8px 0; letter-spacing:0.01em;">npx leclaw setup</div>
-                  Opens HubSpot and Anthropic in your browser. Verifies connections. Writes <code style="font-size:12px;">.env</code>. Under 3 minutes.
-                </div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">03</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Fork and contribute</div>
-                <div class="how-step-desc">
-                  <div style="font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--sky); background:rgba(126,200,227,0.06); border:1px solid rgba(126,200,227,0.15); border-radius:8px; padding:12px 16px; margin:8px 0; letter-spacing:0.01em;">git clone LeRevOps/leclaw</div>
-                  Build an agent from your own RevOps experience. The framework handles CRM auth, AI routing, and Slack delivery. You own the logic.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="how-track-cta">
-            <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline">View on GitHub →</a>
-          </div>
-        </div>
       </div>
     </div>
   </section>
