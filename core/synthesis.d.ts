@@ -15,5 +15,10 @@ export interface RapportSummary {
         severity: string;
     }>;
 }
-export declare function buildSynthesisPrompt(question: string, rapports: RapportSummary[]): string;
+export interface SynthesisPlan {
+    intent: string;
+    areasToInspect: string[];
+    successCriteria: string;
+}
+export declare function buildSynthesisPrompt(question: string, rapports: RapportSummary[], plan?: SynthesisPlan): string;
 export declare function buildSynthesisPromptNoData(question: string): string;

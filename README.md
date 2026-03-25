@@ -1,86 +1,25 @@
 # LeClaw
 
-**Full Stack RevOps. A team of AI agents for your CRM.**
+**Your CRM is lying to you. LeClaw tells you where.**
+
+Every RevOps team has the same Friday afternoon moment: a deal slips, a close date was wrong for six weeks, a contact went dark and nobody noticed. You find out when your CRO asks in the pipeline review.
+
+LeClaw is a team of AI agents that runs against your CRM before that happens. Each agent owns a domain of revenue operations — data quality, pipeline health, BDR follow-up, forecast accuracy — and files a structured report. Le Directeur synthesizes them into one answer.
+
+**You ask: "Why is our forecast unreliable?"**
+**LeClaw tells you: the 31 deals, the exact fields, the specific reason.**
+
+---
 
 > Native agents are features inside a single product. LeClaw is infrastructure across your entire GTM stack.
 
-LeClaw is an open-source RevOps agent framework. Deploy a coordinated team of specialized agents into your CRM — each one owns a domain of revenue operations, shares context with the others, and only ever touches broken records.
-
-**Hosted product:** [app.leclaw.io](https://app.leclaw.io) — connect HubSpot, run agents, no terminal required
-**Self-hosted:** clone this repo, bring your own keys, run or fork any agent
-
----
-
-## Architecture
-
-LeClaw uses a French-named multi-agent model:
-
-| Concept | Name | Role |
-|---|---|---|
-| Orchestrator | **Le Directeur** | Dispatches missions, reads rapports, synthesizes insights |
-| Specialist agents | **les agents** | Each owns one CRM domain |
-| Validator | **Le Témoin** | Reviews proposed changes before write-back |
-| Coordinated run | **une mission** | A set of agents dispatched together |
-| Structured result | **un rapport** | Filed by each agent, readable by Le Directeur and other agents |
-| Precise exit | **Le Retrait** | Agent withdraws immediately if stuck, reports exact reason |
-
-Agents share context through rapports. When `le-bdr` runs after `le-data-quality`, it reads the prior rapport and builds on those findings — it does not re-scan.
+**Hosted dashboard:** [app.leclaw.io](https://app.leclaw.io) — connect HubSpot, run agents, no terminal required
+**Self-hosted:** `npx leclaw` — interactive CLI, bring your own keys, full source available
+**npm:** `@leclaw/core` — build your own agents on the same framework
 
 ---
 
-## Agent Library
-
-| Agent | Domain | Status |
-|---|---|---|
-| `le-data-quality` | Field completeness, relationship hygiene | Live |
-| `le-stage-audit` | Deal velocity, pipeline health | Live |
-| `le-duplicates` | Identity resolution | Roadmap |
-| `le-lead-gen` | MQL quality, attribution gaps | Roadmap |
-| `le-bdr` | Follow-up SLA, sequence health | Roadmap |
-| `le-routing` | Assignment gaps, round robin health | Roadmap |
-| `le-forecast` | Commit accuracy, pipeline coverage | Roadmap |
-| `le-deal-desk` | Deal structure, discount hygiene | Roadmap |
-| `le-activities` | Meeting and call logging gaps | Roadmap |
-| `le-renewal` | Renewal risk, upcoming dates | Roadmap |
-| `le-cs` | Health scores, expansion signals | Roadmap |
-
----
-
-## Quick Start
-
-```bash
-git clone https://github.com/LeRevOps/leclaw
-cd leclaw
-npm install
-npm run setup
-npm run data-quality
-```
-
-`npm run setup` connects your CRM, Anthropic API key, and Slack in under 3 minutes.
-All credentials are masked on input and saved to `.env` — never committed, never logged.
-
-```bash
-npm run data-quality              # auto-detects CRM from .env
-npm run data-quality -- --crm hubspot
-npm run data-quality -- --crm salesforce
-```
-
----
-
-## Interactive CLI
-
-Ask Le Directeur questions about your CRM in plain language. It routes to the right agents, runs them, and streams a synthesized answer back.
-
-```bash
-# Run directly (no install needed)
-npx leclaw
-
-# Or after cloning
-npm run build
-npm run cli
-```
-
-Requires `HUBSPOT_TOKEN` and `ANTHROPIC_API_KEY` in your `.env` or shell environment.
+## See It
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -88,20 +27,16 @@ Requires `HUBSPOT_TOKEN` and `ANTHROPIC_API_KEY` in your `.env` or shell environ
 │  orchestrateur · posez une question             │
 └─────────────────────────────────────────────────┘
 
-Connecté à HubSpot · 4,821 contacts · 312 deals
-
-Type a question or "exit" to quit.
+Connecté à HubSpot · 4,821 contacts · 312 deals · 🐳 Docker
 
 > why is our forecast unreliable?
 
 Le Directeur dispatche les agents...
 
-  ↳ le-stage-audit    ✓ 54/100 · 47 issues
-  ↳ le-data-quality   ✓ 61/100 · 83 issues
+  ↳ le-stage-audit 🐳    ✓ 54/100 · 47 issues
+  ↳ le-data-quality 🐳   ✓ 61/100 · 83 issues
 
-Le Directeur · synthèse
 ────────────────────────────────────────────────
-
 Your forecast is unreliable primarily because 31
 deals are missing close dates and 19 are past
 their close date without being marked closed lost
@@ -113,21 +48,69 @@ a close date sweep on all open deals in the last
 30 days and mark anything stale as closed lost.
 
 Agents: le-stage-audit (54/100) · le-data-quality (61/100)
-
->
 ```
+
+---
+
+## Quick Start
+
+```bash
+# No install needed — run against your HubSpot portal now
+npx leclaw
+
+# Or set up for the first time (connects HubSpot + Anthropic, writes .env)
+npx leclaw setup
+```
+
+Requires `HUBSPOT_TOKEN` and `ANTHROPIC_API_KEY`. Run `npx leclaw setup` to configure both interactively — it opens the right pages in your browser, verifies the connections, and writes your `.env`.
+
+---
+
+## Agents
+
+| Agent | Domain | Status |
+|---|---|---|
+| `le-data-quality` | Field completeness, relationship hygiene | ✅ Live |
+| `le-stage-audit` | Deal velocity, pipeline health | ✅ Live |
+| `le-bdr` | Follow-up SLA, sequence health | 🔜 Next |
+| `le-forecast` | Commit accuracy, pipeline coverage | 🔜 Next |
+| `le-plumber` | Assignment gaps, routing health | Roadmap |
+| `le-duplicates` | Identity resolution | Roadmap |
+| `le-renewal` | Renewal risk, upcoming dates | Roadmap |
+| `le-cs` | Health scores, expansion signals | Roadmap |
+
+Each agent is a list of targeted CRM searches. No full table scans. No guessing. Only broken records are touched.
+
+---
+
+## Architecture
+
+LeClaw uses a French-named multi-agent model:
+
+| Concept | Name | Role |
+|---|---|---|
+| Orchestrator | **Le Directeur** | Dispatches agents, reads rapports, synthesizes insights |
+| Specialists | **les agents** | Each owns one CRM domain |
+| Validator | **Le Témoin** | Reviews proposed changes before write-back *(roadmap)* |
+| Coordinated run | **une mission** | A set of agents dispatched together |
+| Structured result | **un rapport** | Filed by each agent, readable by Le Directeur |
+| Precise exit | **Le Retrait** | Agent withdraws immediately if stuck, reports exact reason |
+
+**Model cascade:** Each agent uses Claude Haiku for its domain summary. Le Directeur uses Claude Sonnet once for the final synthesis. A full scan costs fractions of a cent.
+
+**Targeted fetching:** Agents use HubSpot's `filterGroups` search API — they find broken records directly instead of scanning your entire CRM. A contact with no phone and an open deal is fetched in one query. Clean records are never touched.
+
+**Docker isolation:** When Docker Desktop is installed, each agent runs in its own container — 512 MB RAM, 0.5 CPU, removed on exit. The `🐳` indicator confirms isolation is active. Falls back to in-process execution automatically if Docker is not available.
 
 ---
 
 ## How to Build a Custom Agent
 
-Every LeClaw agent is a list of **checks**. A check is a targeted HubSpot search query that fetches only the broken records matching a specific problem — clean records are never touched.
-
-### 1. Create your agent
+Every agent is a list of checks. A check is a targeted search that fetches only the broken records matching a specific problem.
 
 ```js
 // agents/le-my-agent/index.js
-import { runAgent } from "../../lib/base.js";
+import { runAgent } from "@leclaw/core";
 
 export const leMyAgent = {
   name: "le-my-agent",
@@ -138,7 +121,7 @@ export const leMyAgent = {
       label: "Contacts missing phone number",
       objectType: "contacts",
 
-      // Only fetches contacts where phone is null — never scans the full CRM
+      // Fetches only contacts where phone is null — never scans everything
       filterGroups: [
         { filters: [{ propertyName: "phone", operator: "NOT_HAS_PROPERTY" }] }
       ],
@@ -152,23 +135,17 @@ export const leMyAgent = {
 
   summaryPrompt: (results) => {
     const total = results.reduce((sum, r) => sum + r.count, 0);
-    return `Summarize this CRM audit in 2 sentences. ${total} issues found across: ${JSON.stringify(results.map(r => ({ label: r.check.label, count: r.count })))}`;
+    return `Summarize this CRM audit in 2 sentences. ${total} issues found: ${JSON.stringify(results.map(r => ({ label: r.check.label, count: r.count })))}`;
   },
 };
 
-// Run directly
-runAgent(leMyAgent, { token: process.env.HUBSPOT_API_TOKEN, anthropicKey: process.env.ANTHROPIC_API_KEY });
+runAgent(leMyAgent, {
+  hubspotToken: process.env.HUBSPOT_TOKEN,
+  anthropicKey: process.env.ANTHROPIC_API_KEY,
+});
 ```
 
-### 2. Add a script
-
-```json
-"my-agent": "node agents/le-my-agent/index.js"
-```
-
-### Time-based checks
-
-Use a function for timestamp-based checks so the value is computed fresh each run:
+**Time-based checks** — value computed fresh each run:
 
 ```js
 filterGroups: () => [{
@@ -180,21 +157,7 @@ filterGroups: () => [{
 }]
 ```
 
-### Relationship checks
-
-Check associations between objects:
-
-```js
-// Contacts with no associated company
-filterGroups: [{ filters: [{ propertyName: "associations.company", operator: "NOT_HAS_PROPERTY" }] }]
-
-// Deals with no associated contact
-filterGroups: [{ filters: [{ propertyName: "associations.contact", operator: "NOT_HAS_PROPERTY" }] }]
-```
-
-### Escalation
-
-A broken record is more critical when it has additional CRM context:
+**Escalation** — a broken record is more critical with additional context:
 
 ```js
 escalateIf: {
@@ -209,8 +172,6 @@ escalateIf: {
 }
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full agent spec and contribution guide.
-
 ---
 
 ## Project Structure
@@ -220,17 +181,20 @@ leclaw/
   agents/
     le-data-quality/      # Field completeness, relationship hygiene
     le-stage-audit/       # Deal pipeline and velocity
+  cli/
+    index.ts              # Le Directeur — interactive REPL
   core/
-    hubspot.js            # HubSpot API adapter
-    salesforce.js         # Salesforce API adapter
-    slack.js              # Slack delivery
-    ai.js                 # Claude API (cascading model router)
-  lib/
-    base.js               # Agent runner — lifecycle, scoring, Le Retrait
-    hubspot-search.js     # Targeted search — only fetches broken records
-    hubspot-properties.js # Dynamic custom property discovery
+    base.ts               # runAgent(), scoring, callClaude(), all types
+    hubspot-search.ts     # Targeted search — only fetches broken records
+    hubspot-properties.ts # Dynamic custom property discovery
+    registry.ts           # Agent registry
+    routing.ts            # Keyword router (zero tokens)
+    synthesis.ts          # Le Directeur synthesis prompts
+    agent-runner.ts       # Docker container entrypoint
+    docker-runner.ts      # Container lifecycle, auto-pull, fallback
   examples/
     le-custom-agent/      # Minimal example to fork
+  Dockerfile              # Agent runner image (leclaw/runner)
   setup.js                # Interactive setup wizard
 ```
 
@@ -238,39 +202,32 @@ leclaw/
 
 ## Design Principles
 
-1. **Shadow mode by default** — read-only until write-back is explicitly enabled. Never touch the CRM without permission.
-2. **Bring your own keys** — Anthropic API key, CRM credentials. LeClaw pays $0 in AI costs.
-3. **Targeted fetching** — agents search for broken records directly. Clean records are never touched.
-4. **Agents share context** — rapports let downstream agents build on prior findings.
+1. **Shadow mode by default** — read-only until write-back is explicitly enabled. Never modifies your CRM without permission.
+2. **Bring your own keys** — your Anthropic API key, your CRM credentials. LeClaw pays $0 in AI costs on your behalf.
+3. **Targeted fetching** — agents search for broken records directly. Clean records are never fetched.
+4. **Agents share context** — rapports let downstream agents build on prior findings without re-scanning.
 5. **Le Retrait** — an agent that cannot complete its work exits immediately with a precise reason. No spinning, no silent failures.
-6. **Open source = trust** — read the code. [SECURITY.md](SECURITY.md) documents exactly what data LeClaw accesses and stores.
+6. **Open source = trust** — read the code. Everything LeClaw accesses and stores is auditable.
 
 ---
 
 ## Environment Variables
 
 ```bash
-# HubSpot
-HUBSPOT_API_TOKEN=
-
-# Salesforce
-SALESFORCE_ACCESS_TOKEN=
-SALESFORCE_INSTANCE_URL=
-
-# AI
-ANTHROPIC_API_KEY=
-
-# Slack (optional)
-SLACK_WEBHOOK_URL=
+HUBSPOT_TOKEN=        # HubSpot private app token (CRM scope)
+ANTHROPIC_API_KEY=    # Anthropic API key
+SLACK_WEBHOOK_URL=    # Slack incoming webhook (optional)
 ```
 
-Run `npm run setup` to configure these interactively.
+Run `npx leclaw setup` to configure these interactively.
 
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+New agents are the highest-leverage contribution. If you've worked in RevOps and know what broken looks like in a specific domain — BDR follow-up, forecast accuracy, territory coverage — that knowledge belongs in an agent.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the agent spec and contribution guide.
 
 ---
 
@@ -278,6 +235,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 [MIT](LICENSE) — fork it, extend it, build on it.
 
-Built by a Sales Ops practitioner who spent too much time clicking around.
+Built by a Sales Ops practitioner who spent three years watching deals slip because the CRM was wrong.
 
-**[leclaw.io](https://leclaw.io) · [app.leclaw.io](https://app.leclaw.io) · [LinkedIn](https://www.linkedin.com/company/leclaw/)**
+**[leclaw.io](https://leclaw.io) · [app.leclaw.io](https://app.leclaw.io) · [@LeRevOps](https://github.com/LeRevOps)**

@@ -101,9 +101,40 @@ export interface AgentCheck {
         automated: boolean;
     };
 }
+/**
+ * Per-org business context that replaces hardcoded thresholds.
+ * Pass via RunOptions.orgConfig to have agents use org-specific values
+ * (e.g., avg_sales_cycle_days) instead of defaults.
+ *
+ * In the hosted dashboard, this is loaded from the org's settings.
+ * In the CLI, it can be omitted — agents fall back to sensible defaults.
+ */
+export interface OrgConfig {
+    avg_sales_cycle_days: number;
+    high_value_deal_threshold: number;
+    bdr_followup_sla_hours: number;
+    late_stage_names: string[];
+    required_contact_fields: string[];
+}
 export interface AgentDefinition {
     name: string;
     checks: AgentCheck[];
+    /**
+     * Optional: generate config-driven checks using the org's business context.
+     * When provided and orgConfig is passed to runAgent(), these checks are used
+     * instead of the static checks array — enabling per-org thresholds.
+     *
+     * @example
+     * buildChecks: (cfg) => [{
+     *   id: "deal_stuck",
+     *   filterGroups: () => [{ filters: [{
+     *     propertyName: "hs_lastmodifieddate",
+     *     operator: "LT",
+     *     value: String(Date.now() - cfg.avg_sales_cycle_days * 86400000)
+     *   }]}]
+     * }]
+     */
+    buildChecks?: (orgConfig: OrgConfig) => AgentCheck[];
     /**
      * Optionally return additional checks discovered at runtime from the org's HubSpot.
      * Use buildDynamicChecks() from hubspot-properties.ts here.
@@ -117,6 +148,11 @@ export interface RunOptions {
     /** Anthropic API key. If omitted, AI summary is skipped. */
     anthropicKey?: string;
     /**
+     * Org-specific business context. When provided, agents will use buildChecks()
+     * with these thresholds instead of their default static checks.
+     */
+    orgConfig?: OrgConfig;
+    /**
      * Called for each broken record found.
      * Use this to stream to a database, write to a file, post to Slack, etc.
      * Safe to await — the runner waits for each call to complete.
@@ -124,6 +160,7 @@ export interface RunOptions {
     onIssue?: (issue: Issue) => Promise<void> | void;
 }
 export declare function runAgent(agent: AgentDefinition, options: RunOptions): Promise<Rapport>;
+export declare function calculateScore(results: CheckResult[]): number;
 export declare function callClaude(prompt: string, apiKey: string, options?: {
     maxTokens?: number;
     model?: string;

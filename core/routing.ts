@@ -16,37 +16,27 @@ import { agentRegistry } from "./registry.js";
 
 const KEYWORD_MAP: Record<string, string[]> = {
   "le-stage-audit": [
-    "pipeline",
-    "deals",
-    "deal",
-    "stuck",
-    "forecast",
-    "close date",
-    "stage",
-    "velocity",
-    "stall",
-    "stalled",
-    "opportunity",
-    "opportunities",
-    "win rate",
-    "lost",
+    "pipeline", "deals", "deal", "stuck", "forecast",
+    "close date", "stage", "velocity", "stall", "stalled",
+    "opportunity", "opportunities", "win rate", "lost",
   ],
   "le-data-quality": [
-    "data",
-    "missing",
-    "email",
-    "phone",
-    "contact",
-    "field",
-    "duplicate",
-    "hygiene",
-    "quality",
-    "incomplete",
-    "enrichment",
-    "blank",
-    "empty",
-    "company",
-    "domain",
+    "data", "missing", "email", "phone", "contact", "field",
+    "duplicate", "hygiene", "quality", "incomplete", "enrichment",
+    "blank", "empty", "company", "domain",
+  ],
+  // Future agents — only routed if registered
+  "le-bdr": [
+    "bdr", "follow up", "follow-up", "mql", "sequence",
+    "outreach", "sla", "cadence", "reply", "bounce", "unworked",
+  ],
+  "le-forecast": [
+    "commit", "coverage", "committed", "attainment",
+    "quota", "at risk", "risk",
+  ],
+  "le-plumber": [
+    "routing", "assignment", "round robin", "assign",
+    "lead", "owner", "unassigned", "territory",
   ],
 };
 

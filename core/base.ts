@@ -118,11 +118,46 @@ export interface AgentCheck {
   };
 }
 
+// ── Org config ─────────────────────────────────────────────────────────────────
+
+/**
+ * Per-org business context that replaces hardcoded thresholds.
+ * Pass via RunOptions.orgConfig to have agents use org-specific values
+ * (e.g., avg_sales_cycle_days) instead of defaults.
+ *
+ * In the hosted dashboard, this is loaded from the org's settings.
+ * In the CLI, it can be omitted — agents fall back to sensible defaults.
+ */
+export interface OrgConfig {
+  avg_sales_cycle_days: number;
+  high_value_deal_threshold: number;
+  bdr_followup_sla_hours: number;
+  late_stage_names: string[];
+  required_contact_fields: string[];
+}
+
 // ── Agent definition ───────────────────────────────────────────────────────────
 
 export interface AgentDefinition {
   name: string;
   checks: AgentCheck[];
+
+  /**
+   * Optional: generate config-driven checks using the org's business context.
+   * When provided and orgConfig is passed to runAgent(), these checks are used
+   * instead of the static checks array — enabling per-org thresholds.
+   *
+   * @example
+   * buildChecks: (cfg) => [{
+   *   id: "deal_stuck",
+   *   filterGroups: () => [{ filters: [{
+   *     propertyName: "hs_lastmodifieddate",
+   *     operator: "LT",
+   *     value: String(Date.now() - cfg.avg_sales_cycle_days * 86400000)
+   *   }]}]
+   * }]
+   */
+  buildChecks?: (orgConfig: OrgConfig) => AgentCheck[];
 
   /**
    * Optionally return additional checks discovered at runtime from the org's HubSpot.
@@ -143,6 +178,12 @@ export interface RunOptions {
   anthropicKey?: string;
 
   /**
+   * Org-specific business context. When provided, agents will use buildChecks()
+   * with these thresholds instead of their default static checks.
+   */
+  orgConfig?: OrgConfig;
+
+  /**
    * Called for each broken record found.
    * Use this to stream to a database, write to a file, post to Slack, etc.
    * Safe to await — the runner waits for each call to complete.
@@ -154,13 +195,16 @@ export async function runAgent(
   agent: AgentDefinition,
   options: RunOptions
 ): Promise<Rapport> {
-  const { hubspotToken, anthropicKey, onIssue } = options;
+  const { hubspotToken, anthropicKey, onIssue, orgConfig } = options;
 
-  // Merge static checks with any discovered at runtime
+  // Use config-driven checks if the agent supports them and orgConfig is provided
+  const baseChecks = agent.buildChecks && orgConfig
+    ? agent.buildChecks(orgConfig)
+    : agent.checks;
   const dynamicChecks = agent.discoverChecks
     ? await agent.discoverChecks(hubspotToken)
     : [];
-  const allChecks = [...agent.checks, ...dynamicChecks];
+  const allChecks = [...baseChecks, ...dynamicChecks];
 
   const results: CheckResult[] = [];
 
@@ -195,24 +239,16 @@ export async function runAgent(
       }
     );
 
-    // Context escalation — count the subset matching escalateIf
+    // Context escalation — single fetch to both count and emit issues
     if (check.escalateIf && count > 0) {
-      const result = await searchHubSpot(
+      await searchHubSpot(
         hubspotToken,
         check.objectType,
         resolveFilterGroups(check.escalateIf.filterGroups),
-        ["id"],
-        (records) => { escalatedCount += records.length; }
-      );
-      escalatedCount = result.total;
-
-      if (escalatedCount > 0 && onIssue) {
-        await searchHubSpot(
-          hubspotToken,
-          check.objectType,
-          resolveFilterGroups(check.escalateIf.filterGroups),
-          check.properties,
-          async (records) => {
+        check.properties,
+        async (records) => {
+          escalatedCount += records.length;
+          if (onIssue) {
             for (const record of records) {
               await onIssue({
                 objectType: check.objectType,
@@ -224,8 +260,8 @@ export async function runAgent(
               });
             }
           }
-        );
-      }
+        }
+      );
     }
 
     results.push({ check, count, escalatedCount, samples });
@@ -258,7 +294,7 @@ export async function runAgent(
 
 // ── Scoring ────────────────────────────────────────────────────────────────────
 
-function calculateScore(results: CheckResult[]): number {
+export function calculateScore(results: CheckResult[]): number {
   const weights = { critical: 10, warning: 3, info: 1 };
   const totalPenalty = results.reduce((sum, r) => {
     return sum +

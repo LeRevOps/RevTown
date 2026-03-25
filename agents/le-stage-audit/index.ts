@@ -101,6 +101,11 @@ const checks: AgentCheck[] = [
             operator: "NEQ",
             value: "closedwon",
           },
+          {
+            propertyName: "dealstage",
+            operator: "NEQ",
+            value: "closedlost",
+          },
         ],
       },
     ],

@@ -20,12 +20,15 @@
  */
 import { searchHubSpot } from "./hubspot-search.js";
 export async function runAgent(agent, options) {
-    const { hubspotToken, anthropicKey, onIssue } = options;
-    // Merge static checks with any discovered at runtime
+    const { hubspotToken, anthropicKey, onIssue, orgConfig } = options;
+    // Use config-driven checks if the agent supports them and orgConfig is provided
+    const baseChecks = agent.buildChecks && orgConfig
+        ? agent.buildChecks(orgConfig)
+        : agent.checks;
     const dynamicChecks = agent.discoverChecks
         ? await agent.discoverChecks(hubspotToken)
         : [];
-    const allChecks = [...agent.checks, ...dynamicChecks];
+    const allChecks = [...baseChecks, ...dynamicChecks];
     const results = [];
     for (const check of allChecks) {
         let count = 0;
@@ -50,12 +53,11 @@ export async function runAgent(agent, options) {
                 }
             }
         });
-        // Context escalation — count the subset matching escalateIf
+        // Context escalation — single fetch to both count and emit issues
         if (check.escalateIf && count > 0) {
-            const result = await searchHubSpot(hubspotToken, check.objectType, resolveFilterGroups(check.escalateIf.filterGroups), ["id"], (records) => { escalatedCount += records.length; });
-            escalatedCount = result.total;
-            if (escalatedCount > 0 && onIssue) {
-                await searchHubSpot(hubspotToken, check.objectType, resolveFilterGroups(check.escalateIf.filterGroups), check.properties, async (records) => {
+            await searchHubSpot(hubspotToken, check.objectType, resolveFilterGroups(check.escalateIf.filterGroups), check.properties, async (records) => {
+                escalatedCount += records.length;
+                if (onIssue) {
                     for (const record of records) {
                         await onIssue({
                             objectType: check.objectType,
@@ -66,8 +68,8 @@ export async function runAgent(agent, options) {
                             fixSuggestion: `URGENT — ${check.fix} (${check.escalateIf.description})`,
                         });
                     }
-                });
-            }
+                }
+            });
         }
         results.push({ check, count, escalatedCount, samples });
     }
@@ -94,7 +96,7 @@ export async function runAgent(agent, options) {
     };
 }
 // ── Scoring ────────────────────────────────────────────────────────────────────
-function calculateScore(results) {
+export function calculateScore(results) {
     const weights = { critical: 10, warning: 3, info: 1 };
     const totalPenalty = results.reduce((sum, r) => {
         return sum +

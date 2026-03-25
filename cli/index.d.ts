@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * LeClaw — Le Directeur CLI
  *

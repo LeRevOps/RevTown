@@ -1,27 +1,22 @@
 #!/usr/bin/env node
 /**
- * LeClaw Setup
- * Interactive setup wizard — creates your .env file in under 2 minutes.
- * Run: npm run setup
+ * LeClaw Setup Wizard
+ * Run: npx leclaw setup
  */
 
 import readline from "readline";
 import fs from "fs";
 import path from "path";
+import { execSync, spawn } from "child_process";
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-const ask = (question) =>
-  new Promise((resolve) => rl.question(question, resolve));
+const ask = (q) => new Promise((resolve) => rl.question(q, resolve));
 
 const askSecret = (question) =>
   new Promise((resolve) => {
     process.stdout.write(question);
     let value = "";
-
     const onData = (char) => {
       char = char.toString();
       if (char === "\n" || char === "\r" || char === "\u0004") {
@@ -44,8 +39,6 @@ const askSecret = (question) =>
         process.stdout.write("*");
       }
     };
-
-    // Fall back to plain input if TTY not available (CI, piped input)
     if (process.stdin.isTTY) {
       process.stdin.setRawMode(true);
       process.stdin.resume();
@@ -56,18 +49,36 @@ const askSecret = (question) =>
     }
   });
 
-const dim   = (s) => `\x1b[2m${s}\x1b[0m`;
-const bold  = (s) => `\x1b[1m${s}\x1b[0m`;
-const green = (s) => `\x1b[32m${s}\x1b[0m`;
-const red   = (s) => `\x1b[31m${s}\x1b[0m`;
-const cyan  = (s) => `\x1b[36m${s}\x1b[0m`;
+const dim    = (s) => `\x1b[2m${s}\x1b[0m`;
+const bold   = (s) => `\x1b[1m${s}\x1b[0m`;
+const green  = (s) => `\x1b[32m${s}\x1b[0m`;
+const red    = (s) => `\x1b[31m${s}\x1b[0m`;
+const cyan   = (s) => `\x1b[36m${s}\x1b[0m`;
+const yellow = (s) => `\x1b[33m${s}\x1b[0m`;
+
+function openBrowser(url) {
+  try {
+    const cmd = process.platform === "win32" ? `start "" "${url}"` :
+                process.platform === "darwin" ? `open "${url}"` : `xdg-open "${url}"`;
+    execSync(cmd, { stdio: "ignore" });
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 async function testHubSpot(token) {
   try {
-    const res = await fetch("https://api.hubapi.com/crm/v3/objects/contacts?limit=1", {
-      headers: { Authorization: `Bearer ${token}` },
+    const res = await fetch("https://api.hubapi.com/crm/v3/objects/contacts/search", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ filterGroups: [], limit: 1 }),
     });
-    if (!res.ok) return { ok: false, error: `HTTP ${res.status}` };
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      const msg = body?.message ?? `HTTP ${res.status}`;
+      return { ok: false, error: msg };
+    }
     const data = await res.json();
     return { ok: true, count: data.total };
   } catch (e) {
@@ -110,96 +121,179 @@ async function testSlack(webhook) {
 }
 
 async function main() {
-  console.log("\n" + cyan("🦀 LeClaw Setup"));
-  console.log(dim("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"));
-  console.log(dim("This will create your .env file and verify each connection.\n"));
+  console.log();
+  console.log(cyan("┌─────────────────────────────────────────────────┐"));
+  console.log(cyan("│") + bold("  LeClaw · Setup                                 ") + cyan("│"));
+  console.log(cyan("│") + dim("  connect your CRM and AI in under 2 minutes     ") + cyan("│"));
+  console.log(cyan("└─────────────────────────────────────────────────┘"));
+  console.log();
 
   const env = {};
 
-  // ── CRM ─────────────────────────────────────────────────────────────────────
-  console.log(bold("Step 1: Connect your CRM\n"));
+  // ── STEP 1: HubSpot ──────────────────────────────────────────────────────────
 
-  const crmChoice = await ask("Which CRM are you using?\n  1) HubSpot\n  2) Salesforce\n\nEnter 1 or 2: ");
+  console.log(bold("Step 1 of 3 — Connect HubSpot"));
+  console.log();
+  console.log("  LeClaw needs a HubSpot Private App token to read your CRM.");
+  console.log("  Here's how to create one:");
+  console.log();
+  console.log(`  ${cyan("1.")} Opening HubSpot in your browser...`);
+  console.log(`  ${cyan("2.")} Click ${bold('"Create private app"')}`);
+  console.log(`  ${cyan("3.")} Give it any name — e.g. ${dim('"LeClaw"')}`);
+  console.log(`  ${cyan("4.")} Go to the ${bold("Scopes")} tab, search for ${yellow("crm")} and enable:`);
+  console.log();
+  console.log(`       ${yellow("CRM")} ${dim("— covers contacts, companies, deals, and more")}`);
+  console.log();
+  console.log(`  ${cyan("5.")} Click ${bold('"Create app"')} then copy the token`);
+  console.log();
 
-  if (crmChoice.trim() === "1") {
-    console.log(dim("\nCreate a private app at: app.hubspot.com → Settings → Integrations → Private Apps"));
-    console.log(dim("Required scopes: crm.objects.contacts.read, crm.objects.companies.read\n"));
+  const hubspotUrl = "https://app.hubspot.com/private-apps";
+  const opened = openBrowser(hubspotUrl);
+  if (opened) {
+    console.log(dim(`  Opened: ${hubspotUrl}`));
+  } else {
+    console.log(dim(`  Open this URL in your browser:`));
+    console.log(dim(`  ${hubspotUrl}`));
+  }
+  console.log();
 
-    const token = await askSecret("Paste your HubSpot API token: ");
+  let hubspotConnected = false;
+  while (!hubspotConnected) {
+    const token = await askSecret("  Paste your HubSpot token: ");
+    if (!token) {
+      console.log(dim("  Skipped — you can add HUBSPOT_TOKEN to .env later\n"));
+      break;
+    }
+
     process.stdout.write("  Verifying... ");
+    const result = await testHubSpot(token);
 
-    const result = await testHubSpot(token.trim());
     if (result.ok) {
-      console.log(green(`✓ Connected — ${result.count?.toLocaleString() ?? "?"} contacts found`));
-      env.HUBSPOT_API_TOKEN = token.trim();
+      console.log(green(`✓ Connected — ${Number(result.count ?? 0).toLocaleString()} contacts`));
+      env.HUBSPOT_TOKEN = token;
+      hubspotConnected = true;
     } else {
       console.log(red(`✗ Failed — ${result.error}`));
-      console.log(dim("  Check your token and try again. Setup will continue but HubSpot won't work.\n"));
+      console.log();
+      console.log("  Common issues:");
+      console.log(dim("  · Token copied incorrectly — make sure you copied the full token"));
+      console.log(dim("  · Missing scopes — check that all 3 scopes above are enabled"));
+      console.log(dim("  · Wrong account — make sure you're in the right HubSpot portal"));
+      console.log();
+      const retry = await ask("  Try again? (y/n): ");
+      if (retry.trim().toLowerCase() !== "y") {
+        console.log(dim("  Skipped — add HUBSPOT_TOKEN to .env manually later\n"));
+        break;
+      }
+      console.log();
+    }
+  }
+
+  console.log();
+
+  // ── STEP 2: Anthropic ────────────────────────────────────────────────────────
+
+  console.log(bold("Step 2 of 3 — Connect AI (Anthropic)"));
+  console.log();
+  console.log("  LeClaw uses Claude to summarize findings and answer questions.");
+  console.log();
+  console.log(`  ${cyan("1.")} Opening Anthropic Console in your browser...`);
+  console.log(`  ${cyan("2.")} Click ${bold('"Create API Key"')}`);
+  console.log(`  ${cyan("3.")} Copy the key`);
+  console.log();
+
+  const anthropicUrl = "https://console.anthropic.com/settings/keys";
+  const openedAnthropic = openBrowser(anthropicUrl);
+  if (openedAnthropic) {
+    console.log(dim(`  Opened: ${anthropicUrl}`));
+  } else {
+    console.log(dim(`  Open this URL in your browser:`));
+    console.log(dim(`  ${anthropicUrl}`));
+  }
+  console.log();
+
+  let anthropicConnected = false;
+  while (!anthropicConnected) {
+    const key = await askSecret("  Paste your Anthropic API key: ");
+    if (!key) {
+      console.log(dim("  Skipped — you can add ANTHROPIC_API_KEY to .env later\n"));
+      break;
     }
 
-  } else if (crmChoice.trim() === "2") {
-    console.log(dim("\nYou'll need an OAuth2 access token from your Salesforce connected app."));
-    console.log(dim("See: docs/salesforce-setup.md for instructions.\n"));
+    process.stdout.write("  Verifying... ");
+    const result = await testAnthropic(key);
 
-    const token       = await askSecret("Paste your Salesforce access token: ");
-    const instanceUrl = await ask("Paste your Salesforce instance URL (e.g. https://yourorg.salesforce.com): ");
-
-    env.SALESFORCE_ACCESS_TOKEN  = token.trim();
-    env.SALESFORCE_INSTANCE_URL  = instanceUrl.trim();
-    console.log(green("✓ Salesforce credentials saved"));
+    if (result.ok) {
+      console.log(green("✓ Connected"));
+      env.ANTHROPIC_API_KEY = key;
+      anthropicConnected = true;
+    } else {
+      console.log(red("✗ Failed — key may be invalid or have no credits"));
+      const retry = await ask("  Try again? (y/n): ");
+      if (retry.trim().toLowerCase() !== "y") {
+        console.log(dim("  Skipped — add ANTHROPIC_API_KEY to .env manually later\n"));
+        break;
+      }
+      console.log();
+    }
   }
 
   console.log();
 
-  // ── ANTHROPIC ────────────────────────────────────────────────────────────────
-  console.log(bold("Step 2: Connect AI (Anthropic)\n"));
-  console.log(dim("Get your key at: console.anthropic.com\n"));
+  // ── STEP 3: Slack (optional) ─────────────────────────────────────────────────
 
-  const anthropicKey = await askSecret("Paste your Anthropic API key: ");
-  process.stdout.write("  Verifying... ");
-
-  const aiResult = await testAnthropic(anthropicKey.trim());
-  if (aiResult.ok) {
-    console.log(green("✓ Connected"));
-    env.ANTHROPIC_API_KEY = anthropicKey.trim();
-  } else {
-    console.log(red("✗ Failed — check your key"));
-    env.ANTHROPIC_API_KEY = anthropicKey.trim();
-  }
-
+  console.log(bold("Step 3 of 3 — Connect Slack") + dim(" (optional)"));
   console.log();
 
-  // ── SLACK ────────────────────────────────────────────────────────────────────
-  console.log(bold("Step 3: Connect Slack (optional)\n"));
-  console.log(dim("Create a webhook at: api.slack.com/apps → Incoming Webhooks\n"));
-
-  const slackAnswer = await ask("Do you want Slack reports? (y/n): ");
+  const slackAnswer = await ask("  Get agent reports in Slack? (y/n): ");
 
   if (slackAnswer.trim().toLowerCase() === "y") {
-    const webhook = await askSecret("Paste your Slack webhook URL: ");
-    process.stdout.write("  Sending test message... ");
+    console.log();
+    console.log(`  ${cyan("1.")} Opening Slack API in your browser...`);
+    console.log(`  ${cyan("2.")} Create or select an app → Incoming Webhooks → Add New Webhook`);
+    console.log(`  ${cyan("3.")} Choose a channel and copy the webhook URL`);
+    console.log();
 
-    const slackResult = await testSlack(webhook.trim());
-    if (slackResult.ok) {
-      console.log(green("✓ Test message sent — check your Slack channel"));
-      env.SLACK_WEBHOOK_URL = webhook.trim();
+    const slackUrl = "https://api.slack.com/apps";
+    const openedSlack = openBrowser(slackUrl);
+    if (openedSlack) {
+      console.log(dim(`  Opened: ${slackUrl}`));
     } else {
-      console.log(red("✗ Failed — check your webhook URL"));
+      console.log(dim(`  Open this URL: ${slackUrl}`));
+    }
+    console.log();
+
+    const webhook = await askSecret("  Paste your Slack webhook URL: ");
+    if (webhook) {
+      process.stdout.write("  Sending test message... ");
+      const result = await testSlack(webhook);
+      if (result.ok) {
+        console.log(green("✓ Test message sent — check your Slack channel"));
+        env.SLACK_WEBHOOK_URL = webhook;
+      } else {
+        console.log(red("✗ Failed — check your webhook URL"));
+        console.log(dim("  You can add SLACK_WEBHOOK_URL to .env manually later"));
+      }
     }
   } else {
-    console.log(dim("  Skipped — you can add SLACK_WEBHOOK_URL to .env later"));
+    console.log(dim("  Skipped — add SLACK_WEBHOOK_URL to .env later if needed"));
   }
 
   console.log();
 
   // ── WRITE .ENV ───────────────────────────────────────────────────────────────
-  const envPath = path.join(process.cwd(), ".env");
-  const envContent = Object.entries(env)
-    .map(([k, v]) => `${k}=${v}`)
-    .join("\n") + "\n";
 
-  const exists = fs.existsSync(envPath);
-  if (exists) {
+  if (Object.keys(env).length === 0) {
+    console.log(yellow("No credentials saved — .env not created."));
+    console.log(dim("Run npx leclaw setup again when you're ready.\n"));
+    rl.close();
+    return;
+  }
+
+  const envPath = path.join(process.cwd(), ".env");
+  const envContent = Object.entries(env).map(([k, v]) => `${k}=${v}`).join("\n") + "\n";
+
+  if (fs.existsSync(envPath)) {
     const overwrite = await ask(".env already exists. Overwrite? (y/n): ");
     if (overwrite.trim().toLowerCase() !== "y") {
       console.log(dim("\nSetup cancelled — existing .env kept.\n"));
@@ -211,12 +305,29 @@ async function main() {
   fs.writeFileSync(envPath, envContent);
 
   // ── DONE ─────────────────────────────────────────────────────────────────────
-  console.log(dim("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"));
-  console.log(green("✓ Setup complete — .env created\n"));
-  console.log("Run your first agent:");
-  console.log(cyan("\n  npm run data-quality\n"));
+
+  console.log();
+  console.log(cyan("┌─────────────────────────────────────────────────┐"));
+  console.log(cyan("│") + green("  ✓ Setup complete                                ") + cyan("│"));
+  console.log(cyan("└─────────────────────────────────────────────────┘"));
+  console.log();
+
+  const saved = Object.keys(env).join(", ");
+  console.log(dim(`  Saved: ${saved}`));
+  console.log();
 
   rl.close();
+
+  // Launch Le Directeur immediately
+  if (env.HUBSPOT_TOKEN && env.ANTHROPIC_API_KEY) {
+    console.log("  Starting Le Directeur...");
+    console.log();
+    const cliPath = new URL("cli/index.js", import.meta.url).pathname.replace(/^\/([A-Z]:)/, "$1");
+    const child = spawn(process.execPath, [cliPath], { stdio: "inherit", env: { ...process.env, ...env } });
+    child.on("exit", (code) => process.exit(code ?? 0));
+  } else {
+    console.log(`  Run ${cyan("npx leclaw")} when you're ready.\n`);
+  }
 }
 
 main().catch((err) => {

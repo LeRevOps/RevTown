@@ -1,0 +1,13 @@
+node_modules
+.env
+.env.*
+*.ts
+**/*.ts
+cli/
+examples/
+index.html
+setup.js
+vitest.config.js
+*.md
+.git
+.gitignore

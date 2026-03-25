@@ -4,7 +4,7 @@
  * Builds prompts for Le Directeur's final synthesis.
  * Sonnet is only called once per question, after all agents have filed rapports.
  */
-export function buildSynthesisPrompt(question, rapports) {
+export function buildSynthesisPrompt(question, rapports, plan) {
     const rapportBlocks = rapports
         .map((r) => {
         const checksText = r.topChecks
@@ -21,11 +21,14 @@ export function buildSynthesisPrompt(question, rapports) {
         ].join("\n");
     })
         .join("\n\n---\n\n");
+    const planBlock = plan
+        ? `\nPlan: ${plan.intent}\nAreas inspected: ${plan.areasToInspect.join(", ")}\nSuccess criteria: ${plan.successCriteria}\n`
+        : "";
     return `You are Le Directeur, the orchestrator of a RevOps agent team.
 
 You just dispatched agents to audit a HubSpot CRM. They have filed their rapports.
 A GTM engineer asked: "${question}"
-
+${planBlock}
 Agent rapports:
 
 ${rapportBlocks}

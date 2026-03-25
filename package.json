@@ -1,12 +1,12 @@
 {
   "name": "@leclaw/core",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "description": "Open-source RevOps agent framework for HubSpot and Salesforce",
   "type": "module",
   "main": "./core/index.js",
   "types": "./core/index.d.ts",
   "bin": {
-    "leclaw": "./cli/index.js"
+    "leclaw": "cli/index.js"
   },
   "exports": {
     ".": {
@@ -15,23 +15,31 @@
     }
   },
   "files": [
-    "core/**/*.ts",
-    "core/**/*.js",
-    "core/**/*.d.ts",
+    "core/*.ts",
+    "core/*.js",
+    "core/*.d.ts",
+    "!core/*.test.ts",
+    "!core/*.test.js",
+    "!core/*.test.d.ts",
     "agents/**/*.ts",
     "agents/**/*.js",
     "agents/**/*.d.ts",
     "cli/**/*.js",
     "cli/**/*.d.ts",
     "examples/",
+    "setup.js",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "cli": "node cli/index.js",
     "setup": "node setup.js",
-    "data-quality": "node agents/le-data-quality/index.js"
+    "data-quality": "node agents/le-data-quality/index.js",
+    "docker:build": "npm run build && docker build -t leclaw/runner:0.3.5 -t leclaw/runner:latest .",
+    "docker:push": "docker push leclaw/runner:0.3.5 && docker push leclaw/runner:latest"
   },
   "keywords": [
     "revops",
@@ -48,17 +56,18 @@
   "homepage": "https://leclaw.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LeRevOps/leclaw.git"
+    "url": "git+https://github.com/LeRevOps/leclaw.git"
   },
   "bugs": {
     "url": "https://github.com/LeRevOps/leclaw/issues"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "@types/node": "^25.5.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.1"
   },
   "engines": {
     "node": ">=18.0.0"

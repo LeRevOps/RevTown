@@ -1,6 +1,7 @@
 export {
   runAgent,
   callClaude,
+  calculateScore,
 } from "./base.js";
 
 export type {
@@ -11,6 +12,7 @@ export type {
   RunOptions,
   Rapport,
   Issue,
+  OrgConfig,
   HubSpotRecord,
   HubSpotFilterGroup,
 } from "./base.js";
@@ -22,4 +24,4 @@ export { buildDynamicChecks, fetchCustomProperties } from "./hubspot-properties.
 
 export { routeQuestion } from "./routing.js";
 export { buildSynthesisPrompt, buildSynthesisPromptNoData } from "./synthesis.js";
-export type { RapportSummary } from "./synthesis.js";
+export type { RapportSummary, SynthesisPlan } from "./synthesis.js";

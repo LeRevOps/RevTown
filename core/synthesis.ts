@@ -13,9 +13,16 @@ export interface RapportSummary {
   topChecks: Array<{ label: string; count: number; severity: string }>;
 }
 
+export interface SynthesisPlan {
+  intent: string;
+  areasToInspect: string[];
+  successCriteria: string;
+}
+
 export function buildSynthesisPrompt(
   question: string,
-  rapports: RapportSummary[]
+  rapports: RapportSummary[],
+  plan?: SynthesisPlan
 ): string {
   const rapportBlocks = rapports
     .map((r) => {
@@ -35,11 +42,15 @@ export function buildSynthesisPrompt(
     })
     .join("\n\n---\n\n");
 
+  const planBlock = plan
+    ? `\nPlan: ${plan.intent}\nAreas inspected: ${plan.areasToInspect.join(", ")}\nSuccess criteria: ${plan.successCriteria}\n`
+    : "";
+
   return `You are Le Directeur, the orchestrator of a RevOps agent team.
 
 You just dispatched agents to audit a HubSpot CRM. They have filed their rapports.
 A GTM engineer asked: "${question}"
-
+${planBlock}
 Agent rapports:
 
 ${rapportBlocks}
