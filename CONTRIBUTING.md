@@ -147,7 +147,41 @@ filterGroups: [
 
 ---
 
-## Step 3 — Register your agent
+## Step 3 — Add your manifest
+
+Create `agents/le-my-agent/agent.json`. This is how your agent appears in the LeClaw registry and hub page:
+
+```json
+{
+  "name": "le-my-agent",
+  "displayName": "Le My Agent",
+  "description": "One sentence — what does this agent audit and why does it matter.",
+  "domain": "bdr",
+  "crm": ["hubspot"],
+  "objectTypes": ["contacts", "deals"],
+  "requiredScopes": [
+    "crm.objects.contacts.read",
+    "crm.objects.deals.read"
+  ],
+  "status": "live",
+  "author": {
+    "name": "Your Name",
+    "github": "your-github-handle",
+    "type": "community"
+  },
+  "checkCount": 3,
+  "tags": ["bdr", "follow-up", "sla"],
+  "coreVersion": "0.3.5"
+}
+```
+
+**Domain options:** `data-quality` · `pipeline` · `bdr` · `forecast` · `routing` · `renewal` · `territory` · `commission` · `qbr` · `duplicates` · `activities` · `deal-desk` — or add your own.
+
+Then add your agent to `registry.json` at the repo root (copy any existing entry as a template).
+
+---
+
+## Step 4 — Register your agent in code
 
 Open `core/registry.ts` and add two lines:
 
@@ -163,7 +197,7 @@ export const agentRegistry: Record<string, AgentDefinition> = {
 
 ---
 
-## Step 4 — Test it
+## Step 5 — Test it
 
 ```bash
 npm run build
@@ -174,11 +208,11 @@ Ask Le Directeur about your domain. If records come back flagged, the checks are
 
 ---
 
-## Step 5 — Open a PR
+## Step 6 — Open a PR
 
 ```bash
 git checkout -b agent/le-my-agent
-git add agents/le-my-agent/ core/registry.ts
+git add agents/le-my-agent/ core/registry.ts registry.json
 git commit -m "feat: add le-my-agent — [one line description]"
 git push origin agent/le-my-agent
 ```

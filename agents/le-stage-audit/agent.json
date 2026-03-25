@@ -1,0 +1,20 @@
+{
+  "name": "le-stage-audit",
+  "displayName": "Le Stage Audit",
+  "description": "Audits deals for velocity problems, missing fields, and pipeline health issues. Catches forecast risk before the CRO review.",
+  "domain": "pipeline",
+  "crm": ["hubspot"],
+  "objectTypes": ["deals"],
+  "requiredScopes": [
+    "crm.objects.deals.read"
+  ],
+  "status": "live",
+  "author": {
+    "name": "LeClaw",
+    "github": "LeRevOps",
+    "type": "core"
+  },
+  "checkCount": 5,
+  "tags": ["pipeline", "deals", "forecast", "stage-hygiene", "close-date"],
+  "coreVersion": "0.3.5"
+}

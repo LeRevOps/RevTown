@@ -1,0 +1,21 @@
+{
+  "name": "le-data-quality",
+  "displayName": "Le Data Quality",
+  "description": "Audits contacts and companies for missing critical fields and broken relationships. Generates a CRM health score.",
+  "domain": "data-quality",
+  "crm": ["hubspot"],
+  "objectTypes": ["contacts", "companies"],
+  "requiredScopes": [
+    "crm.objects.contacts.read",
+    "crm.objects.companies.read"
+  ],
+  "status": "live",
+  "author": {
+    "name": "LeClaw",
+    "github": "LeRevOps",
+    "type": "core"
+  },
+  "checkCount": 6,
+  "tags": ["data-quality", "contacts", "companies", "hygiene", "field-completeness"],
+  "coreVersion": "0.3.5"
+}

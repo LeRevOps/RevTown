@@ -1,0 +1,218 @@
+{
+  "_meta": {
+    "description": "LeClaw agent registry — the master index of all available agents",
+    "schema": "https://leclaw.io/registry-schema.json",
+    "updatedAt": "2026-03-25"
+  },
+  "agents": [
+    {
+      "name": "le-data-quality",
+      "displayName": "Le Data Quality",
+      "description": "Audits contacts and companies for missing critical fields and broken relationships. Generates a CRM health score.",
+      "domain": "data-quality",
+      "crm": ["hubspot"],
+      "objectTypes": ["contacts", "companies"],
+      "requiredScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.companies.read"
+      ],
+      "status": "live",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 6,
+      "tags": ["data-quality", "contacts", "companies", "hygiene", "field-completeness"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-stage-audit",
+      "displayName": "Le Stage Audit",
+      "description": "Audits deals for velocity problems, missing fields, and pipeline health issues. Catches forecast risk before the CRO review.",
+      "domain": "pipeline",
+      "crm": ["hubspot"],
+      "objectTypes": ["deals"],
+      "requiredScopes": [
+        "crm.objects.deals.read"
+      ],
+      "status": "live",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 5,
+      "tags": ["pipeline", "deals", "forecast", "stage-hygiene", "close-date"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-bdr",
+      "displayName": "Le BDR",
+      "description": "Enforces BDR follow-up SLAs, surfaces unworked MQLs, and flags sequence and bounce hygiene issues.",
+      "domain": "bdr",
+      "crm": ["hubspot"],
+      "objectTypes": ["contacts", "deals"],
+      "requiredScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.deals.read"
+      ],
+      "status": "soon",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["bdr", "sdr", "follow-up", "sla", "mql", "sequences"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-forecast",
+      "displayName": "Le Forecast",
+      "description": "Audits forecast integrity — commit accuracy, coverage ratio, and at-risk deals hiding in the pipeline.",
+      "domain": "forecast",
+      "crm": ["hubspot"],
+      "objectTypes": ["deals"],
+      "requiredScopes": [
+        "crm.objects.deals.read"
+      ],
+      "status": "soon",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["forecast", "pipeline", "commit", "coverage", "deals"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-duplicates",
+      "displayName": "Le Duplicates",
+      "description": "Identity resolution across contacts and companies. Duplicates corrupt every agent above them.",
+      "domain": "duplicates",
+      "crm": ["hubspot"],
+      "objectTypes": ["contacts", "companies"],
+      "requiredScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.companies.read"
+      ],
+      "status": "soon",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["duplicates", "identity-resolution", "contacts", "companies", "hygiene"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-plumber",
+      "displayName": "Le Plumber",
+      "description": "Audits lead routing rules for gaps — unassigned leads, round-robin failures, routing logic drift.",
+      "domain": "routing",
+      "crm": ["hubspot"],
+      "objectTypes": ["contacts", "deals"],
+      "requiredScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.deals.read"
+      ],
+      "status": "planned",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["routing", "lead-routing", "assignment", "round-robin"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-renewal",
+      "displayName": "Le Renewal",
+      "description": "Monitors renewal risk signals — upcoming dates, health indicators, missing renewal owners.",
+      "domain": "renewal",
+      "crm": ["hubspot"],
+      "objectTypes": ["deals", "contacts"],
+      "requiredScopes": [
+        "crm.objects.deals.read",
+        "crm.objects.contacts.read"
+      ],
+      "status": "planned",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["renewal", "churn-risk", "csm", "expansion"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-territory",
+      "displayName": "Le Territory",
+      "description": "Audits territory coverage gaps, rep assignment drift, and alignment issues.",
+      "domain": "territory",
+      "crm": ["hubspot", "salesforce"],
+      "objectTypes": ["contacts", "companies", "deals"],
+      "requiredScopes": [
+        "crm.objects.contacts.read",
+        "crm.objects.companies.read",
+        "crm.objects.deals.read"
+      ],
+      "status": "planned",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["territory", "coverage", "assignment", "rep-alignment"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-commission",
+      "displayName": "Le Commission",
+      "description": "Flags commission accuracy issues, dispute risks, and quota hygiene problems before they hit payroll.",
+      "domain": "commission",
+      "crm": ["hubspot", "salesforce"],
+      "objectTypes": ["deals"],
+      "requiredScopes": [
+        "crm.objects.deals.read"
+      ],
+      "status": "planned",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["commission", "compensation", "quota", "spiff"],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-qbr",
+      "displayName": "Le QBR",
+      "description": "Automates QBR prep — trend analysis, win/loss breakdown, pipeline coverage, rep performance summary.",
+      "domain": "qbr",
+      "crm": ["hubspot", "salesforce"],
+      "objectTypes": ["deals", "contacts", "companies"],
+      "requiredScopes": [
+        "crm.objects.deals.read",
+        "crm.objects.contacts.read",
+        "crm.objects.companies.read"
+      ],
+      "status": "planned",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 0,
+      "tags": ["qbr", "reporting", "forecast", "pipeline-review"],
+      "coreVersion": "0.3.5"
+    }
+  ]
+}
