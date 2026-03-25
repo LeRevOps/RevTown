@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Hub — LeClaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080E14;
+      --bg-card:   #0C1620;
+      --bg-raised: #111E2C;
+      --sky:       #7EC8E3;
+      --green:     #4ADE80;
+      --white:     #EEF2F6;
+      --muted:     #8899AA;
+      --border:    rgba(126,200,227,0.12);
+      --border-sm: rgba(255,255,255,0.06);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(126,200,227,0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    section, nav, footer, main { position: relative; z-index: 1; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(8,14,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-sm);
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; }
+    .nav-wordmark .le { color: var(--sky); }
+    .nav-wordmark .claw { color: var(--white); }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--white); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 8px 18px; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.15s; border: none;
+    }
+    .btn-primary { background: var(--sky); color: var(--bg); }
+    .btn-primary:hover { background: #9AD5EA; }
+    .btn-outline { background: transparent; color: var(--sky); border: 1px solid rgba(126,200,227,0.3); }
+    .btn-outline:hover { border-color: var(--sky); background: rgba(126,200,227,0.05); }
+
+    /* ── HEADER ── */
+    .page-header {
+      padding: 120px 0 64px;
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 600;
+      line-height: 1.0;
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 .le { color: var(--sky); }
+
+    .page-header p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 48px;
+      font-weight: 300;
+    }
+
+    /* ── FILTERS ── */
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 64px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      border: 1px solid var(--border-sm);
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .filter-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+    .filter-btn.active {
+      background: rgba(126,200,227,0.1);
+      border-color: var(--sky);
+      color: var(--sky);
+    }
+
+    /* ── STATS BAR ── */
+    .hub-stats {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .hub-stat {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hub-stat-num {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--white);
+      display: block;
+    }
+
+    .hub-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── AGENT GRID ── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-sm);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.15s;
+    }
+
+    .agent-card:hover { border-color: var(--border); }
+    .agent-card.is-live { border-color: rgba(74,222,128,0.15); }
+    .agent-card.is-live:hover { border-color: rgba(74,222,128,0.3); }
+
+    .agent-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .agent-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--sky);
+      font-weight: 500;
+    }
+
+    .agent-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-live    { background: rgba(74,222,128,0.1);  color: #4ADE80; }
+    .status-beta    { background: rgba(126,200,227,0.1); color: var(--sky); }
+    .status-soon    { background: rgba(255,255,255,0.05); color: var(--muted); }
+    .status-planned { background: transparent; color: rgba(136,153,170,0.5); border: 1px solid rgba(255,255,255,0.06); }
+
+    .agent-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .agent-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .agent-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(136,153,170,0.6);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-sm);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .agent-crm {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--sky);
+      background: rgba(126,200,227,0.06);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .agent-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-sm);
+      margin-top: auto;
+    }
+
+    .agent-author {
+      font-size: 11px;
+      color: rgba(136,153,170,0.5);
+    }
+
+    .agent-author span { color: var(--muted); }
+
+    .agent-link {
+      font-size: 12px;
+      color: var(--sky);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.15s;
+    }
+
+    .agent-link:hover { opacity: 0.75; }
+
+    .agent-checks {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(136,153,170,0.5);
+    }
+
+    /* ── CONTRIBUTE CTA ── */
+    .contribute-cta {
+      border-top: 1px solid var(--border-sm);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .contribute-cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .contribute-cta h2 span { color: var(--sky); }
+
+    .contribute-cta p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 480px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .contribute-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--muted);
+      font-size: 14px;
+      grid-column: 1 / -1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border-sm);
+      padding: 32px 40px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex; gap: 24px; justify-content: center;
+      margin-bottom: 16px; list-style: none; flex-wrap: wrap;
+    }
+
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .container { padding: 0 20px; }
+      .agent-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="https://media.licdn.com/dms/image/v2/D4E0BAQHEcoq4xyPuNg/company-logo_100_100/B4EZ0WWimoI8AQ-/0/1774196501286/leclaw_logo?e=1775692800&v=beta&t=YPPjyI-jp-bnvf7d74bPrZqTZGj0800VNMhKoWbapbw" alt="LeClaw" />
+      <div class="nav-wordmark"><span class="le">Le</span><span class="claw">Claw</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/agents.html" style="color:var(--sky);">Agent Hub</a></li>
+      <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+      <li><a href="/request-agent.html">Request an Agent</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+    <a href="https://app.leclaw.io" class="btn btn-primary">Get Started Free</a>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- HEADER -->
+      <div class="page-header">
+        <div class="section-label">// les agents</div>
+        <h1>The <span class="le">Le</span>Claw Agent Hub</h1>
+        <p>Every agent encodes what "broken" looks like in a RevOps domain. Browse, install, or contribute one.</p>
+
+        <!-- FILTERS -->
+        <div class="filters" id="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="live">Live</button>
+          <button class="filter-btn" data-filter="soon">Coming soon</button>
+          <button class="filter-btn" data-filter="hubspot">HubSpot</button>
+          <button class="filter-btn" data-filter="salesforce">Salesforce</button>
+          <button class="filter-btn" data-filter="community">Community</button>
+        </div>
+
+        <!-- STATS -->
+        <div class="hub-stats" id="hub-stats">
+          <div class="hub-stat">
+            <span class="hub-stat-num" id="stat-total">—</span>
+            <span class="hub-stat-label">Total Agents</span>
+          </div>
+          <div class="hub-stat">
+            <span class="hub-stat-num" id="stat-live">—</span>
+            <span class="hub-stat-label">Live Now</span>
+          </div>
+          <div class="hub-stat">
+            <span class="hub-stat-num" id="stat-checks">—</span>
+            <span class="hub-stat-label">Total Checks</span>
+          </div>
+          <div class="hub-stat">
+            <span class="hub-stat-num" id="stat-community">—</span>
+            <span class="hub-stat-label">Community</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENT GRID -->
+      <div class="agent-grid" id="agent-grid">
+        <div class="empty-state">Loading agents...</div>
+      </div>
+
+    </div>
+
+    <!-- CONTRIBUTE CTA -->
+    <section class="contribute-cta">
+      <div class="container">
+        <h2>Know what <span>"broken"</span> looks like?</h2>
+        <p>An agent is a list of CRM search queries and a summary prompt. If you've lived the pain in a domain we don't cover yet — contribute it.</p>
+        <div class="contribute-btns">
+          <a href="https://github.com/LeRevOps/leclaw/blob/master/CONTRIBUTING.md" target="_blank" class="btn btn-primary">Read the contributing guide →</a>
+          <a href="/request-agent.html" class="btn btn-outline">Request an agent instead →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/agents.html">Agent Hub</a></li>
+      <li><a href="/privacy.html">Privacy</a></li>
+      <li><a href="/terms.html">Terms</a></li>
+      <li><a href="/security.html">Security</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 LeClaw. Your RevOps team. Runs 24/7.</p>
+  </footer>
+
+  <script>
+    const STATUS_LABEL = {
+      live:    'live',
+      beta:    'beta',
+      soon:    'bientôt',
+      planned: 'planned',
+    };
+
+    const STATUS_CLASS = {
+      live:    'status-live',
+      beta:    'status-beta',
+      soon:    'status-soon',
+      planned: 'status-planned',
+    };
+
+    let allAgents = [];
+    let activeFilter = 'all';
+
+    async function loadRegistry() {
+      const res = await fetch('/registry.json');
+      const data = await res.json();
+      allAgents = data.agents;
+      updateStats();
+      renderGrid(allAgents);
+    }
+
+    function updateStats() {
+      document.getElementById('stat-total').textContent = allAgents.length;
+      document.getElementById('stat-live').textContent = allAgents.filter(a => a.status === 'live' || a.status === 'beta').length;
+      document.getElementById('stat-checks').textContent = allAgents.reduce((sum, a) => sum + (a.checkCount || 0), 0);
+      document.getElementById('stat-community').textContent = allAgents.filter(a => a.author.type === 'community').length;
+    }
+
+    function filterAgents(filter) {
+      if (filter === 'all') return allAgents;
+      if (filter === 'live') return allAgents.filter(a => a.status === 'live' || a.status === 'beta');
+      if (filter === 'soon') return allAgents.filter(a => a.status === 'soon');
+      if (filter === 'hubspot') return allAgents.filter(a => a.crm.includes('hubspot'));
+      if (filter === 'salesforce') return allAgents.filter(a => a.crm.includes('salesforce'));
+      if (filter === 'community') return allAgents.filter(a => a.author.type === 'community');
+      return allAgents;
+    }
+
+    function renderGrid(agents) {
+      const grid = document.getElementById('agent-grid');
+
+      if (agents.length === 0) {
+        grid.innerHTML = '<div class="empty-state">No agents match this filter yet.</div>';
+        return;
+      }
+
+      grid.innerHTML = agents.map(agent => {
+        const isLive = agent.status === 'live' || agent.status === 'beta';
+        const cardClass = isLive ? 'agent-card is-live' : 'agent-card';
+
+        const crmTags = agent.crm.map(c =>
+          `<span class="agent-crm">${c}</span>`
+        ).join('');
+
+        const tags = (agent.tags || []).slice(0, 3).map(t =>
+          `<span class="agent-tag">${t}</span>`
+        ).join('');
+
+        const checksLabel = agent.checkCount > 0
+          ? `${agent.checkCount} checks`
+          : '';
+
+        const actionLink = isLive
+          ? `<a href="https://github.com/LeRevOps/leclaw/tree/master/agents/${agent.name}" target="_blank" class="agent-link">View source →</a>`
+          : agent.status === 'soon'
+            ? `<a href="/request-agent.html" class="agent-link" style="color:var(--muted)">Request early access →</a>`
+            : `<a href="/request-agent.html" class="agent-link" style="color:rgba(136,153,170,0.4)">Vote →</a>`;
+
+        const authorLabel = agent.author.type === 'community'
+          ? `by <span>${agent.author.name}</span>`
+          : `<span>LeClaw core</span>`;
+
+        return `
+          <div class="${cardClass}">
+            <div class="agent-card-top">
+              <div class="agent-name">${agent.name}</div>
+              <span class="agent-status ${STATUS_CLASS[agent.status] || 'status-planned'}">${STATUS_LABEL[agent.status] || agent.status}</span>
+            </div>
+            <p class="agent-desc">${agent.description}</p>
+            <div class="agent-meta">
+              ${crmTags}
+              ${tags}
+            </div>
+            <div class="agent-card-footer">
+              <div>
+                <div class="agent-author">${authorLabel}</div>
+                ${checksLabel ? `<div class="agent-checks">${checksLabel}</div>` : ''}
+              </div>
+              ${actionLink}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Filter buttons
+    document.getElementById('filters').addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      activeFilter = btn.dataset.filter;
+      renderGrid(filterAgents(activeFilter));
+    });
+
+    loadRegistry();
+  </script>
+
+</body>
+</html>
