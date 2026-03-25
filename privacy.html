@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — LeClaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080E14; --bg-card: #0C1620; --sky: #7EC8E3;
+      --green: #4ADE80; --white: #EEF2F6; --muted: #8899AA;
+      --border: rgba(126,200,227,0.12); --border-sm: rgba(255,255,255,0.06);
+    }
+    body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(126,200,227,0.06) 1px, transparent 1px);
+      background-size: 32px 32px; pointer-events: none; z-index: 0;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+      background: rgba(8,14,20,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-sm);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; }
+    .nav-wordmark .le { color: var(--sky); }
+    .nav-wordmark .claw { color: var(--white); }
+    main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 120px 40px 80px; }
+    .label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 16px; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; margin-bottom: 8px; }
+    .updated { font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+    h2 { font-size: 18px; font-weight: 600; color: var(--white); margin: 40px 0 12px; }
+    p { color: var(--muted); margin-bottom: 16px; }
+    ul { color: var(--muted); padding-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 8px; }
+    strong { color: var(--white); font-weight: 500; }
+    a { color: var(--sky); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .divider { border: none; border-top: 1px solid var(--border-sm); margin: 40px 0; }
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border-sm); padding: 32px 40px; text-align: center; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <span class="nav-wordmark"><span class="le">Le</span><span class="claw">Claw</span></span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="label">// legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <p>LeClaw ("we", "our", "us") operates leclaw.io and app.leclaw.io. This policy explains what data we collect, how we use it, and how we protect it. If you have questions, email <a href="mailto:hello@leclaw.io">hello@leclaw.io</a>.</p>
+
+    <h2>What we collect</h2>
+    <p>When you use the hosted dashboard (app.leclaw.io):</p>
+    <ul>
+      <li><strong>Account information</strong> — email address and password (hashed, never stored in plaintext) when you create an account.</li>
+      <li><strong>CRM OAuth tokens</strong> — HubSpot access and refresh tokens, scoped to the minimum permissions required by each agent. Stored encrypted in Supabase (AES-256 at rest).</li>
+      <li><strong>Anthropic API key</strong> — stored encrypted in Supabase. Used only to make API calls on your behalf during agent runs.</li>
+      <li><strong>Run metadata</strong> — issue counts, severity levels, scores, and timestamps from each agent run. Never raw CRM records.</li>
+      <li><strong>Business context</strong> — optional thresholds you configure (sales cycle length, deal value thresholds, SLA windows). Used to calibrate agent checks.</li>
+    </ul>
+
+    <p>When you use the self-hosted CLI (<code>npx leclaw</code>):</p>
+    <ul>
+      <li>All credentials stay on your local machine in <code>.env</code>. Nothing is sent to LeClaw servers.</li>
+      <li>The only external calls are to HubSpot (your token) and Anthropic (your API key). No data passes through LeClaw infrastructure.</li>
+    </ul>
+
+    <h2>What we never store</h2>
+    <ul>
+      <li>Raw CRM records — contact names, emails, phone numbers, company names, deal amounts, or any PII from your CRM</li>
+      <li>CRM credentials in plaintext</li>
+      <li>Payment information (handled by Stripe directly if/when billing is enabled)</li>
+    </ul>
+
+    <h2>What gets sent to Claude API</h2>
+    <p>Agent summaries are generated by sending metadata to Anthropic's Claude API — never raw CRM records. What gets sent looks like:</p>
+    <ul>
+      <li>Aggregate counts: "247 contacts audited, 12 issues found"</li>
+      <li>Issue category labels: "missing email", "no associated company"</li>
+      <li>Severity breakdowns: counts by critical / warning / info</li>
+    </ul>
+    <p>What never gets sent: contact names, email addresses, company names, deal names, amounts, or any record-level data from your CRM. Your data stays in your CRM.</p>
+
+    <h2>How we use your data</h2>
+    <ul>
+      <li>To authenticate you and associate runs with your org</li>
+      <li>To run agents against your CRM on your behalf</li>
+      <li>To generate AI summaries of agent findings</li>
+      <li>To display your run history and score trends on the dashboard</li>
+      <li>To send Slack notifications if you have configured a webhook</li>
+    </ul>
+    <p>We do not sell your data. We do not use your data to train AI models. We do not share your data with third parties except as described below.</p>
+
+    <h2>Third parties</h2>
+    <ul>
+      <li><strong>Supabase</strong> — database and authentication. Stores encrypted credentials and run metadata. <a href="https://supabase.com/privacy" target="_blank">Supabase Privacy Policy</a></li>
+      <li><strong>Vercel</strong> — hosting and serverless functions. Processes requests but does not store application data. <a href="https://vercel.com/legal/privacy-policy" target="_blank">Vercel Privacy Policy</a></li>
+      <li><strong>Anthropic</strong> — AI model provider. Receives metadata (never PII) to generate agent summaries. <a href="https://www.anthropic.com/privacy" target="_blank">Anthropic Privacy Policy</a></li>
+    </ul>
+
+    <h2>Data retention</h2>
+    <p>Run metadata and issue summaries are retained for as long as your account is active. You can delete your account and all associated data at any time by emailing <a href="mailto:hello@leclaw.io">hello@leclaw.io</a>.</p>
+
+    <h2>Your rights (GDPR / CCPA)</h2>
+    <p>You have the right to access, correct, export, or delete your personal data. To exercise any of these rights, email <a href="mailto:hello@leclaw.io">hello@leclaw.io</a>. We will respond within 30 days.</p>
+
+    <h2>Revoking CRM access</h2>
+    <p>You can revoke LeClaw's access to your CRM at any time without contacting us:</p>
+    <ul>
+      <li><strong>HubSpot:</strong> Settings → Integrations → Connected Apps → Revoke</li>
+      <li><strong>Salesforce:</strong> Setup → Connected Apps → Revoke</li>
+    </ul>
+    <p>Revoking immediately terminates all LeClaw access to your CRM. Stored run history is unaffected.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>We will update this page when the policy changes and notify active users by email. The "last updated" date at the top reflects the most recent revision.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about privacy: <a href="mailto:hello@leclaw.io">hello@leclaw.io</a></p>
+  </main>
+
+  <footer>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/privacy.html">Privacy</a></li>
+      <li><a href="/terms.html">Terms</a></li>
+      <li><a href="/security.html">Security</a></li>
+      <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 LeClaw. Your RevOps team. Runs 24/7.</p>
+  </footer>
+
+</body>
+</html>
