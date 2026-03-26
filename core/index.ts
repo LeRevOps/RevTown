@@ -23,5 +23,6 @@ export type { HubSpotFilter } from "./hubspot-search.js";
 export { buildDynamicChecks, fetchCustomProperties } from "./hubspot-properties.js";
 
 export { routeQuestion } from "./routing.js";
-export { buildSynthesisPrompt, buildSynthesisPromptNoData } from "./synthesis.js";
-export type { RapportSummary, SynthesisPlan } from "./synthesis.js";
+export { buildSynthesisPrompt, buildSynthesisPromptNoData, buildRunHistory } from "./synthesis.js";
+export type { RapportSummary, SynthesisPlan, RunHistory, AgentRunHistory } from "./synthesis.js";
+
