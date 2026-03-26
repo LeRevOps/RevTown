@@ -8,11 +8,21 @@ Read this at the start of every session. This is the single source of truth for 
 
 **LeClaw is the open-source GTM agent hub.**
 
-The canonical collection of revenue operations agents — community-built, CRM-native, deployable in two minutes. Think OpenClaw for CRMs and RevOps: a hub where practitioners encode domain knowledge as agents, and Le Directeur is the orchestrator that deploys any of them against your stack.
+A canonical, growing collection of RevOps agents — community-built, CRM-native, deployable against HubSpot or Salesforce in two minutes. Think OpenClaw for CRMs and RevOps.
 
-This is not a tool that helps your RevOps team. It is the infrastructure for an autonomous RevOps layer — every repeatable, processable task that should never require a human to do manually.
+**Three things, working together:**
 
-**The hub is the product. Le Directeur is the orchestrator.**
+1. **The hub** — the agent library. Every agent encodes what "broken" looks like in a specific RevOps domain. Anyone can deploy any agent. Anyone can contribute one.
+2. **The framework** (`@leclaw/core`) — the open-source runtime. Defines how agents are structured, how they query the CRM, how they score and report. MIT licensed.
+3. **Le Directeur** — the orchestrator. Deploys agents, synthesizes their output into a single answer. Works identically on CLI and dashboard — same logic, different runtime targets.
+
+**Deploy path 1 — CLI:** `npx leclaw` → Le Directeur REPL → pick agents → runs against your CRM → synthesized answer in terminal.
+
+**Deploy path 2 — Dashboard:** app.leclaw.io → connect HubSpot or Salesforce → click Run → agents run on Vercel → synthesized answer + Slack delivery + write-back queue (Le Témoin).
+
+Same agents. Same synthesis. Two surfaces.
+
+**The hub is the product. Le Directeur is the orchestrator. The framework is the glue.**
 
 ```
 Data quality audits       → Le Data Quality    ✅
@@ -25,27 +35,30 @@ Renewal risk              → Le Renewal         📋
 Commission accuracy       → Le Commission      📋
 QBR prep                  → Le QBR             📋
 Write-back / fixing       → Le Témoin          ✅ (app layer)
+Activities hygiene        → Le Activities      📋
+Duplicate resolution      → Le Duplicates      📋
+Deal desk hygiene         → Le Deal Desk       📋
 ```
 
-Every feature decision, every architecture choice, every session should move toward this. If it doesn't add agents, enable the community to add agents, or make existing agents run better — deprioritize it.
+Every feature decision, every architecture choice, every session should move toward this. If it doesn't add agents, enable the community to add agents, or make Le Directeur smarter — deprioritize it.
 
-**The community flywheel:** LeClaw's moat is encoded domain knowledge from RevOps practitioners. A BDR manager knows what SLA failure looks like. A CSM knows renewal risk. The framework makes it easy to contribute an agent (filterGroups checks + a summary prompt) — they don't need to be engineers. Every contributed agent is institutional RevOps knowledge that runs in hundreds of CRMs.
+**The community flywheel:** A BDR manager knows what SLA failure looks like. A CSM knows renewal risk. The framework makes it easy to contribute an agent (filterGroups checks + a summary prompt) — no engineering background required. Every contributed agent is institutional RevOps knowledge that runs in hundreds of CRMs.
 
-**Positioning:** "Native agents are features inside a single product. LeClaw is the open-source GTM agent hub — agents for every domain, deployable against any CRM."
+**Positioning:** "Native agents are features inside a single product. LeClaw is the open-source GTM agent hub — agents for every domain, deployable against any CRM, from CLI or dashboard."
 
-**ICP:** Any B2B company with a sales team and a CRM. Primary: Head of RevOps / VP Sales Ops at Series B–C SaaS, $10–50M ARR. Secondary: GTM engineers and RevOps practitioners who want to encode their own domain knowledge and contribute to the hub.
+**ICP:** Any B2B company with a sales team and a CRM. Primary: Head of RevOps / VP Sales Ops at Series B–C SaaS, $10–50M ARR. Secondary: GTM engineers who want to encode their own domain knowledge and contribute to the hub.
 
-**Open source and forkable by design.** The framework is MIT licensed. GTM engineers can clone it, run it against their own CRM, fork it, and contribute agents back. The open source repo is the top of funnel. The hosted dashboard is the monetization layer.
+**Open source and forkable by design.** Framework is MIT licensed. Clone it, run it against your own CRM, fork it, contribute agents back. The open source repo is the top of funnel. The hosted dashboard is the monetization layer.
 
 **Live at:** https://leclaw.io
 **Dashboard:** https://app.leclaw.io (leclaw-app repo)
 **npm:** `@leclaw/core` (current version: 0.3.6)
 **GitHub:** https://github.com/LeRevOps/leclaw
-**Stack:** Node.js, TypeScript, Claude API, HubSpot API, Slack API, Vercel, Supabase
+**Stack:** Node.js, TypeScript, Claude API, HubSpot API, Salesforce API, Slack API, Vercel, Supabase
 
 ---
 
-## Two Repos — Two Different Users, One Framework
+## Two Repos — Two Surfaces, One Framework
 
 | Repo | Path | Purpose | Users |
 |------|------|---------|-------|
@@ -59,28 +72,31 @@ The `leclaw-app` repo has its own CLAUDE.md.
 
 The same `@leclaw/core` framework powers both. The split is intentional — open core business model, same as Supabase, PostHog, Metabase.
 
-- **`leclaw` (public, MIT)** — anyone can clone, fork, run agents against their own CRM, contribute new agents. This is the community and the top of funnel. Developers find it on GitHub, GTM engineers fork it, companies evaluate it. No terminal skills required for basic use (`npx leclaw`).
-- **`leclaw-app` (private)** — the hosted product. Supabase auth, billing, multi-tenancy, dashboard UI. Contains secrets, business logic, and infrastructure config. Never public.
+- **`leclaw` (public, MIT)** — anyone can clone, fork, run agents against their own CRM, contribute new agents. Community and top of funnel. No terminal skills required for basic use (`npx leclaw`).
+- **`leclaw-app` (private)** — the hosted product. Supabase auth, billing, multi-tenancy, dashboard UI, Le Témoin write-back queue. Contains secrets and business logic. Never public.
 
-### Execution architecture — two flows, one framework
+### Execution architecture — two surfaces, one framework
 
 ```
-DEVELOPER / GTM ENGINEER (open source)        NON-TECHNICAL REVOPS (hosted dashboard)
-────────────────────────────────────           ────────────────────────────────────────
+CLI (open source)                              DASHBOARD (hosted)
+─────────────────────────────────              ────────────────────────────────────────
 npx leclaw                                     app.leclaw.io
-  └── Le Directeur REPL                          └── clicks "Run Mission"
+  └── Le Directeur REPL                          └── Ask Le Directeur / Run Mission
         └── routeQuestion()                            └── Next.js API route (Vercel)
         └── Docker available?                                └── runAgentForOrg()
               YES → runAgentInDocker()                             └── runAgent() ← @leclaw/core
-                     └── docker run --rm                                └── HubSpot API
+                     └── docker run --rm                                └── HubSpot / SFDC API
                            └── agent-runner.js                    └── onIssue() → Supabase
                                  └── runAgent() ← @leclaw/core    └── Slack delivery
-              NO  → runAgent() ← @leclaw/core
+              NO  → runAgent() ← @leclaw/core                     └── Le Témoin write-back queue
+
+Le Directeur synthesis — IDENTICAL on both surfaces:
+  Haiku per agent (summary) → Sonnet once (synthesis) → answer
 ```
 
-**Docker is CLI-only.** Vercel serverless cannot run containers. Dashboard users get Vercel's own ephemeral isolation — sufficient because they only run LeClaw's vetted agents, never custom code. Docker matters for developers because they may run custom or third-party agents on their own machine. Resource-limited to 512MB RAM, 0.5 CPU, removed on exit. Falls back to in-process automatically if Docker is unavailable.
+**Le Directeur is CRM-agnostic.** It dispatches agents, collects rapports, synthesizes. Whether the underlying agent talks to HubSpot or Salesforce is an implementation detail the orchestrator doesn't care about.
 
-**Key insight:** The `leclaw-app` dashboard is the delivery mechanism for the agent library to non-technical users. The open source CLI is the delivery mechanism for developers and contributors. Same agents, different runtime targets.
+**Docker is CLI-only.** Vercel serverless cannot run containers. Dashboard users only run LeClaw's vetted agents — Vercel's ephemeral isolation is sufficient. Docker matters for developers running custom/third-party agents. Resource-limited to 512MB RAM, 0.5 CPU, removed on exit. Falls back to in-process if Docker unavailable.
 
 ---
 
@@ -88,16 +104,19 @@ npx leclaw                                     app.leclaw.io
 
 ### What's Built
 - ✅ Landing page (`index.html`) — deployed to leclaw.io via Vercel
-- ✅ `@leclaw/core` v0.3.4 — published to npm
+- ✅ `@leclaw/core` v0.3.6 — published to npm
 - ✅ Le Data Quality agent (`agents/le-data-quality/`)
 - ✅ Le Stage Audit agent (`agents/le-stage-audit/`)
-- ✅ Le Directeur CLI (`npx leclaw`) — interactive REPL
+- ✅ Le Directeur CLI (`npx leclaw`) — interactive REPL, synthesizes across agents
 - ✅ Setup wizard (`npx leclaw setup`) — opens browser, verifies connections, writes .env, launches CLI
+- ✅ Run history + trend awareness — synthesis includes 4-week score trajectory
+- ✅ Write-back types — `WritebackPatch`, `applyPatch()`, `applyBatch()` in core
 
 ### What Does NOT Exist Here
 - ❌ Dashboard — that's in `leclaw-app`
-- ❌ Write-back / Le Témoin
-- ❌ Le Plumber, Le Lead Router, Le Forecast (next agents for this repo)
+- ❌ Le Témoin UI — that's in `leclaw-app`
+- ❌ Salesforce adapter — not yet built in core
+- ❌ Le BDR, Le Forecast, Le Plumber (next agents for this repo)
 
 ---
 
@@ -117,19 +136,20 @@ npx leclaw setup
         └── writes .env → launches CLI
 
 @leclaw/core (npm)
-  └── core/base.ts             — runAgent(), types, scoring, callClaude()
-  └── core/hubspot-search.ts   — paginated targeted search (never full scans)
+  └── core/base.ts              — runAgent(), types, scoring, callClaude(), WritebackPatch
+  └── core/hubspot-search.ts    — paginated targeted search (never full scans)
+  └── core/hubspot-write.ts     — applyPatch(), applyBatch() for write-back
   └── core/hubspot-properties.ts — dynamic custom property discovery
-  └── core/registry.ts         — agent registry
-  └── core/routing.ts          — keyword router
-  └── core/synthesis.ts        — Le Directeur synthesis prompts
+  └── core/registry.ts          — agent registry
+  └── core/routing.ts           — keyword router
+  └── core/synthesis.ts         — Le Directeur synthesis prompts + run history/trends
 ```
 
 ---
 
 ## Agent Roadmap
 
-The agent library is the product. Ship agents relentlessly. Every agent added moves LeClaw from "tool" toward "autonomous RevOps team."
+The agent library is the product. Ship agents relentlessly.
 
 | Priority | Agent | Domain | Status |
 |----------|-------|--------|--------|
@@ -146,7 +166,7 @@ The agent library is the product. Ship agents relentlessly. Every agent added mo
 | 📋 | Le Activities | Meeting/call logging gaps, engagement hygiene | Planned |
 | 📋 | Le Deal Desk | Discount hygiene, deal structure, approvals | Planned |
 
-**10 agents = a RevOps team. That is the goal.**
+**12 agents = a full RevOps team. That is the goal.**
 
 ---
 
@@ -158,6 +178,7 @@ The agent library is the product. Ship agents relentlessly. Every agent added mo
 - **`setup.js` is plain JS** — not compiled by tsc. Edit directly.
 - **bin entry must not have `./` prefix** — `"leclaw": "cli/index.js"` not `"./cli/index.js"`.
 - **npm publish must run from `C:\Users\Benjamin\leclaw`** — not a parent directory.
+- **Le Directeur synthesis is shared logic** — core exports `buildSynthesisPrompt()`. Both CLI and app import it. Never duplicate it.
 
 ## Environment Variables
 ```
@@ -181,11 +202,11 @@ leclaw/
     le-data-quality/    # Le Data Quality agent (TypeScript)
     le-stage-audit/     # Le Stage Audit agent (TypeScript)
   cli/index.ts          # Le Directeur REPL
-  core/                 # Framework internals
+  core/                 # Framework internals (@leclaw/core)
   examples/             # Custom agent template
   setup.js              # Setup wizard (plain JS)
   index.html            # Landing page (leclaw.io)
-  package.json          # @leclaw/core v0.3.4
+  package.json          # @leclaw/core v0.3.6
 ```
 
 ---
@@ -205,13 +226,14 @@ leclaw/
 **Competitors:**
 - n8n (open source, requires engineers)
 - Momentum/Attention (reactive, not proactive)
+- Cargo (YC S23, GTM workflow builder — execution not monitoring, different angle)
 - Openprise/Syncari (enterprise, $50k+/yr)
 - LeanData (routing only)
 - LangChain Deep Agents (GTM reference impl, open-sourced March 2026) ← emerging threat
 
 **Core insight:** RevOps teams fear being blindsided in front of the CRO. LeClaw catches problems before they become someone else's problem. The moat is not the framework — it is the encoded domain knowledge in the agents. Anyone can build a framework. Only practitioners who lived the pain know what broken looks like across the full revenue motion.
 
-**Every session should move toward the agent library goal. If a decision doesn't add agents, enable others to add agents, or make agents run better — it is a lower priority.**
+**Every session should move toward the agent library goal. If a decision doesn't add agents, enable others to add agents, or make Le Directeur smarter — it is a lower priority.**
 
 ---
 
@@ -229,21 +251,22 @@ leclaw/
 
 These are architectural and strategic decisions made in prior sessions. Do not relitigate them.
 
+### Hub positioning (March 2026)
+LeClaw is not a CRM audit tool or a RevOps automation platform. It is the open-source GTM agent hub — the canonical place where RevOps practitioners encode domain knowledge as agents. Le Directeur is the orchestrator that deploys any hub agent. This positions LeClaw like OpenClaw for CRMs/RevOps: the value compounds with every agent contributed.
+
+### Le Directeur works on both surfaces (March 2026)
+The synthesis logic (`buildSynthesisPrompt`, run history, trend awareness) lives in `@leclaw/core` and is shared. CLI and dashboard both import it. The difference is only runtime: CLI uses Docker or in-process; dashboard uses Vercel serverless. The orchestration and synthesis output are identical.
+
 ### Docker for CLI (not dashboard)
-Added Docker container isolation to the CLI in v0.3.5. Each agent runs in its own container (`leclaw/runner:0.3.5`) — 512MB RAM, 0.5 CPU, removed on exit, no host filesystem access. Credentials passed as env vars. Falls back to in-process if Docker unavailable.
+Added Docker container isolation to the CLI in v0.3.5. Each agent runs in its own container (`leclaw/runner:0.3.6`) — 512MB RAM, 0.5 CPU, removed on exit, no host filesystem access. Credentials passed as env vars. Falls back to in-process if Docker unavailable.
 
-**Why CLI only:** Vercel serverless can't run containers. Dashboard users only run LeClaw's vetted agents — Vercel's ephemeral isolation is sufficient. Docker matters for developers running custom/third-party agents on their own machine. Benjamin works at Docker — this is deliberate product alignment.
-
-**What's missing:** Credential proxy (credentials currently passed as env vars, visible in `docker inspect`). Post-MVP.
+**Why CLI only:** Vercel serverless can't run containers. Dashboard users only run LeClaw's vetted agents — Vercel's ephemeral isolation is sufficient. Docker matters for developers running custom/third-party agents. Benjamin works at Docker — this is deliberate product alignment.
 
 ### Open core split
-`leclaw` is public MIT. `leclaw-app` is private. Same `@leclaw/core` framework powers both. leclaw-app previously duplicated ~900 lines of framework code — refactored in March 2026 to import from npm. `lib/agents/runner.ts` (75 lines) is the only app-layer addition — Supabase persistence wrapper around core's `runAgent()`.
+`leclaw` is public MIT. `leclaw-app` is private. Same `@leclaw/core` framework powers both. `lib/agents/runner.ts` (75 lines) is the only app-layer addition — Supabase persistence wrapper around core's `runAgent()`.
 
 ### Async execution (March 2026)
-Dashboard API routes previously waited synchronously for agent completion — would time out on large HubSpot portals (Vercel 60s limit). Fixed using Next.js `after()`: routes return `{ run_id }` immediately, agent runs in background, client polls `/api/runs/[runId]` every 2s. `maxDuration` raised to 300s.
-
-### The mission
-Decided: LeClaw is not a CRM audit tool. It is a RevOps team that runs 24/7. Two agents is a proof of concept. Ten agents is a RevOps team. Every session moves toward the agent library goal.
+Dashboard API routes return `{ run_id }` immediately. Agent runs in background via Next.js `after()`. Client polls `/api/runs/[runId]` every 2s. `maxDuration` raised to 300s.
 
 ---
 
