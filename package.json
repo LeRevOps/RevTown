@@ -1,6 +1,6 @@
 {
   "name": "@leclaw/core",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Open-source RevOps agent framework for HubSpot and Salesforce",
   "type": "module",
   "main": "./core/index.js",
@@ -39,8 +39,8 @@
     "setup": "node setup.js",
     "data-quality": "node agents/le-data-quality/index.js",
     "registry": "node scripts/build-registry.js",
-    "docker:build": "npm run build && docker build -t leclaw/runner:0.3.5 -t leclaw/runner:latest .",
-    "docker:push": "docker push leclaw/runner:0.3.5 && docker push leclaw/runner:latest"
+    "docker:build": "npm run build && docker build -t leclaw/runner:0.3.6 -t leclaw/runner:latest .",
+    "docker:push": "docker push leclaw/runner:0.3.6 && docker push leclaw/runner:latest"
   },
   "keywords": [
     "revops",
