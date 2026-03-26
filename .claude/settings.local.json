@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Benjamin/.claude/projects//**)",
+      "Read(//c/Users/Benjamin/.claude/**)",
+      "Bash(npm whoami:*)",
+      "Bash(npm publish:*)",
+      "WebFetch(domain:blog.langchain.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:topaiproduct.com)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(curl -s https://www.leclaw.io/contact.html)",
+      "WebSearch"
+    ]
+  }
+}

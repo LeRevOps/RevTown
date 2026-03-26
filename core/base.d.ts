@@ -27,6 +27,8 @@ export interface Issue {
     severity: "critical" | "warning" | "info";
     issueType: string;
     fixSuggestion: string;
+    /** Specific next action for the rep or RevOps team — more actionable than fixSuggestion */
+    nextAction?: string;
 }
 export interface CheckResult {
     check: AgentCheck;
@@ -79,6 +81,8 @@ export interface AgentCheck {
     severity: "critical" | "warning" | "info";
     /** Plain-language fix instruction shown to the user */
     fix: string;
+    /** Specific next action — more prescriptive than fix, used in deal review briefings */
+    nextAction?: string;
     /** Returns a display name for a broken record */
     getName: (record: HubSpotRecord) => string;
     /**
@@ -99,6 +103,19 @@ export interface AgentCheck {
         description: string;
         requiresApproval: boolean;
         automated: boolean;
+    };
+    /**
+     * Salesforce equivalent of this check.
+     * Not executed until the Salesforce adapter ships — serves as the
+     * portable spec so agents are CRM-agnostic by design.
+     */
+    salesforce?: {
+        /** Salesforce object API name: "Lead" | "Contact" | "Opportunity" | "Account" */
+        objectType: string;
+        /** SOQL WHERE clause (no leading WHERE) */
+        soql: string;
+        /** Salesforce field API names to fetch */
+        fields: string[];
     };
 }
 /**

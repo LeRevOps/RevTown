@@ -10,7 +10,13 @@
  */
 import { leDataQuality } from "../agents/le-data-quality/index.js";
 import { leStageAudit } from "../agents/le-stage-audit/index.js";
+import { leBdr } from "../agents/le-bdr/index.js";
+import { leActivities } from "../agents/le-activities/index.js";
+import { leDealReview } from "../agents/le-deal-review/index.js";
 export const agentRegistry = {
     "le-data-quality": leDataQuality,
     "le-stage-audit": leStageAudit,
+    "le-bdr": leBdr,
+    "le-activities": leActivities,
+    "le-deal-review": leDealReview,
 };

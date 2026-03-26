@@ -2,11 +2,74 @@
   "_meta": {
     "description": "LeClaw agent registry — the master index of all available agents",
     "schema": "https://leclaw.io/registry-schema.json",
-    "updatedAt": "2026-03-25",
-    "agentCount": 10,
-    "liveCount": 2
+    "updatedAt": "2026-03-26",
+    "agentCount": 12,
+    "liveCount": 5
   },
   "agents": [
+    {
+      "name": "le-activities",
+      "displayName": "Le Activities",
+      "description": "Monitors deal engagement and rep accountability. Catches dark deals, missing next steps, and high-value opportunities going silent before anyone notices.",
+      "domain": "activities",
+      "crm": [
+        "hubspot",
+        "salesforce"
+      ],
+      "objectTypes": [
+        "deals"
+      ],
+      "requiredScopes": [
+        "crm.objects.deals.read"
+      ],
+      "status": "live",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 5,
+      "tags": [
+        "activities",
+        "deals",
+        "rep-accountability",
+        "next-step",
+        "engagement"
+      ],
+      "coreVersion": "0.3.5"
+    },
+    {
+      "name": "le-bdr",
+      "displayName": "Le BDR",
+      "description": "Enforces BDR follow-up SLAs, surfaces unworked MQLs, and flags contacts that have fallen through the top-of-funnel cracks.",
+      "domain": "bdr",
+      "crm": [
+        "hubspot",
+        "salesforce"
+      ],
+      "objectTypes": [
+        "contacts"
+      ],
+      "requiredScopes": [
+        "crm.objects.contacts.read"
+      ],
+      "status": "live",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 5,
+      "tags": [
+        "bdr",
+        "sdr",
+        "mql",
+        "follow-up",
+        "sla",
+        "lifecycle"
+      ],
+      "coreVersion": "0.3.5"
+    },
     {
       "name": "le-data-quality",
       "displayName": "Le Data Quality",
@@ -40,6 +103,37 @@
       "coreVersion": "0.3.5"
     },
     {
+      "name": "le-deal-review",
+      "displayName": "Le Deal Review",
+      "description": "Generates pre-meeting deal intelligence. Before the weekly review call starts, both AE and manager already know which deals are stuck, why, and what needs to happen.",
+      "domain": "pipeline",
+      "crm": [
+        "hubspot",
+        "salesforce"
+      ],
+      "objectTypes": [
+        "deals"
+      ],
+      "requiredScopes": [
+        "crm.objects.deals.read"
+      ],
+      "status": "live",
+      "author": {
+        "name": "LeClaw",
+        "github": "LeRevOps",
+        "type": "core"
+      },
+      "checkCount": 5,
+      "tags": [
+        "deal-review",
+        "pipeline",
+        "forecast",
+        "close-date",
+        "next-step"
+      ],
+      "coreVersion": "0.3.5"
+    },
+    {
       "name": "le-stage-audit",
       "displayName": "Le Stage Audit",
       "description": "Audits deals for velocity problems, missing fields, and pipeline health issues. Catches forecast risk before the CRO review.",
@@ -66,39 +160,6 @@
         "forecast",
         "stage-hygiene",
         "close-date"
-      ],
-      "coreVersion": "0.3.5"
-    },
-    {
-      "name": "le-bdr",
-      "displayName": "Le BDR",
-      "description": "Enforces BDR follow-up SLAs, surfaces unworked MQLs, and flags sequence and bounce hygiene issues.",
-      "domain": "bdr",
-      "crm": [
-        "hubspot"
-      ],
-      "objectTypes": [
-        "contacts",
-        "deals"
-      ],
-      "requiredScopes": [
-        "crm.objects.contacts.read",
-        "crm.objects.deals.read"
-      ],
-      "status": "soon",
-      "author": {
-        "name": "LeClaw",
-        "github": "LeRevOps",
-        "type": "core"
-      },
-      "checkCount": 0,
-      "tags": [
-        "bdr",
-        "sdr",
-        "follow-up",
-        "sla",
-        "mql",
-        "sequences"
       ],
       "coreVersion": "0.3.5"
     },

@@ -1,0 +1,20 @@
+{
+  "name": "le-activities",
+  "displayName": "Le Activities",
+  "description": "Monitors deal engagement and rep accountability. Catches dark deals, missing next steps, and high-value opportunities going silent before anyone notices.",
+  "domain": "activities",
+  "crm": ["hubspot", "salesforce"],
+  "objectTypes": ["deals"],
+  "requiredScopes": [
+    "crm.objects.deals.read"
+  ],
+  "status": "live",
+  "author": {
+    "name": "LeClaw",
+    "github": "LeRevOps",
+    "type": "core"
+  },
+  "checkCount": 5,
+  "tags": ["activities", "deals", "rep-accountability", "next-step", "engagement"],
+  "coreVersion": "0.3.5"
+}

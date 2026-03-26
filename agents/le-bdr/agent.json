@@ -1,0 +1,20 @@
+{
+  "name": "le-bdr",
+  "displayName": "Le BDR",
+  "description": "Enforces BDR follow-up SLAs, surfaces unworked MQLs, and flags contacts that have fallen through the top-of-funnel cracks.",
+  "domain": "bdr",
+  "crm": ["hubspot", "salesforce"],
+  "objectTypes": ["contacts"],
+  "requiredScopes": [
+    "crm.objects.contacts.read"
+  ],
+  "status": "live",
+  "author": {
+    "name": "LeClaw",
+    "github": "LeRevOps",
+    "type": "core"
+  },
+  "checkCount": 5,
+  "tags": ["bdr", "sdr", "mql", "follow-up", "sla", "lifecycle"],
+  "coreVersion": "0.3.5"
+}
