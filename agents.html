@@ -541,7 +541,7 @@
     <section class="contribute-cta">
       <div class="container">
         <h2>Know what <span>"broken"</span> looks like?</h2>
-        <p>An agent is a list of CRM search queries and a summary prompt. If you've lived the pain in a domain we don't cover yet — contribute it.</p>
+        <p>Every agent is a <code style="font-size:14px;color:var(--sky);">CLAUDE.md</code> — a plain description of what broken looks like in a RevOps domain. Click "view logic" on any live agent to see exactly how they're built, then fork one.</p>
         <div class="contribute-btns">
           <a href="https://github.com/LeRevOps/leclaw/blob/master/CONTRIBUTING.md" target="_blank" class="btn btn-primary">Read the contributing guide →</a>
           <a href="/request-agent.html" class="btn btn-outline">Request an agent instead →</a>
@@ -661,9 +661,12 @@
           <div class="logic-panel" id="${panelId}">
             ${renderChecks(agent.checks)}
             <div class="fork-block">
-              <p>Fork this agent — copy the checks above into your own <code>index.ts</code></p>
+              <p>
+                <strong style="color:var(--white);">Use this logic in Claude.</strong><br>
+                Copy the <code>CLAUDE.md</code> into any Claude project — Claude will apply this agent's logic to your CRM questions automatically.
+              </p>
               <div class="fork-btns">
-                <a href="https://github.com/LeRevOps/leclaw/blob/master/agents/${agent.name}/AGENT.md" target="_blank" class="fork-btn fork-btn-primary">Fork guide →</a>
+                <a href="https://github.com/LeRevOps/leclaw/blob/master/agents/${agent.name}/CLAUDE.md" target="_blank" class="fork-btn fork-btn-primary">Open CLAUDE.md →</a>
                 <a href="https://github.com/LeRevOps/leclaw/tree/master/agents/${agent.name}" target="_blank" class="fork-btn fork-btn-ghost">View source</a>
               </div>
             </div>
