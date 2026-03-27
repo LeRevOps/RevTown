@@ -11,38 +11,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #080E14;
-      --bg-card:   #0C1620;
-      --bg-raised: #111E2C;
-      --sky:       #7EC8E3;
-      --sky-dim:   #3A8BAD;
-      --green:     #4ADE80;
-      --white:     #EEF2F6;
-      --muted:     #8899AA;
-      --faint:     #1A2A3A;
-      --border:    rgba(126,200,227,0.12);
-      --border-sm: rgba(255,255,255,0.06);
+      --bg:        #FAF8F5;
+      --bg-card:   #F2EDE8;
+      --bg-raised: #EAE3DC;
+      --terra:     #C85C38;
+      --terra-dim: #A84828;
+      --terra-pale:#F5E8E2;
+      --green:     #2D8653;
+      --ink:       #1F1A17;
+      --muted:     #7A6E68;
+      --faint:     #EAE3DC;
+      --border:    rgba(200,92,56,0.18);
+      --border-sm: rgba(31,26,23,0.08);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
-      color: var(--white);
+      color: var(--ink);
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(126,200,227,0.06) 1px, transparent 1px);
-      background-size: 32px 32px;
-      pointer-events: none;
-      z-index: 0;
     }
 
     section, nav, footer { position: relative; z-index: 1; }
@@ -63,7 +54,7 @@
       justify-content: space-between;
       padding: 0 40px;
       height: 60px;
-      background: rgba(8,14,20,0.85);
+      background: rgba(250,248,245,0.92);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-sm);
     }
@@ -87,8 +78,8 @@
       font-weight: 600;
     }
 
-    .nav-wordmark .le  { color: var(--sky); }
-    .nav-wordmark .claw { color: var(--white); }
+    .nav-wordmark .re   { color: var(--terra); }
+    .nav-wordmark .town { color: var(--ink); }
 
     .nav-links {
       display: flex;
@@ -105,7 +96,7 @@
       transition: color 0.15s;
     }
 
-    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover { color: var(--ink); }
 
     .btn {
       display: inline-flex;
@@ -124,17 +115,17 @@
       letter-spacing: 0.01em;
     }
 
-    .btn-primary { background: var(--sky); color: var(--bg); }
-    .btn-primary:hover { background: #9AD5EA; }
+    .btn-primary { background: var(--terra); color: #FAF8F5; }
+    .btn-primary:hover { background: var(--terra-dim); }
 
     .btn-outline {
       background: transparent;
-      color: var(--sky);
-      border: 1px solid rgba(126,200,227,0.3);
+      color: var(--terra);
+      border: 1px solid rgba(200,92,56,0.35);
     }
     .btn-outline:hover {
-      border-color: var(--sky);
-      background: rgba(126,200,227,0.05);
+      border-color: var(--terra);
+      background: rgba(200,92,56,0.05);
     }
 
     .btn-lg { padding: 12px 28px; font-size: 14px; border-radius: 8px; }
@@ -154,9 +145,9 @@
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--sky);
+      color: var(--terra);
       margin-bottom: 32px;
-      background: rgba(126,200,227,0.04);
+      background: var(--terra-pale);
     }
 
     .hero-badge .dot {
@@ -178,9 +169,10 @@
       line-height: 1.0;
       letter-spacing: -1px;
       margin-bottom: 20px;
+      color: var(--ink);
     }
 
-    .hero h1 .le { color: var(--sky); }
+    .hero h1 .re { color: var(--terra); }
 
     .hero-tagline {
       font-size: clamp(16px, 2vw, 20px);
@@ -191,77 +183,7 @@
       line-height: 1.6;
     }
 
-    .hero-tagline strong { color: var(--white); font-weight: 500; }
-
-    /* ── TWO-TRACK ── */
-    .hero-tracks {
-      display: grid;
-      grid-template-columns: 1fr 1px 1fr;
-      gap: 0;
-      max-width: 860px;
-      margin: 0 auto;
-      background: var(--bg-card);
-      border: 1px solid var(--border-sm);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .hero-track {
-      padding: 40px 48px;
-      text-align: left;
-    }
-
-    .track-divider {
-      background: var(--border-sm);
-      width: 1px;
-    }
-
-    .track-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--sky);
-      letter-spacing: 0.1em;
-      margin-bottom: 20px;
-      opacity: 0.7;
-    }
-
-    .track-headline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--white);
-      margin-bottom: 14px;
-    }
-
-    .track-body {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 28px;
-    }
-
-    .track-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .track-step {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .track-step .num {
-      color: var(--sky);
-      opacity: 0.6;
-      min-width: 20px;
-    }
+    .hero-tagline strong { color: var(--ink); font-weight: 500; }
 
     /* ── STATS BAR ── */
     .stats-bar {
@@ -274,6 +196,7 @@
       overflow: hidden;
       max-width: 860px;
       margin: 48px auto 0;
+      background: var(--bg-card);
     }
 
     .stat {
@@ -289,7 +212,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 32px;
       font-weight: 600;
-      color: var(--sky);
+      color: var(--terra);
       line-height: 1;
       margin-bottom: 4px;
     }
@@ -306,7 +229,7 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--sky);
+      color: var(--terra);
       margin-bottom: 16px;
       opacity: 0.8;
     }
@@ -317,6 +240,7 @@
       font-weight: 600;
       line-height: 1.1;
       margin-bottom: 16px;
+      color: var(--ink);
     }
 
     .section-body {
@@ -356,13 +280,13 @@
       transition: border-color 0.2s;
     }
 
-    .pain-item:hover { border-color: var(--border); }
+    .pain-item:hover { border-color: rgba(200,92,56,0.3); }
     .pain-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
 
     .pain-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
     .pain-text strong {
       display: block;
-      color: var(--white);
+      color: var(--ink);
       font-weight: 500;
       margin-bottom: 2px;
       font-size: 13px;
@@ -371,12 +295,10 @@
     /* ── BELIEF ── */
     .belief {
       padding: 80px 0;
-      border-top: 1px solid var(--border-sm);
+      background: #2A1A12;
     }
 
     .belief-inner {
-      background: var(--bg-card);
-      border: 1px solid var(--border-sm);
       border-radius: 16px;
       padding: 56px 72px;
       text-align: center;
@@ -390,7 +312,7 @@
       top: -30px; left: 32px;
       font-family: 'Cormorant Garamond', serif;
       font-size: 220px;
-      color: rgba(126,200,227,0.04);
+      color: rgba(200,92,56,0.1);
       line-height: 1;
       pointer-events: none;
     }
@@ -400,17 +322,17 @@
       font-size: clamp(22px, 2.8vw, 30px);
       font-weight: 400;
       line-height: 1.5;
-      color: var(--white);
+      color: #EEE8E2;
       max-width: 720px;
       margin: 0 auto 20px;
     }
 
-    .belief-quote em { color: var(--sky); font-style: italic; }
+    .belief-quote em { color: var(--terra); font-style: italic; }
 
     .belief-attr {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--muted);
+      color: rgba(200,92,56,0.6);
       letter-spacing: 0.06em;
     }
 
@@ -457,7 +379,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 500;
-      color: var(--sky);
+      color: var(--terra);
     }
 
     .agent-status {
@@ -468,12 +390,12 @@
       letter-spacing: 0.06em;
     }
 
-    .status-live   { background: rgba(74,222,128,0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
-    .status-soon   { background: rgba(126,200,227,0.08); color: var(--sky-dim); border: 1px solid rgba(126,200,227,0.15); }
-    .status-road   { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border-sm); }
+    .status-live { background: rgba(45,134,83,0.1); color: #1E6B42; border: 1px solid rgba(45,134,83,0.2); }
+    .status-soon { background: rgba(200,92,56,0.08); color: var(--terra-dim); border: 1px solid rgba(200,92,56,0.2); }
+    .status-road { background: rgba(31,26,23,0.05); color: var(--muted); border: 1px solid var(--border-sm); }
 
     .agent-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-    .agent-coming { opacity: 0.45; }
+    .agent-coming { opacity: 0.5; }
 
     /* ── ARCHITECTURE ── */
     .arch {
@@ -510,11 +432,12 @@
     }
 
     .arch-node.arch-special {
-      border-color: rgba(126,200,227,0.2);
+      border-color: rgba(200,92,56,0.3);
+      background: var(--terra-pale);
     }
 
     .arch-node.arch-témoin {
-      border-color: rgba(250,204,21,0.2);
+      border-color: rgba(180,140,20,0.25);
     }
 
     .arch-mono-badge {
@@ -528,22 +451,20 @@
       text-align: center;
     }
 
-    .arch-badge-ld { background: rgba(126,200,227,0.1); color: var(--sky); }
-    .arch-badge-ag { background: rgba(74,222,128,0.1); color: var(--green); }
-    .arch-badge-lt { background: rgba(250,204,21,0.1); color: #FACC15; }
-
-    .arch-node-content {}
+    .arch-badge-ld { background: rgba(200,92,56,0.12); color: var(--terra); }
+    .arch-badge-ag { background: rgba(45,134,83,0.1); color: #1E6B42; }
+    .arch-badge-lt { background: rgba(180,140,20,0.1); color: #8A6A10; }
 
     .arch-node-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 18px;
       font-weight: 600;
-      color: var(--white);
+      color: var(--ink);
       margin-bottom: 4px;
     }
 
-    .arch-node-name.color-sky { color: var(--sky); }
-    .arch-node-name.color-yellow { color: #FACC15; }
+    .arch-node-name.color-terra { color: var(--terra); }
+    .arch-node-name.color-yellow { color: #8A6A10; }
 
     .arch-node-role {
       font-family: 'JetBrains Mono', monospace;
@@ -574,7 +495,7 @@
       top: 0;
       bottom: 0;
       width: 1px;
-      background: rgba(255,255,255,0.07);
+      background: rgba(31,26,23,0.12);
     }
 
     .arch-connector-label {
@@ -609,7 +530,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 15px;
       font-style: italic;
-      color: var(--sky);
+      color: var(--terra);
       margin-bottom: 4px;
     }
 
@@ -645,8 +566,8 @@
       margin: 0 auto;
       border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(126,200,227,0.15);
-      background: #0C1620;
+      border: 1px solid rgba(200,92,56,0.2);
+      background: #1A0E08;
     }
 
     .demo-frame-bar {
@@ -654,7 +575,7 @@
       align-items: center;
       gap: 6px;
       padding: 10px 16px;
-      background: #111E2C;
+      background: #2A1A12;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
@@ -668,7 +589,7 @@
       margin-left: 8px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: #8899AA;
+      color: rgba(200,92,56,0.6);
       letter-spacing: 0.04em;
     }
 
@@ -712,7 +633,7 @@
     .how-track-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--sky);
+      color: var(--terra);
       letter-spacing: 0.08em;
     }
 
@@ -737,17 +658,16 @@
     .how-step-num {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--sky);
+      color: var(--terra);
       opacity: 0.5;
       min-width: 24px;
       padding-top: 2px;
     }
 
-    .how-step-content {}
     .how-step-title {
       font-weight: 500;
       font-size: 14px;
-      color: var(--white);
+      color: var(--ink);
       margin-bottom: 2px;
     }
     .how-step-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
@@ -759,7 +679,7 @@
     /* ── CTA ── */
     .cta {
       padding: 120px 0;
-      border-top: 1px solid var(--border-sm);
+      background: #2A1A12;
     }
 
     .cta-inner { max-width: 560px; margin: 0 auto; text-align: center; }
@@ -770,11 +690,12 @@
       font-weight: 600;
       line-height: 1.1;
       margin-bottom: 16px;
+      color: #EEE8E2;
     }
 
-    .cta h2 span { color: var(--sky); }
+    .cta h2 span { color: var(--terra); }
 
-    .cta p { color: var(--muted); font-size: 16px; margin-bottom: 40px; line-height: 1.7; }
+    .cta p { color: rgba(238,232,226,0.65); font-size: 16px; margin-bottom: 40px; line-height: 1.7; }
 
     .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
@@ -782,13 +703,12 @@
       margin-top: 20px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--muted);
-      opacity: 0.5;
+      color: rgba(200,92,56,0.5);
     }
 
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--border-sm);
+      background: #1F1208;
       padding: 32px 0;
     }
 
@@ -806,7 +726,8 @@
       font-weight: 600;
     }
 
-    .footer-logo .le { color: var(--sky); }
+    .footer-logo .re   { color: var(--terra); }
+    .footer-logo .town { color: rgba(238,232,226,0.7); }
 
     .footer-links {
       display: flex;
@@ -815,19 +736,18 @@
     }
 
     .footer-links a {
-      color: var(--muted);
+      color: rgba(238,232,226,0.4);
       text-decoration: none;
       font-size: 13px;
       transition: color 0.15s;
     }
 
-    .footer-links a:hover { color: var(--white); }
+    .footer-links a:hover { color: rgba(238,232,226,0.8); }
 
     .footer-copy {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: var(--muted);
-      opacity: 0.4;
+      color: rgba(200,92,56,0.4);
     }
 
     /* ── RESPONSIVE ── */
@@ -835,8 +755,6 @@
       nav { padding: 0 20px; }
       .nav-links { display: none; }
       .container { padding: 0 20px; }
-      .hero-tracks { grid-template-columns: 1fr; }
-      .track-divider { display: none; }
       .stats-bar { flex-direction: column; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-sm); }
       .stat:last-child { border-bottom: none; }
@@ -854,12 +772,12 @@
   <nav>
     <a href="#" class="nav-logo">
       <img src="https://media.licdn.com/dms/image/v2/D4E0BAQHEcoq4xyPuNg/company-logo_100_100/B4EZ0WWimoI8AQ-/0/1774196501286/leclaw_logo?e=1775692800&v=beta&t=YPPjyI-jp-bnvf7d74bPrZqTZGj0800VNMhKoWbapbw" alt="Revtown" />
-      <div class="nav-wordmark"><span class="le">Rev</span><span class="claw">town</span></div>
+      <div class="nav-wordmark"><span class="re">Rev</span><span class="town">town</span></div>
     </a>
     <ul class="nav-links">
       <li><a href="/agents.html">Agent Hub</a></li>
       <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#demo" style="color:var(--sky);">Demo</a></li>
+      <li><a href="#demo" style="color:var(--terra);">Demo</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
       <li><a href="/request-agent.html">Request an Agent</a></li>
@@ -876,7 +794,7 @@
         open-source · MIT licensed · community-built
       </div>
 
-      <h1><span class="le">Le</span>Claw.</h1>
+      <h1><span class="re">Rev</span>town.</h1>
 
       <p class="hero-tagline">
         The <strong>open-source GTM agent hub.</strong><br />
@@ -911,7 +829,7 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section class="how" id="how" style="padding: 100px 0; border-top: 1px solid var(--border-sm);">
+  <section class="how" id="how">
     <div class="container">
       <div class="how-header">
         <div class="section-label">// how it works</div>
@@ -972,7 +890,7 @@
               <div class="how-step-num">01</div>
               <div class="how-step-content">
                 <div class="how-step-title">Connect your CRM</div>
-                <div class="how-step-desc">OAuth into HubSpot or Salesforce in two minutes. Dashboard at app.revtown.io or <code style="font-family:monospace;font-size:12px;background:rgba(126,200,227,0.08);padding:1px 5px;border-radius:3px;color:var(--sky)">npx revtown setup</code> from the terminal.</div>
+                <div class="how-step-desc">OAuth into HubSpot or Salesforce in two minutes. Dashboard at app.revtown.io or <code style="font-family:monospace;font-size:12px;background:rgba(200,92,56,0.08);padding:1px 5px;border-radius:3px;color:var(--terra)">npx revtown setup</code> from the terminal.</div>
               </div>
             </div>
             <div class="how-step">
@@ -1035,7 +953,7 @@
           <p class="section-body" style="margin-bottom: 20px;">
             Every agent in the hub encodes what broken looks like in one specific domain — contributed by practitioners who ran that motion. Browse, fork, run standalone, or deploy all of them through Le Directeur.
           </p>
-          <a href="/agents.html" style="display:inline-block; font-size:13px; color:var(--sky); text-decoration:none; border:1px solid rgba(126,200,227,0.2); border-radius:6px; padding:8px 16px; transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(126,200,227,0.5)'" onmouseout="this.style.borderColor='rgba(126,200,227,0.2)'">Browse all agents →</a>
+          <a href="/agents.html" style="display:inline-block; font-size:13px; color:var(--terra); text-decoration:none; border:1px solid rgba(200,92,56,0.25); border-radius:6px; padding:8px 16px; transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(200,92,56,0.6)'" onmouseout="this.style.borderColor='rgba(200,92,56,0.25)'">Browse all agents →</a>
         </div>
       </div>
 
@@ -1153,7 +1071,7 @@
         <div class="arch-node arch-special">
           <div class="arch-mono-badge arch-badge-ld">LD</div>
           <div class="arch-node-content">
-            <div class="arch-node-name color-sky">Le Directeur</div>
+            <div class="arch-node-name color-terra">Le Directeur</div>
             <div class="arch-node-role">orchestrateur · dispatches une mission</div>
             <div class="arch-node-desc">
               The orchestrating agent. Coordinates which agents run, in what order,
@@ -1176,8 +1094,8 @@
             <div class="arch-node-desc">
               Each agent owns a domain: data quality, pipeline stage, BDR follow-up, forecast.
               They fetch only broken records from your CRM — no full scans, no wasted compute.
-              Every agent returns a structured <em style="color:var(--sky)">rapport</em>: a score, issues list, and AI summary.
-              If a check fails fatally, it exits via <em style="color:#F87171">Le Retrait</em> without tainting the mission.
+              Every agent returns a structured <em style="color:var(--terra)">rapport</em>: a score, issues list, and AI summary.
+              If a check fails fatally, it exits via <em style="color:#C0392B">Le Retrait</em> without tainting the mission.
             </div>
           </div>
         </div>
@@ -1253,17 +1171,17 @@
   <section class="cta" id="get-started">
     <div class="container">
       <div class="cta-inner">
-        <div class="section-label">// open source</div>
+        <div class="section-label" style="color:rgba(200,92,56,0.7);">// open source</div>
         <h2>The GTM agent hub is <span>open to everyone.</span></h2>
         <p>
           Browse and run existing agents in two minutes. Contribute your domain knowledge as an agent. Or deploy the full hub through Le Directeur and let it run your CRM automatically.
         </p>
         <div class="cta-btns">
           <a href="/agents.html" class="btn btn-primary btn-lg">Browse the Hub →</a>
-          <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline btn-lg">View on GitHub →</a>
+          <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline btn-lg" style="color:#EEE8E2;border-color:rgba(238,232,226,0.2);" onmouseover="this.style.borderColor='rgba(238,232,226,0.5)';this.style.background='rgba(238,232,226,0.05)'" onmouseout="this.style.borderColor='rgba(238,232,226,0.2)';this.style.background='transparent'">View on GitHub →</a>
         </div>
         <div style="margin-top:12px;">
-          <a href="https://app.revtown.io" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--muted)'">Run with Le Directeur at app.revtown.io →</a>
+          <a href="https://app.revtown.io" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(200,92,56,0.5);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(200,92,56,0.9)'" onmouseout="this.style.color='rgba(200,92,56,0.5)'">Run with Le Directeur at app.revtown.io →</a>
         </div>
         <p class="cta-note" style="margin-top:16px;">MIT licensed · forkable · community-built · bring your own CRM + API key</p>
       </div>
@@ -1274,7 +1192,7 @@
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <div class="footer-logo"><span class="le">Le</span><span>Claw</span></div>
+        <div class="footer-logo"><span class="re">Rev</span><span class="town">town</span></div>
         <ul class="footer-links">
           <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
           <li><a href="https://www.linkedin.com/company/leclaw/" target="_blank">LinkedIn</a></li>
