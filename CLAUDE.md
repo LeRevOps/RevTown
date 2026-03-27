@@ -179,6 +179,7 @@ The agent library is the product. Ship agents relentlessly.
 - **bin entry must not have `./` prefix** — `"leclaw": "cli/index.js"` not `"./cli/index.js"`.
 - **npm publish must run from `C:\Users\Benjamin\leclaw`** — not a parent directory.
 - **Le Directeur synthesis is shared logic** — core exports `buildSynthesisPrompt()`. Both CLI and app import it. Never duplicate it.
+- **npm package renames are blocking** — never update imports in leclaw-app before the renamed package exists on npm. Rename the code, publish, then update imports. Doing it in reverse breaks the Vercel build silently.
 
 ## Environment Variables
 ```
@@ -206,7 +207,7 @@ leclaw/
   examples/             # Custom agent template
   setup.js              # Setup wizard (plain JS)
   index.html            # Landing page (revtown.io)
-  package.json          # @revtown/core v0.3.6
+  package.json          # @revtown/core v0.3.7 (NOT YET PUBLISHED — publish before updating leclaw-app imports)
 ```
 
 ---
@@ -250,6 +251,16 @@ leclaw/
 ## Major Decisions (March 2026)
 
 These are architectural and strategic decisions made in prior sessions. Do not relitigate them.
+
+### Rebrand: LeClaw → Revtown (March 2026)
+The product was renamed from LeClaw to Revtown. One word. Le Directeur and all agent names are unchanged — they are brand assets, not product names. The French vocabulary (Le Directeur, un rapport, une mission, Le Témoin) is grounded in Lyon, France — Revtown is built in the spirit of Lyon, where RevOps is treated like a civic function. This is not an affectation; it has a real anchor and is a deliberate marketing differentiator. Do not suggest renaming Le Directeur or the agents.
+
+**npm package rename is in progress:** `@leclaw/core` → `@revtown/core`. Package renamed in `leclaw/package.json` (v0.3.7) but NOT YET PUBLISHED to npm. `leclaw-app` currently still imports `@leclaw/core` until publish is complete. When Benjamin publishes, update `leclaw-app/package.json` and all TS imports to `@revtown/core`. **Never update imports before the package exists on npm.**
+
+### Brand identity (March 2026)
+- **Color scheme:** White/warm (`#FAF8F5`) background, terracotta (`#C85C38`) accent. Dark clay (`#2A1A12`) for contrast sections (quote, CTA, footer). Revtown wordmark: "Rev" in terracotta, "town" in ink. Applied to `index.html` (revtown.io).
+- **Positioning line:** "Le Directeur runs your RevOps the way a Director would, catching problems before they become your problem in front of the CRO."
+- **Lyon anchor:** The French naming is intentional and has a real geographic home. Lean into it in marketing — it signals precision and craft.
 
 ### Hub positioning (March 2026)
 Revtown is not a CRM audit tool or a RevOps automation platform. It is the open-source GTM agent hub — the canonical place where RevOps practitioners encode domain knowledge as agents. Le Directeur is the orchestrator that deploys any hub agent. This positions Revtown like OpenClaw for CRMs/RevOps: the value compounds with every agent contributed.
