@@ -1,12 +1,12 @@
 {
-  "name": "@leclaw/core",
-  "version": "0.3.6",
-  "description": "Open-source RevOps agent framework for HubSpot and Salesforce",
+  "name": "@revtown/core",
+  "version": "0.3.7",
+  "description": "Open-source RevOps agent hub for HubSpot and Salesforce",
   "type": "module",
   "main": "./core/index.js",
   "types": "./core/index.d.ts",
   "bin": {
-    "leclaw": "cli/index.js"
+    "revtown": "cli/index.js"
   },
   "exports": {
     ".": {
@@ -54,7 +54,7 @@
   ],
   "author": "LeClaw <hello@leclaw.io>",
   "license": "MIT",
-  "homepage": "https://leclaw.io",
+  "homepage": "https://revtown.io",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeRevOps/leclaw.git"

@@ -1,21 +1,21 @@
-# LeClaw
+# Revtown
 
-**Your CRM is lying to you. LeClaw tells you where.**
+**Your CRM is lying to you. Revtown tells you where.**
 
 Every RevOps team has the same Friday afternoon moment: a deal slips, a close date was wrong for six weeks, a contact went dark and nobody noticed. You find out when your CRO asks in the pipeline review.
 
-LeClaw is a team of AI agents that runs against your CRM before that happens. Each agent owns a domain of revenue operations — data quality, pipeline health, BDR follow-up, forecast accuracy — and files a structured report. Le Directeur synthesizes them into one answer.
+Revtown is an open-source hub of RevOps agents that runs against your CRM before that happens. Each agent owns a domain of revenue operations — data quality, pipeline health, BDR follow-up, forecast accuracy — and files a structured report. Le Directeur synthesizes them into one answer.
 
 **You ask: "Why is our forecast unreliable?"**
-**LeClaw tells you: the 31 deals, the exact fields, the specific reason.**
+**Revtown tells you: the 31 deals, the exact fields, the specific reason.**
 
 ---
 
-> Native agents are features inside a single product. LeClaw is infrastructure across your entire GTM stack.
+> Native agents are features inside a single product. Revtown is the open-source GTM agent hub — agents for every domain, deployable against any CRM.
 
-**Hosted dashboard:** [app.leclaw.io](https://app.leclaw.io) — connect HubSpot, run agents, no terminal required
-**Self-hosted:** `npx leclaw` — interactive CLI, bring your own keys, full source available
-**npm:** `@leclaw/core` — build your own agents on the same framework
+**Hosted dashboard:** [app.revtown.io](https://app.revtown.io) — connect HubSpot, run agents, no terminal required
+**Self-hosted:** `npx revtown` — interactive CLI, bring your own keys, full source available
+**npm:** `@revtown/core` — build your own agents on the same framework
 
 ---
 
@@ -23,7 +23,7 @@ LeClaw is a team of AI agents that runs against your CRM before that happens. Ea
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  LeClaw · Le Directeur                          │
+│  Revtown · Le Directeur                         │
 │  orchestrateur · posez une question             │
 └─────────────────────────────────────────────────┘
 
@@ -55,7 +55,7 @@ Agents: le-stage-audit (54/100) · le-data-quality (61/100)
 ## Quick Start
 
 **Not a developer?** No terminal required — use the hosted dashboard:
-→ **[app.leclaw.io](https://app.leclaw.io)** — connect HubSpot, run agents, done.
+→ **[app.revtown.io](https://app.revtown.io)** — connect HubSpot, run agents, done.
 
 **Developer or self-hosted:**
 
@@ -63,13 +63,13 @@ Requires Node.js 18+, a [HubSpot Private App token](https://developers.hubspot.c
 
 ```bash
 # First time — connects HubSpot + Anthropic, writes .env, launches CLI
-npx leclaw setup
+npx revtown setup
 
 # Already configured
-npx leclaw
+npx revtown
 ```
 
-`npx leclaw setup` opens the right pages in your browser, verifies each connection, and writes your `.env` automatically.
+`npx revtown setup` opens the right pages in your browser, verifies each connection, and writes your `.env` automatically.
 
 ---
 
@@ -90,26 +90,28 @@ npx leclaw
 
 Each agent is a list of targeted CRM searches. No full table scans. No guessing. Only broken records are touched.
 
+Every live agent has a `CLAUDE.md` — copy it into any Claude project to apply that agent's logic to your CRM questions directly.
+
 ---
 
 ## Architecture
 
-LeClaw uses a French-named multi-agent model:
+Revtown uses a multi-agent model with a French-named orchestrator:
 
 | Concept | Name | Role |
 |---|---|---|
 | Orchestrator | **Le Directeur** | Dispatches agents, reads rapports, synthesizes insights |
-| Specialists | **les agents** | Each owns one CRM domain |
-| Validator | **Le Témoin** | Reviews proposed changes before write-back *(roadmap)* |
+| Workers | **les agents** | Each owns one CRM domain |
+| Validator | **Le Témoin** | Reviews proposed changes before write-back |
 | Coordinated run | **une mission** | A set of agents dispatched together |
 | Structured result | **un rapport** | Filed by each agent, readable by Le Directeur |
 | Precise exit | **Le Retrait** | Agent withdraws immediately if stuck, reports exact reason |
 
 **Model cascade:** Each agent uses Claude Haiku for its domain summary. Le Directeur uses Claude Sonnet once for the final synthesis. A full scan costs fractions of a cent.
 
-**Targeted fetching:** Agents use HubSpot's `filterGroups` search API — they find broken records directly instead of scanning your entire CRM. A contact with no phone and an open deal is fetched in one query. Clean records are never touched.
+**Targeted fetching:** Agents use HubSpot's `filterGroups` search API — they find broken records directly instead of scanning your entire CRM.
 
-**Docker isolation:** When Docker Desktop is installed, each agent runs in its own container — 512 MB RAM, 0.5 CPU, removed on exit. The `🐳` indicator confirms isolation is active. Falls back to in-process execution automatically if Docker is not available.
+**Docker isolation:** When Docker Desktop is installed, each agent runs in its own container — 512 MB RAM, 0.5 CPU, removed on exit.
 
 ---
 
@@ -119,7 +121,7 @@ Every agent is a list of checks. A check is a targeted search that fetches only 
 
 ```js
 // agents/le-my-agent/index.js
-import { runAgent } from "@leclaw/core";
+import { runAgent } from "@revtown/core";
 
 export const leMyAgent = {
   name: "le-my-agent",
@@ -154,56 +156,30 @@ runAgent(leMyAgent, {
 });
 ```
 
-**Time-based checks** — value computed fresh each run:
-
-```js
-filterGroups: () => [{
-  filters: [{
-    propertyName: "hs_lastmodifieddate",
-    operator: "LT",
-    value: String(Date.now() - 30 * 24 * 60 * 60 * 1000) // 30 days ago
-  }]
-}]
-```
-
-**Escalation** — a broken record is more critical with additional context:
-
-```js
-escalateIf: {
-  description: "has an open deal",
-  filterGroups: [{
-    filters: [
-      { propertyName: "email", operator: "NOT_HAS_PROPERTY" },
-      { propertyName: "associations.deal", operator: "HAS_PROPERTY" }
-    ]
-  }],
-  escalatedSeverity: "critical"
-}
-```
+See the `CLAUDE.md` in any live agent folder for the full fork guide.
 
 ---
 
 ## Project Structure
 
 ```
-leclaw/
+revtown/
   agents/
     le-data-quality/      # Field completeness, relationship hygiene
+      CLAUDE.md           # Fork guide + domain knowledge
     le-stage-audit/       # Deal pipeline and velocity
+      CLAUDE.md
   cli/
     index.ts              # Le Directeur — interactive REPL
   core/
     base.ts               # runAgent(), scoring, callClaude(), all types
     hubspot-search.ts     # Targeted search — only fetches broken records
-    hubspot-properties.ts # Dynamic custom property discovery
+    hubspot-write.ts      # applyPatch(), applyBatch() for write-back
     registry.ts           # Agent registry
     routing.ts            # Keyword router (zero tokens)
-    synthesis.ts          # Le Directeur synthesis prompts
-    agent-runner.ts       # Docker container entrypoint
-    docker-runner.ts      # Container lifecycle, auto-pull, fallback
+    synthesis.ts          # Le Directeur synthesis prompts + run history
   examples/
     le-custom-agent/      # Minimal example to fork
-  Dockerfile              # Agent runner image (leclaw/runner)
   setup.js                # Interactive setup wizard
 ```
 
@@ -212,11 +188,11 @@ leclaw/
 ## Design Principles
 
 1. **Shadow mode by default** — read-only until write-back is explicitly enabled. Never modifies your CRM without permission.
-2. **Bring your own keys** — your Anthropic API key, your CRM credentials. LeClaw pays $0 in AI costs on your behalf.
+2. **Bring your own keys** — your Anthropic API key, your CRM credentials. Revtown pays $0 in AI costs on your behalf.
 3. **Targeted fetching** — agents search for broken records directly. Clean records are never fetched.
-4. **Agents share context** — rapports let downstream agents build on prior findings without re-scanning.
+4. **CLAUDE.md per agent** — every agent's logic is documented and forkable. Copy it into Claude to use the logic without running any code.
 5. **Le Retrait** — an agent that cannot complete its work exits immediately with a precise reason. No spinning, no silent failures.
-6. **Open source = trust** — read the code. Everything LeClaw accesses and stores is auditable.
+6. **Open source = trust** — read the code. Everything Revtown accesses and stores is auditable.
 
 ---
 
@@ -228,7 +204,7 @@ ANTHROPIC_API_KEY=    # Anthropic API key
 SLACK_WEBHOOK_URL=    # Slack incoming webhook (optional)
 ```
 
-Run `npx leclaw setup` to configure these interactively.
+Run `npx revtown setup` to configure these interactively.
 
 ---
 
@@ -246,4 +222,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the agent spec and contribution guide
 
 Built by a Sales Ops practitioner who spent three years watching deals slip because the CRM was wrong.
 
-**[leclaw.io](https://leclaw.io) · [app.leclaw.io](https://app.leclaw.io) · [@LeRevOps](https://github.com/LeRevOps)**
+**[revtown.io](https://revtown.io) · [app.revtown.io](https://app.revtown.io) · [@LeRevOps](https://github.com/LeRevOps)**

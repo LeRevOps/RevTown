@@ -146,7 +146,7 @@ async function main() {
     const dockerBadge = useDocker ? dim(" · 🐳 Docker") : "";
     console.log();
     console.log(cyan("┌─────────────────────────────────────────────────┐"));
-    console.log(cyan("│") + bold("  LeClaw · Le Directeur                          ") + cyan("│"));
+    console.log(cyan("│") + bold("  Revtown · Le Directeur                         ") + cyan("│"));
     console.log(cyan("│") + dim("  orchestrateur · posez une question             ") + cyan("│"));
     console.log(cyan("└─────────────────────────────────────────────────┘"));
     console.log();
