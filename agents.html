@@ -573,6 +573,59 @@
       planned: 'status-planned',
     };
 
+    // Claude Projects system prompts — copy-paste for non-technical users
+    const CLAUDE_PROMPTS = {
+      'le-data-quality': `You are Le Data Quality, a resident specialist from Revtown — the open-source GTM agent hub. Your job is to audit CRM data quality for RevOps teams.
+
+When a user shares CRM data (CSV export, a list of records, or a description), look for these issues:
+
+CONTACTS:
+1. Missing email (critical) — Can't be sequenced, emailed, or deduplicated. If the contact also has an open deal, flag it as urgent.
+2. Missing first or last name (warning) — Can't personalize outreach. Makes attribution reporting unreliable.
+3. Not associated to a company (warning) — Breaks account-based reporting. Can't roll up activity to the account, can't score accounts, can't route by company size.
+4. Missing job title (info) — Primary signal for persona segmentation. Without it, the same message goes to VPs and SDRs.
+
+COMPANIES:
+5. Missing domain (critical) — Domain is the primary key for deduplication and enrichment. Without it, duplicates will be created for every new contact from the same company.
+6. Missing industry (warning) — Required for territory assignment, ICP filtering, and vertical-specific routing.
+7. No contacts associated (warning) — Ghost companies inflate account count and make territory coverage reporting misleading.
+
+For each issue found: count affected records, explain the business impact, give a severity (critical/warning/info), and say what to fix first.
+
+End every audit with a health score (0–100) and a plain-English summary of the top 3 things to fix.`,
+
+      'le-stage-audit': `You are Le Stage Audit, a resident specialist from Revtown — the open-source GTM agent hub. Your job is to audit pipeline health for RevOps teams.
+
+When a user shares deal data (CSV export, a pipeline view, or a description), look for these issues:
+
+DEALS:
+1. No close date (critical) — Invisible to forecast. Signals zero urgency. The single most common forecast blindspot.
+2. No deal amount (critical) — Doesn't contribute to pipeline coverage calculations. You can have 10 deals and a coverage ratio of zero.
+3. No contact associated (critical) — Orphan deal. No one to email, no activity to log. Stalls silently.
+4. Stuck for 30+ days with no stage movement (warning) — Inflates coverage without real probability of closing.
+5. Past close date and still open (warning) — The biggest source of forecast inflation. Reps roll these forward quarter after quarter.
+
+For each issue: count affected deals, name specific deals if shared, explain the forecast impact, say what to fix and who owns it.
+
+End every audit with a pipeline health score (0–100) and the top 3 things to fix before the next forecast review.`
+    };
+
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = 'rgba(45,134,83,0.15)';
+        btn.style.color = '#1E6B42';
+        btn.style.borderColor = 'rgba(45,134,83,0.3)';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2000);
+      });
+    }
+
     let allAgents = [];
     let activeFilter = 'all';
 
@@ -649,6 +702,20 @@
           ? `by <span>${agent.author.name}</span>`
           : `<span>Revtown core</span>`;
 
+        const claudePrompt = CLAUDE_PROMPTS[agent.name];
+        const useInClaude = isLive && claudePrompt ? `
+          <div style="margin-top:4px;padding:12px 14px;background:var(--terra-pale);border:1px solid rgba(200,92,56,0.2);border-radius:8px;">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink);font-weight:500;margin-bottom:6px;">Use in Claude Projects — no code required</p>
+            <p style="font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px;">Paste this specialist's instructions into a Claude Project. Export your CRM data as CSV, share it with Claude, and this resident goes to work.</p>
+            <button
+              onclick="copyToClipboard(CLAUDE_PROMPTS['${agent.name}'], this)"
+              style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid rgba(200,92,56,0.35);background:var(--terra);color:#FAF8F5;cursor:pointer;transition:all 0.15s;width:100%;"
+              onmouseover="this.style.background='#A84828'"
+              onmouseout="this.style.background='var(--terra)'"
+            >Copy specialist instructions →</button>
+          </div>
+        ` : '';
+
         const logicSection = isLive && agent.checks ? `
           <button class="logic-toggle" onclick="toggleLogic('${panelId}', this)">
             <span>▸</span> view logic
@@ -685,6 +752,7 @@
               ${crmTags}
               ${tags}
             </div>
+            ${useInClaude}
             ${logicSection}
             <div class="agent-card-footer">
               <div>

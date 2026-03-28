@@ -610,7 +610,7 @@
 
     .how-tracks {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
     }
 
@@ -761,7 +761,7 @@
       .pain-grid { grid-template-columns: 1fr; gap: 40px; }
       .agents-header { grid-template-columns: 1fr; gap: 24px; }
       .agent-grid { grid-template-columns: 1fr; }
-      .how-tracks { grid-template-columns: 1fr; }
+      .how-tracks { grid-template-columns: 1fr; gap: 12px; }
       .belief-inner { padding: 40px 24px; }
     }
   </style>
@@ -881,6 +881,47 @@
           </div>
           <div class="how-track-cta">
             <a href="/agents.html" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Meet the residents →</a>
+          </div>
+        </div>
+
+        <!-- Claude Projects track -->
+        <div class="how-track">
+          <div class="how-track-header">
+            <span class="how-track-label">// claude projects</span>
+            <span class="how-track-audience">RevOps Manager · No code needed</span>
+          </div>
+          <div class="how-steps">
+            <div class="how-step">
+              <div class="how-step-num">01</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Pick a resident</div>
+                <div class="how-step-desc">Go to the town directory and find the specialist you need — Le Data Quality, Le Stage Audit, or any live resident.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">02</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Copy their instructions</div>
+                <div class="how-step-desc">Every resident has a "Copy specialist instructions" button. One click copies their domain knowledge as a Claude Project prompt. No code, no API key, no setup.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">03</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Paste into Claude Projects</div>
+                <div class="how-step-desc">Open Claude, create a new Project, paste the instructions. The resident is now your Claude specialist — they know exactly what to look for in your CRM data.</div>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="how-step-num">04</div>
+              <div class="how-step-content">
+                <div class="how-step-title">Share your CRM export</div>
+                <div class="how-step-desc">Export contacts, deals, or companies from HubSpot or Salesforce as a CSV. Drop it in the chat. The resident audits it and tells you exactly what to fix.</div>
+              </div>
+            </div>
+          </div>
+          <div class="how-track-cta">
+            <a href="/agents.html" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Get a specialist →</a>
           </div>
         </div>
 
