@@ -6,23 +6,22 @@
   <title>RevTown — A growing town of AI agents that automate RevOps</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg:        #FAF8F5;
-      --bg-card:   #F2EDE8;
-      --bg-raised: #EAE3DC;
+      --bg-card:   #FFFFFF;
       --terra:     #C85C38;
       --terra-dim: #A84828;
-      --terra-pale:#F5E8E2;
+      --terra-pale:#FEF3EE;
       --green:     #2D8653;
       --ink:       #1F1A17;
-      --muted:     #7A6E68;
-      --faint:     #EAE3DC;
-      --border:    rgba(200,92,56,0.18);
-      --border-sm: rgba(31,26,23,0.08);
+      --muted:     #6A6360;
+      --subtle:    #ADA6A2;
+      --border:    #E2DDD8;
+      --border-sm: rgba(31,26,23,0.07);
     }
 
     html { scroll-behavior: smooth; }
@@ -31,20 +30,12 @@
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    section, nav, footer { position: relative; z-index: 1; }
-
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -53,589 +44,293 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 40px;
-      height: 60px;
-      background: rgba(250,248,245,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-sm);
+      height: 56px;
+      background: rgba(250,248,245,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .nav-logo img {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-    }
-
-    .nav-wordmark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 600;
-    }
-
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-logo img { width: 26px; height: 26px; border-radius: 5px; }
+    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; }
     .nav-wordmark .re   { color: var(--terra); }
     .nav-wordmark .town { color: var(--ink); }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.12s; }
     .nav-links a:hover { color: var(--ink); }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.15s;
-      border: none;
-      letter-spacing: 0.01em;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all 0.15s; border: none;
     }
-
-    .btn-primary { background: var(--terra); color: #FAF8F5; }
+    .btn-primary { background: var(--terra); color: #fff; }
     .btn-primary:hover { background: var(--terra-dim); }
+    .btn-outline { background: transparent; color: var(--terra); border: 1px solid rgba(200,92,56,0.35); }
+    .btn-outline:hover { border-color: var(--terra); background: var(--terra-pale); }
+    .btn-lg { padding: 11px 26px; font-size: 14px; border-radius: 8px; }
 
-    .btn-outline {
-      background: transparent;
-      color: var(--terra);
-      border: 1px solid rgba(200,92,56,0.35);
-    }
-    .btn-outline:hover {
-      border-color: var(--terra);
-      background: rgba(200,92,56,0.05);
-    }
-
-    .btn-lg { padding: 12px 28px; font-size: 14px; border-radius: 8px; }
-
-    /* ── HERO ── */
+    /* HERO */
     .hero {
-      padding: 140px 0 100px;
-      text-align: center;
+      padding: 140px 40px 80px;
+      max-width: 780px;
+      margin: 0 auto;
     }
 
-    .hero-badge {
+    .hero-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 14px;
-      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border: 1px solid rgba(200,92,56,0.25);
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--terra);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       background: var(--terra-pale);
     }
 
-    .hero-badge .dot {
+    .hero-dot {
       width: 5px; height: 5px;
       border-radius: 50%;
       background: var(--green);
       animation: pulse 2s infinite;
     }
 
-    @keyframes pulse {
-      0%,100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(52px, 7vw, 92px);
+      font-size: clamp(52px, 7vw, 88px);
       font-weight: 600;
       line-height: 1.0;
       letter-spacing: -1px;
       margin-bottom: 20px;
       color: var(--ink);
     }
-
     .hero h1 .re { color: var(--terra); }
 
     .hero-tagline {
-      font-size: clamp(16px, 2vw, 20px);
+      font-size: clamp(16px, 2vw, 19px);
       color: var(--muted);
       font-weight: 300;
-      max-width: 600px;
-      margin: 0 auto 64px;
-      line-height: 1.6;
+      max-width: 540px;
+      margin-bottom: 36px;
+      line-height: 1.65;
     }
-
     .hero-tagline strong { color: var(--ink); font-weight: 500; }
 
-    /* ── STATS BAR ── */
-    .stats-bar {
+    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .hero-stats {
       display: flex;
-      justify-content: center;
-      gap: 0;
+      gap: 28px;
       margin-top: 48px;
-      border: 1px solid var(--border-sm);
-      border-radius: 12px;
-      overflow: hidden;
-      max-width: 860px;
-      margin: 48px auto 0;
-      background: var(--bg-card);
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
-    .stat {
-      flex: 1;
-      padding: 20px 24px;
-      border-right: 1px solid var(--border-sm);
-      text-align: center;
-    }
+    .hero-stat { }
 
-    .stat:last-child { border-right: none; }
-
-    .stat-num {
+    .hero-stat-num {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 600;
       color: var(--terra);
       line-height: 1;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
-    .stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
+    .hero-stat-label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* AGENTS PREVIEW */
+    .agents-section {
+      padding: 0 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    /* ── SECTION COMMON ── */
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--terra);
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
       margin-bottom: 16px;
-      opacity: 0.8;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 4vw, 48px);
+      font-size: 22px;
       font-weight: 600;
-      line-height: 1.1;
-      margin-bottom: 16px;
       color: var(--ink);
     }
 
-    .section-body {
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.75;
-      max-width: 520px;
-    }
-
-    /* ── BELIEF ── */
-    .belief {
-      padding: 80px 0;
-      background: #2A1A12;
-    }
-
-    .belief-inner {
-      border-radius: 16px;
-      padding: 56px 72px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .belief-inner::before {
-      content: '"';
-      position: absolute;
-      top: -30px; left: 32px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 220px;
-      color: rgba(200,92,56,0.1);
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    .belief-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 2.8vw, 30px);
-      font-weight: 400;
-      line-height: 1.5;
-      color: #EEE8E2;
-      max-width: 720px;
-      margin: 0 auto 20px;
-    }
-
-    .belief-quote em { color: var(--terra); font-style: italic; }
-
-    .belief-attr {
+    .view-all-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: rgba(200,92,56,0.6);
-      letter-spacing: 0.06em;
+      color: var(--terra);
+      text-decoration: none;
+      transition: opacity 0.12s;
     }
+    .view-all-link:hover { opacity: 0.7; }
 
-    /* ── AGENTS ── */
-    .agents {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-sm);
-    }
-
-    .agents-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-      margin-bottom: 48px;
-    }
-
+    /* DOCKER HUB STYLE CARDS */
     .agent-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border-sm);
-      border: 1px solid var(--border-sm);
-      border-radius: 12px;
-      overflow: hidden;
+      grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+      gap: 10px;
     }
 
     .agent-card {
-      padding: 24px 28px;
       background: var(--bg-card);
-      transition: background 0.2s;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.15s, border-color 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .agent-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-color: #C5BEB8; }
+
+    .card-body {
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .agent-card:hover { background: var(--bg-raised); }
+    .card-header { display: flex; align-items: flex-start; gap: 12px; }
 
-    .agent-card-top {
+    .agent-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
     }
+
+    .card-title { flex: 1; min-width: 0; padding-top: 2px; }
 
     .agent-name {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       font-weight: 500;
-      color: var(--terra);
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+    .agent-namespace { font-size: 11px; color: var(--subtle); margin-top: 1px; }
 
-    .agent-status {
+    .status-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      padding: 2px 8px;
+      font-size: 9px;
+      font-weight: 500;
+      padding: 3px 7px;
       border-radius: 4px;
-      letter-spacing: 0.06em;
-    }
-
-    .status-live { background: rgba(45,134,83,0.1); color: #1E6B42; border: 1px solid rgba(45,134,83,0.2); }
-    .status-soon { background: rgba(200,92,56,0.08); color: var(--terra-dim); border: 1px solid rgba(200,92,56,0.2); }
-    .status-road { background: rgba(31,26,23,0.05); color: var(--muted); border: 1px solid var(--border-sm); }
-
-    .agent-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-    .agent-coming { opacity: 0.5; }
-
-    /* ── ARCHITECTURE ── */
-    .arch {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-sm);
-    }
-
-    .arch-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .arch-header .section-body {
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .arch-flow {
-      max-width: 680px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .arch-node {
-      background: var(--bg-card);
-      border: 1px solid var(--border-sm);
-      border-radius: 12px;
-      padding: 24px 32px;
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .arch-node.arch-special {
-      border-color: rgba(200,92,56,0.3);
-      background: var(--terra-pale);
-    }
-
-    .arch-node.arch-temoin {
-      border-color: rgba(180,140,20,0.25);
-    }
-
-    .arch-mono-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 6px 10px;
-      border-radius: 6px;
       flex-shrink: 0;
-      min-width: 36px;
-      text-align: center;
+      white-space: nowrap;
+      margin-top: 1px;
     }
+    .status-live    { background: rgba(45,134,83,0.1);  color: #1E6B42; border: 1px solid rgba(45,134,83,0.2); }
+    .status-beta    { background: rgba(200,92,56,0.08); color: #A84828; border: 1px solid rgba(200,92,56,0.2); }
+    .status-soon    { background: rgba(31,26,23,0.04);  color: var(--muted); border: 1px solid rgba(31,26,23,0.08); }
+    .status-planned { background: transparent; color: var(--subtle); border: 1px solid rgba(31,26,23,0.06); }
 
-    .arch-badge-ld { background: rgba(200,92,56,0.12); color: var(--terra); }
-    .arch-badge-ag { background: rgba(45,134,83,0.1); color: #1E6B42; }
-    .arch-badge-lt { background: rgba(180,140,20,0.1); color: #8A6A10; }
-
-    .arch-node-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .arch-node-name.color-terra { color: var(--terra); }
-    .arch-node-name.color-yellow { color: #8A6A10; }
-
-    .arch-node-role {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
+    .agent-desc {
+      font-size: 12.5px;
       color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-
-    .arch-node-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .arch-connector {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 32px;
-      position: relative;
-    }
-
-    .arch-connector::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: rgba(31,26,23,0.12);
-    }
-
-    .arch-connector-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--bg);
-      padding: 2px 10px;
-      border: 1px solid var(--border-sm);
-      border-radius: 100px;
-      position: relative;
-      z-index: 1;
-      letter-spacing: 0.06em;
-    }
-
-    /* ── DEMO ── */
-    .demo {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-sm);
-    }
-
-    .demo-header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .demo-header .section-body {
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .demo-frame-wrap {
-      position: relative;
-      max-width: 860px;
-      margin: 0 auto;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(200,92,56,0.2);
-      background: #1A0E08;
-    }
-
-    .demo-frame-bar {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 16px;
-      background: #2A1A12;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .demo-frame-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .demo-frame-url {
-      margin-left: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: rgba(200,92,56,0.6);
-      letter-spacing: 0.04em;
-    }
-
-    .demo-frame-wrap iframe {
-      width: 100%;
-      height: 700px;
-      border: none;
-      display: block;
-    }
-
-    /* ── HOW IT WORKS ── */
-    .how {
-      padding: 100px 0;
-      border-top: 1px solid var(--border-sm);
-    }
-
-    .how-header { text-align: center; margin-bottom: 56px; }
-
-    .how-tracks {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-    }
-
-    .how-track {
-      background: var(--bg-card);
-      border: 1px solid var(--border-sm);
-      border-radius: 12px;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    .how-track-header {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border-sm);
-      background: var(--bg-raised);
+    .card-footer {
+      padding: 9px 18px;
+      border-top: 1px solid #EEEAE6;
+      background: #FDFCFB;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .how-track-label {
+    .crm-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .crm-chip {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--terra);
-      letter-spacing: 0.08em;
+      font-size: 9.5px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--subtle);
     }
 
-    .how-track-audience {
-      font-size: 13px;
-      color: var(--muted);
-    }
+    .check-stat { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--subtle); }
 
-    .how-steps {
-      padding: 24px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .how-step {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .how-step-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--terra);
-      opacity: 0.5;
-      min-width: 24px;
-      padding-top: 2px;
-    }
-
-    .how-step-title {
-      font-weight: 500;
-      font-size: 14px;
-      color: var(--ink);
-      margin-bottom: 2px;
-    }
-    .how-step-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-    .how-track-cta {
-      padding: 16px 28px 24px;
-    }
-
-    /* ── CTA ── */
-    .cta {
-      padding: 120px 0;
+    /* CTA */
+    .cta-section {
       background: #2A1A12;
+      padding: 80px 40px;
+      text-align: center;
     }
 
-    .cta-inner { max-width: 560px; margin: 0 auto; text-align: center; }
-
-    .cta h2 {
+    .cta-section h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 54px);
+      font-size: clamp(32px, 4vw, 48px);
       font-weight: 600;
       line-height: 1.1;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       color: #EEE8E2;
     }
+    .cta-section h2 span { color: var(--terra); }
 
-    .cta h2 span { color: var(--terra); }
+    .cta-section p {
+      color: rgba(238,232,226,0.55);
+      font-size: 15px;
+      max-width: 440px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
 
-    .cta p { color: rgba(238,232,226,0.65); font-size: 16px; margin-bottom: 40px; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-cta-ghost {
+      display: inline-flex; align-items: center;
+      padding: 11px 26px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; text-decoration: none;
+      border: 1px solid rgba(238,232,226,0.2);
+      color: rgba(238,232,226,0.7);
+      transition: all 0.15s;
+    }
+    .btn-cta-ghost:hover { border-color: rgba(238,232,226,0.45); color: #EEE8E2; }
 
     .cta-note {
-      margin-top: 20px;
+      margin-top: 18px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: rgba(200,92,56,0.5);
+      font-size: 10.5px;
+      color: rgba(200,92,56,0.45);
     }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #1F1208;
-      padding: 32px 0;
-    }
+    /* FOOTER */
+    footer { background: #1F1208; padding: 28px 40px; }
 
     .footer-inner {
       display: flex;
@@ -643,507 +338,190 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      max-width: 1160px;
+      margin: 0 auto;
     }
 
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; }
     .footer-logo .re   { color: var(--terra); }
-    .footer-logo .town { color: rgba(238,232,226,0.7); }
+    .footer-logo .town { color: rgba(238,232,226,0.65); }
 
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
+    .footer-links { display: flex; gap: 20px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { color: rgba(238,232,226,0.35); text-decoration: none; font-size: 12px; transition: color 0.12s; }
+    .footer-links a:hover { color: rgba(238,232,226,0.7); }
 
-    .footer-links a {
-      color: rgba(238,232,226,0.4);
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.15s;
-    }
+    .footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: rgba(200,92,56,0.35); }
 
-    .footer-links a:hover { color: rgba(238,232,226,0.8); }
-
-    .footer-copy {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: rgba(200,92,56,0.4);
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
-      .container { padding: 0 20px; }
-      .stats-bar { flex-direction: column; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border-sm); }
-      .stat:last-child { border-bottom: none; }
-      .agents-header { grid-template-columns: 1fr; gap: 24px; }
+      .hero { padding: 120px 20px 60px; }
+      .agents-section { padding: 0 20px 60px; }
       .agent-grid { grid-template-columns: 1fr; }
-      .how-tracks { grid-template-columns: 1fr; gap: 12px; }
-      .belief-inner { padding: 40px 24px; }
+      .cta-section { padding: 60px 20px; }
+      footer { padding: 24px 20px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
-    <a href="#" class="nav-logo">
+    <a href="/" class="nav-logo">
       <img src="https://media.licdn.com/dms/image/v2/D4E0BAQHEcoq4xyPuNg/company-logo_100_100/B4EZ0WWimoI8AQ-/0/1774196501286/leclaw_logo?e=1775692800&v=beta&t=YPPjyI-jp-bnvf7d74bPrZqTZGj0800VNMhKoWbapbw" alt="RevTown" />
       <div class="nav-wordmark"><span class="re">Rev</span><span class="town">town</span></div>
     </a>
     <ul class="nav-links">
-      <li><a href="#how">How It Works</a></li>
-      <li><a href="#agents">The Town</a></li>
-      <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#demo" style="color:var(--terra);">Demo</a></li>
+      <li><a href="/agents.html">Agent Hub</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+      <li><a href="/request-agent.html">Request an Agent</a></li>
+      <li><a href="/contact.html">Contact</a></li>
     </ul>
     <a href="https://app.revtown.io" class="btn btn-primary">Get Started Free</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="container">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        open-source · MIT licensed · HubSpot native
+    <div class="hero-pill">
+      <span class="hero-dot"></span>
+      open-source · MIT licensed · HubSpot native
+    </div>
+
+    <h1>Welcome to <span class="re">Rev</span>town.</h1>
+
+    <p class="hero-tagline">
+      A growing town of AI agents that automate RevOps.
+      <strong>Your keys. Your CRM. You're the Mayor.</strong>
+    </p>
+
+    <div class="hero-btns">
+      <a href="/agents.html" class="btn btn-primary btn-lg">Browse agents →</a>
+      <a href="https://app.revtown.io" class="btn btn-outline btn-lg">Open dashboard →</a>
+    </div>
+
+    <div class="hero-stats" id="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-live">—</div>
+        <div class="hero-stat-label">citizens live today</div>
       </div>
-
-      <h1>Welcome to <span class="re">Rev</span>town.</h1>
-
-      <p class="hero-tagline">
-        A growing town of AI agents that automate RevOps.<br/>
-        <strong>Your keys. Your town. You're the Mayor.</strong><br/>
-        Le Directeur makes sure nothing gets missed.
-      </p>
-
-      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-        <a href="#agents" class="btn btn-primary btn-lg">Meet the residents →</a>
-        <a href="https://app.revtown.io" class="btn btn-outline btn-lg">Open the dashboard →</a>
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-total">—</div>
+        <div class="hero-stat-label">citizens total</div>
       </div>
-
-      <div class="stats-bar">
-        <div class="stat">
-          <div class="stat-num">2</div>
-          <div class="stat-label">citizens live today<br/>population growing</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">12</div>
-          <div class="stat-label">citizens planned<br/>full RevOps coverage</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">MIT</div>
-          <div class="stat-label">open to all<br/>fork it, contribute back</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">2 min</div>
-          <div class="stat-label">to your first<br/>citizen running</div>
-        </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">MIT</div>
+        <div class="hero-stat-label">open to all</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2 min</div>
+        <div class="hero-stat-label">to first run</div>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how">
-    <div class="container">
-      <div class="how-header">
-        <div class="section-label">// how it works</div>
-        <h2 class="section-title">Three ways in.<br/>Any path makes you a resident.</h2>
-        <p class="section-body" style="max-width:540px;margin:0 auto;">Pick a citizen, connect your CRM, get a report. No agents to configure, no workflows to build. The tedious work is already encoded.</p>
-      </div>
-      <div class="how-tracks">
-
-        <!-- Claude Projects track -->
-        <div class="how-track">
-          <div class="how-track-header">
-            <span class="how-track-label">// claude projects</span>
-            <span class="how-track-audience">No install · No API key</span>
-          </div>
-          <div class="how-steps">
-            <div class="how-step">
-              <div class="how-step-num">01</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Pick a citizen</div>
-                <div class="how-step-desc">Find the specialist you need — Le Data Quality, Le Stage Audit, or any live citizen in the town directory.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">02</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Copy their instructions</div>
-                <div class="how-step-desc">One click copies the citizen's domain knowledge as a Claude Project prompt. No code. No API key. No setup.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">03</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Paste into Claude Projects</div>
-                <div class="how-step-desc">Create a new Claude Project, paste the instructions. The citizen is now your specialist — they know exactly what to look for.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">04</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Drop in a CRM export</div>
-                <div class="how-step-desc">Export contacts or deals from HubSpot as a CSV. Drop it in the chat. Get a report on what to fix.</div>
-              </div>
-            </div>
-          </div>
-          <div class="how-track-cta">
-            <a href="#agents" class="btn btn-primary" style="width:100%;text-align:center;display:block;">Get a citizen →</a>
-          </div>
-        </div>
-
-        <!-- Le Directeur track -->
-        <div class="how-track">
-          <div class="how-track-header">
-            <span class="how-track-label">// le directeur</span>
-            <span class="how-track-audience">RevOps Manager · GTM Engineer</span>
-          </div>
-          <div class="how-steps">
-            <div class="how-step">
-              <div class="how-step-num">01</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Connect your CRM</div>
-                <div class="how-step-desc">Connect HubSpot in two minutes. Dashboard at app.revtown.io or <code style="font-family:monospace;font-size:12px;background:rgba(200,92,56,0.08);padding:1px 5px;border-radius:3px;color:var(--terra)">npx revtown setup</code> from the terminal.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">02</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Talk to Le Directeur</div>
-                <div class="how-step-desc">Ask anything in plain language. Le Directeur dispatches the right citizens, runs them in parallel, and synthesizes one answer.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">03</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Get a trend-aware report</div>
-                <div class="how-step-desc">The synthesis includes four weeks of run history — surfacing patterns across time, not just today's snapshot.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">04</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Fix what's broken</div>
-                <div class="how-step-desc">Le Témoin queues approved write-backs for execution. Every proposed fix is reviewed before touching your CRM.</div>
-              </div>
-            </div>
-          </div>
-          <div class="how-track-cta">
-            <a href="https://app.revtown.io" class="btn btn-outline" style="width:100%;text-align:center;display:block;">Run with Le Directeur →</a>
-          </div>
-        </div>
-
-        <!-- Fork it track -->
-        <div class="how-track">
-          <div class="how-track-header">
-            <span class="how-track-label">// fork it</span>
-            <span class="how-track-audience">GTM Engineer · Town Builder</span>
-          </div>
-          <div class="how-steps">
-            <div class="how-step">
-              <div class="how-step-num">01</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Clone the repo</div>
-                <div class="how-step-desc">The full framework is MIT licensed. Clone it, run existing citizens against your own CRM, and see how they're built.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">02</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Build a new citizen</div>
-                <div class="how-step-desc">Start from the <code style="font-family:monospace;font-size:12px;background:rgba(200,92,56,0.08);padding:1px 5px;border-radius:3px;color:var(--terra)">examples/</code> template. Define what "broken" looks like in your domain. Add CRM checks, write a summary prompt. That's a citizen.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">03</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Contribute it back</div>
-                <div class="how-step-desc">Open a PR. If you've run a GTM motion, you know what breaks. Encode that knowledge and add a specialist to the town.</div>
-              </div>
-            </div>
-            <div class="how-step">
-              <div class="how-step-num">04</div>
-              <div class="how-step-content">
-                <div class="how-step-title">Your name on the door</div>
-                <div class="how-step-desc">Every contributed citizen carries your name in its introduction. Your domain knowledge runs in CRMs across the town.</div>
-              </div>
-            </div>
-          </div>
-          <div class="how-track-cta">
-            <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline" style="width:100%;text-align:center;display:block;">View on GitHub →</a>
-          </div>
-        </div>
-
-      </div>
+  <section class="agents-section" id="agents">
+    <div class="section-head">
+      <div class="section-title">Meet the residents</div>
+      <a href="/agents.html" class="view-all-link">View all agents →</a>
+    </div>
+    <div class="agent-grid" id="agent-grid">
+      <!-- loaded from registry.json -->
     </div>
   </section>
 
-  <!-- QUOTE -->
-  <section class="belief">
-    <div class="container">
-      <div class="belief-inner">
-        <p class="belief-quote">
-          "RevOps is a function spread across every corner of the GTM stack —
-          lead routing, territory carving, order booking, rep compensation.
-          Each one is a manual process someone has to touch.
-          <em>AI allows us to put a specific agent on each one,</em>
-          freeing us up for strategy and better serving the people we're here to support:
-          the sales team in front of the customer."
-        </p>
-        <p class="belief-attr">— Benjamin LeBlanc, GTM Architect · Docker</p>
-      </div>
+  <section class="cta-section">
+    <h2>The town is <span>open to everyone.</span></h2>
+    <p>Pick a citizen and run it against your CRM in two minutes. Or let Le Directeur coordinate the whole town.</p>
+    <div class="cta-btns">
+      <a href="/agents.html" class="btn btn-primary btn-lg">Browse agents →</a>
+      <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn-cta-ghost btn-lg">View on GitHub →</a>
     </div>
+    <p class="cta-note">MIT licensed · forkable · bring your own API key</p>
   </section>
 
-  <!-- AGENTS -->
-  <section class="agents" id="agents">
-    <div class="container">
-      <div class="agents-header">
-        <div>
-          <div class="section-label">// the town directory</div>
-          <h2 class="section-title">Meet the<br/>residents.</h2>
-        </div>
-        <div style="padding-top: 40px;">
-          <p class="section-body" style="margin-bottom: 20px;">
-            Every citizen owns a domain. Le Data Quality watches your records. Le Stage Audit watches your pipeline. Each new citizen adds a specialist — contributed by practitioners who ran that motion and encoded what failure looks like.
-          </p>
-          <p class="section-body" style="font-size:13px;margin-bottom:20px;">
-            Population: 2 live · 10 coming
-          </p>
-        </div>
-      </div>
-
-      <div class="agent-grid">
-        <div class="agent-card">
-          <div class="agent-card-top">
-            <div class="agent-name">le-data-quality</div>
-            <span class="agent-status status-live">live</span>
-          </div>
-          <div class="agent-desc">Field completeness, relationship hygiene, missing associations. Generates a CRM health score and flags every record that needs attention.</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-card-top">
-            <div class="agent-name">le-stage-audit</div>
-            <span class="agent-status status-live">live</span>
-          </div>
-          <div class="agent-desc">Deal velocity and pipeline health. Stuck deals, missing close dates, stage-skip violations. Flags the ones your reps thought nobody would notice.</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-card-top">
-            <div class="agent-name">le-bdr</div>
-            <span class="agent-status status-soon">coming soon</span>
-          </div>
-          <div class="agent-desc">Follow-up SLA gaps, unworked MQLs, sequence health. BDR accountability without the spreadsheet.</div>
-        </div>
-        <div class="agent-card">
-          <div class="agent-card-top">
-            <div class="agent-name">le-forecast</div>
-            <span class="agent-status status-soon">coming soon</span>
-          </div>
-          <div class="agent-desc">Commit accuracy, pipeline coverage ratio, category misuse. Know what's real before the Friday review.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-plumber</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Routing gaps, unassigned leads, round-robin health. A missing field shouldn't strand a lead.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-renewal</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Renewal risk, upcoming dates with no outreach, expansion signals going unworked.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-deal-desk</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Missing line items, discount anomalies, approval gaps. Deal structure that holds up to scrutiny.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-activities</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Meeting and call logging gaps. Dark contacts with no activity are invisible to forecasting.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-duplicates</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Identity resolution across contacts and companies. Duplicates corrupt every citizen above them.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-territory</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Coverage gaps, misaligned assignments, rep territory health. Territory carves that hold up at QBR.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-commission</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Accuracy, dispute prevention, quota hygiene. Catch comp errors before they become HR conversations.</div>
-        </div>
-        <div class="agent-card agent-coming">
-          <div class="agent-card-top">
-            <div class="agent-name">le-qbr</div>
-            <span class="agent-status status-road">roadmap</span>
-          </div>
-          <div class="agent-desc">Automated QBR prep, trend analysis, performance summaries. The deck that writes itself.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ARCHITECTURE -->
-  <section class="arch" id="architecture">
-    <div class="container">
-      <div class="arch-header">
-        <div class="section-label">// architecture</div>
-        <h2 class="section-title">Le Directeur<br/>runs the town.</h2>
-        <p class="section-body">
-          Every citizen files a report. Le Directeur reads them all and synthesizes one answer. Le Témoin reviews every write-back before it touches your CRM.
-        </p>
-      </div>
-
-      <div class="arch-flow">
-
-        <!-- Le Directeur -->
-        <div class="arch-node arch-special">
-          <div class="arch-mono-badge arch-badge-ld">LD</div>
-          <div class="arch-node-content">
-            <div class="arch-node-name color-terra">Le Directeur</div>
-            <div class="arch-node-role">mayor's right hand · coordinates the town</div>
-            <div class="arch-node-desc">
-              The orchestrating agent. Coordinates which citizens run, in what order, with what context.
-              Reads every report and synthesizes a final insight no individual citizen can see alone.
-              Talk to it however you like — it knows what to do.
-            </div>
-          </div>
-        </div>
-
-        <div class="arch-connector">
-          <span class="arch-connector-label">dispatches → citizens</span>
-        </div>
-
-        <!-- The Citizens -->
-        <div class="arch-node">
-          <div class="arch-mono-badge arch-badge-ag">12</div>
-          <div class="arch-node-content">
-            <div class="arch-node-name">the citizens</div>
-            <div class="arch-node-role">specialists · each files a report</div>
-            <div class="arch-node-desc">
-              Each citizen owns a domain: data quality, pipeline stage, BDR follow-up, forecast accuracy.
-              They fetch only broken records from your CRM — no full scans, no wasted compute.
-              Every citizen returns a structured report: a score, flagged issues, and a plain-English summary.
-            </div>
-          </div>
-        </div>
-
-        <div class="arch-connector">
-          <span class="arch-connector-label">proposes → write-back</span>
-        </div>
-
-        <!-- Le Témoin -->
-        <div class="arch-node arch-temoin">
-          <div class="arch-mono-badge arch-badge-lt">LT</div>
-          <div class="arch-node-content">
-            <div class="arch-node-name color-yellow">Le Témoin</div>
-            <div class="arch-node-role">write-back queue · reviews before every change</div>
-            <div class="arch-node-desc">
-              No change touches your CRM without passing through Le Témoin.
-              Approval can be automatic (high-confidence, low-risk) or require human sign-off.
-              Write-back is always opt-in.
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- DEMO -->
-  <section class="demo" id="demo">
-    <div class="container">
-      <div class="demo-header">
-        <div class="section-label">// live demo</div>
-        <h2 class="section-title">Watch Le Directeur run.</h2>
-        <p class="section-body">
-          Le Directeur dispatches citizens. Each files a report.
-          The synthesis surfaces what no single citizen could see alone.
-        </p>
-      </div>
-
-      <div class="demo-frame-wrap">
-        <div class="demo-frame-bar">
-          <div class="demo-frame-dot" style="background:#F87171;"></div>
-          <div class="demo-frame-dot" style="background:#FACC15;"></div>
-          <div class="demo-frame-dot" style="background:#4ADE80;"></div>
-          <span class="demo-frame-url">app.revtown.io/demo</span>
-        </div>
-        <iframe
-          src="https://app.revtown.io/demo"
-          title="RevTown demo"
-          loading="lazy"
-          allow="clipboard-write"
-        ></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta" id="get-started">
-    <div class="container">
-      <div class="cta-inner">
-        <div class="section-label" style="color:rgba(200,92,56,0.7);">// open source</div>
-        <h2>The town is <span>open to everyone.</span></h2>
-        <p>
-          Pick a citizen and run it against your CRM in two minutes. Add your own domain knowledge and contribute a specialist. Or let Le Directeur coordinate the whole town.
-        </p>
-        <div class="cta-btns">
-          <a href="#agents" class="btn btn-primary btn-lg">Meet the residents →</a>
-          <a href="https://github.com/LeRevOps/leclaw" target="_blank" class="btn btn-outline btn-lg" style="color:#EEE8E2;border-color:rgba(238,232,226,0.2);" onmouseover="this.style.borderColor='rgba(238,232,226,0.5)';this.style.background='rgba(238,232,226,0.05)'" onmouseout="this.style.borderColor='rgba(238,232,226,0.2)';this.style.background='transparent'">View on GitHub →</a>
-        </div>
-        <div style="margin-top:12px;">
-          <a href="https://app.revtown.io" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(200,92,56,0.5);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='rgba(200,92,56,0.9)'" onmouseout="this.style.color='rgba(200,92,56,0.5)'">Run with Le Directeur at app.revtown.io →</a>
-        </div>
-        <p class="cta-note" style="margin-top:16px;">MIT licensed · forkable · HubSpot native · bring your own API key</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-logo"><span class="re">Rev</span><span class="town">town</span></div>
-        <ul class="footer-links">
-          <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/company/leclaw/" target="_blank">LinkedIn</a></li>
-          <li><a href="/contact.html">Contact</a></li>
-          <li><a href="/privacy.html">Privacy</a></li>
-          <li><a href="/terms.html">Terms</a></li>
-        </ul>
-        <p class="footer-copy">© 2026 RevTown. A growing town of AI agents that automate RevOps.</p>
-      </div>
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="re">Rev</span><span class="town">town</span></div>
+      <ul class="footer-links">
+        <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/company/leclaw/" target="_blank">LinkedIn</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 RevTown. A growing town of AI agents that automate RevOps.</p>
     </div>
   </footer>
+
+  <script>
+    const DOMAIN_COLOR = {
+      'data-quality': { bg: '#FEF3EE', fg: '#C85C38' },
+      'pipeline':     { bg: '#EEF6F0', fg: '#2D8653' },
+      'bdr':          { bg: '#EEF2FE', fg: '#3B5EC8' },
+      'activities':   { bg: '#F5EFFE', fg: '#6D28D9' },
+      'forecast':     { bg: '#FFFBEB', fg: '#B45309' },
+      'duplicates':   { bg: '#FDF2F8', fg: '#BE185D' },
+      'commission':   { bg: '#F0FDFA', fg: '#0D9488' },
+      'routing':      { bg: '#FFF7ED', fg: '#C2410C' },
+      'qbr':          { bg: '#EEF2FF', fg: '#4338CA' },
+      'renewal':      { bg: '#FFF1F2', fg: '#BE123C' },
+      'territory':    { bg: '#F7FEE7', fg: '#65A30D' },
+    };
+
+    const STATUS_CLASS = { live: 'status-live', beta: 'status-beta', soon: 'status-soon', planned: 'status-planned' };
+    const STATUS_LABEL = { live: 'live', beta: 'beta', soon: 'coming soon', planned: 'planned' };
+
+    function getInitials(name) {
+      const parts = name.replace(/^le-/, '').split('-');
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return parts.slice(0, 2).map(p => p[0].toUpperCase()).join('');
+    }
+
+    function getAvatarStyle(domain) {
+      const c = DOMAIN_COLOR[domain] || { bg: '#F5F0EB', fg: '#7A6E68' };
+      return `background:${c.bg};color:${c.fg};`;
+    }
+
+    async function loadRegistry() {
+      const res = await fetch('/registry.json');
+      const data = await res.json();
+      const agents = data.agents;
+
+      document.getElementById('stat-total').textContent = agents.length;
+      document.getElementById('stat-live').textContent = agents.filter(a => a.status === 'live' || a.status === 'beta').length;
+
+      const grid = document.getElementById('agent-grid');
+      grid.innerHTML = agents.map(agent => {
+        const initials = getInitials(agent.name);
+        const avatarStyle = getAvatarStyle(agent.domain);
+        const statusCls = STATUS_CLASS[agent.status] || 'status-planned';
+        const statusTxt = STATUS_LABEL[agent.status] || agent.status;
+        const authorText = agent.author.type === 'community' ? agent.author.name : 'revtown/core';
+        const crmChips = agent.crm.map(c => `<span class="crm-chip">${c}</span>`).join('');
+        const checkStat = agent.checkCount > 0 ? `<span class="check-stat">${agent.checkCount} checks</span>` : '';
+
+        return `
+          <a href="/agents.html" class="agent-card">
+            <div class="card-body">
+              <div class="card-header">
+                <div class="agent-avatar" style="${avatarStyle}">${initials}</div>
+                <div class="card-title">
+                  <div class="agent-name">${agent.name}</div>
+                  <div class="agent-namespace">${authorText}</div>
+                </div>
+                <span class="status-pill ${statusCls}">${statusTxt}</span>
+              </div>
+              <p class="agent-desc">${agent.description}</p>
+            </div>
+            <div class="card-footer">
+              <div class="crm-chips">${crmChips}</div>
+              ${checkStat}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    loadRegistry();
+  </script>
 
 </body>
 </html>

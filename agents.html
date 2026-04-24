@@ -6,22 +6,22 @@
   <title>Agent Hub — Revtown</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #FAF8F5;
-      --bg-card:   #F2EDE8;
-      --bg-raised: #EAE3DC;
+      --bg:        #F4F0ED;
+      --card:      #FFFFFF;
       --terra:     #C85C38;
       --terra-dim: #A84828;
-      --terra-pale:#F5E8E2;
+      --terra-pale:#FEF3EE;
       --green:     #2D8653;
       --ink:       #1F1A17;
-      --muted:     #7A6E68;
-      --border:    rgba(200,92,56,0.18);
-      --border-sm: rgba(31,26,23,0.08);
+      --muted:     #6A6360;
+      --subtle:    #ADA6A2;
+      --border:    #E0DAD5;
+      --border-sm: rgba(31,26,23,0.07);
     }
 
     html { scroll-behavior: smooth; }
@@ -30,441 +30,340 @@
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
-    section, nav, footer, main { position: relative; z-index: 1; }
-
-    .container { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
-
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: sticky;
+      top: 0;
       z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
-      height: 60px;
-      background: rgba(250,248,245,0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-sm);
+      padding: 0 32px;
+      height: 54px;
+      background: rgba(244,240,237,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
-    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-logo img { width: 26px; height: 26px; border-radius: 5px; }
+    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; }
     .nav-wordmark .re   { color: var(--terra); }
     .nav-wordmark .town { color: var(--ink); }
 
-    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.15s; }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.12s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 6px; padding: 8px 18px; border-radius: 6px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 16px; border-radius: 6px;
       font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
-      cursor: pointer; text-decoration: none; transition: all 0.15s; border: none;
+      cursor: pointer; text-decoration: none; transition: all 0.12s; border: none;
     }
-    .btn-primary { background: var(--terra); color: #FAF8F5; }
+    .btn-primary { background: var(--terra); color: #fff; }
     .btn-primary:hover { background: var(--terra-dim); }
-    .btn-outline { background: transparent; color: var(--terra); border: 1px solid rgba(200,92,56,0.35); }
-    .btn-outline:hover { border-color: var(--terra); background: rgba(200,92,56,0.05); }
 
-    /* ── HEADER ── */
-    .page-header {
-      padding: 120px 0 64px;
-      text-align: center;
+    /* MAIN */
+    .main-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
     }
 
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--terra);
-      margin-bottom: 16px;
-      opacity: 0.8;
-    }
+    /* PAGE HEADER */
+    .page-header { margin-bottom: 24px; }
 
-    .page-header h1 {
+    .page-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(42px, 6vw, 72px);
+      font-size: 32px;
       font-weight: 600;
-      line-height: 1.0;
-      margin-bottom: 16px;
       color: var(--ink);
+      margin-bottom: 4px;
     }
+    .page-title .re { color: var(--terra); }
 
-    .page-header h1 .re { color: var(--terra); }
+    .page-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
-    .page-header p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 520px;
-      margin: 0 auto 48px;
-      font-weight: 300;
-    }
-
-    /* ── FILTERS ── */
-    .filters {
+    /* TOOLBAR */
+    .toolbar {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
+      gap: 16px;
       flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 64px;
     }
 
-    .filter-btn {
-      padding: 6px 14px;
+    .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .filter-pill {
+      padding: 4px 12px;
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
+      font-size: 10.5px;
       cursor: pointer;
-      border: 1px solid var(--border-sm);
-      background: transparent;
+      border: 1px solid var(--border);
+      background: var(--card);
       color: var(--muted);
-      transition: all 0.15s;
+      transition: all 0.12s;
     }
+    .filter-pill:hover { color: var(--ink); border-color: rgba(31,26,23,0.18); }
+    .filter-pill.active { background: var(--terra-pale); border-color: rgba(200,92,56,0.35); color: var(--terra); }
 
-    .filter-btn:hover { color: var(--ink); border-color: rgba(31,26,23,0.2); }
-
-    .filter-btn.active {
-      background: var(--terra-pale);
-      border-color: rgba(200,92,56,0.4);
-      color: var(--terra);
-    }
-
-    /* ── STATS BAR ── */
-    .hub-stats {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      margin-bottom: 48px;
-      flex-wrap: wrap;
-    }
+    .hub-stats { display: flex; gap: 18px; flex-wrap: wrap; }
 
     .hub-stat {
-      text-align: center;
       font-family: 'JetBrains Mono', monospace;
-    }
-
-    .hub-stat-num {
-      font-size: 28px;
-      font-weight: 500;
-      color: var(--terra);
-      display: block;
-    }
-
-    .hub-stat-label {
       font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      color: var(--subtle);
+      white-space: nowrap;
     }
+    .hub-stat strong { color: var(--ink); font-weight: 500; }
 
-    /* ── AGENT GRID ── */
+    /* GRID */
     .agent-grid {
+      margin-top: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-      margin-bottom: 80px;
+      grid-template-columns: repeat(auto-fill, minmax(276px, 1fr));
+      gap: 10px;
     }
 
+    /* CARD */
     .agent-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-sm);
-      border-radius: 12px;
-      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      transition: border-color 0.15s;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .agent-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-color: #C5BEB8; }
+
+    .card-body {
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .agent-card:hover { border-color: rgba(200,92,56,0.25); }
-    .agent-card.is-live { border-color: rgba(45,134,83,0.2); }
-    .agent-card.is-live:hover { border-color: rgba(45,134,83,0.4); }
-
-    .agent-card-top {
+    .card-header {
       display: flex;
       align-items: flex-start;
-      justify-content: space-between;
       gap: 12px;
     }
 
-    .agent-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: var(--terra);
-      font-weight: 500;
-    }
-
-    .agent-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .status-live    { background: rgba(45,134,83,0.1);  color: #1E6B42; border: 1px solid rgba(45,134,83,0.2); }
-    .status-beta    { background: rgba(200,92,56,0.08); color: var(--terra-dim); border: 1px solid rgba(200,92,56,0.2); }
-    .status-soon    { background: rgba(31,26,23,0.05);  color: var(--muted); border: 1px solid var(--border-sm); }
-    .status-planned { background: transparent; color: rgba(122,110,104,0.5); border: 1px solid var(--border-sm); }
-
-    .agent-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    .agent-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .agent-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      background: var(--bg-raised);
-      border: 1px solid var(--border-sm);
-      padding: 2px 7px;
-      border-radius: 4px;
-    }
-
-    .agent-crm {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--terra);
-      background: var(--terra-pale);
-      border: 1px solid rgba(200,92,56,0.2);
-      padding: 2px 7px;
-      border-radius: 4px;
-    }
-
-    .agent-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-sm);
-      margin-top: auto;
-    }
-
-    .agent-author {
-      font-size: 11px;
-      color: rgba(122,110,104,0.6);
-    }
-
-    .agent-author span { color: var(--muted); }
-
-    .agent-link {
-      font-size: 12px;
-      color: var(--terra);
-      text-decoration: none;
-      font-weight: 500;
-      transition: opacity 0.15s;
-    }
-
-    .agent-link:hover { opacity: 0.75; }
-
-    .agent-checks {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: rgba(122,110,104,0.5);
-    }
-
-    /* ── LOGIC PANEL ── */
-    .logic-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--terra);
-      padding: 0;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: opacity 0.15s;
-      text-decoration: none;
-    }
-    .logic-toggle:hover { opacity: 0.75; }
-
-    .logic-panel {
-      display: none;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-sm);
-    }
-    .logic-panel.open { display: block; }
-
-    .check-item {
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-sm);
-    }
-    .check-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-
-    .check-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .check-id {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--terra);
-    }
-
-    .severity-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      padding: 1px 6px;
-      border-radius: 3px;
-    }
-    .sev-critical { background: rgba(200,50,50,0.1); color: #B03030; }
-    .sev-warning  { background: rgba(180,120,20,0.1); color: #8A6010; }
-    .sev-info     { background: rgba(200,92,56,0.08); color: var(--terra-dim); }
-
-    .check-why {
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 8px;
-    }
-
-    .check-filter {
-      background: #2A1A12;
-      border: 1px solid rgba(200,92,56,0.15);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: #D4A090;
-      overflow-x: auto;
-      white-space: pre;
-      margin-bottom: 6px;
-    }
-
-    .check-fix {
-      font-size: 11px;
-      color: #1E6B42;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .fork-block {
-      margin-top: 16px;
-      padding: 12px 14px;
-      background: var(--terra-pale);
-      border: 1px solid rgba(200,92,56,0.2);
+    .agent-avatar {
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .fork-block p {
+      justify-content: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .fork-btns {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .fork-btn {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-decoration: none;
+      font-size: 12px;
       font-weight: 500;
-      white-space: nowrap;
-      transition: all 0.15s;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
     }
-    .fork-btn-primary { background: var(--terra); color: #FAF8F5; border: 1px solid var(--terra); }
-    .fork-btn-primary:hover { background: var(--terra-dim); }
-    .fork-btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border-sm); }
-    .fork-btn-ghost:hover { color: var(--ink); border-color: rgba(31,26,23,0.2); }
 
-    /* ── CONTRIBUTE CTA ── */
+    .card-title { flex: 1; min-width: 0; padding-top: 2px; }
+
+    .agent-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .agent-namespace { font-size: 11px; color: var(--subtle); margin-top: 1px; }
+
+    .status-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      padding: 3px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      margin-top: 1px;
+    }
+    .status-live    { background: rgba(45,134,83,0.1);  color: #1E6B42; border: 1px solid rgba(45,134,83,0.2); }
+    .status-beta    { background: rgba(200,92,56,0.08); color: #A84828; border: 1px solid rgba(200,92,56,0.2); }
+    .status-soon    { background: rgba(31,26,23,0.04);  color: var(--muted); border: 1px solid rgba(31,26,23,0.08); }
+    .status-planned { background: transparent; color: var(--subtle); border: 1px solid rgba(31,26,23,0.06); }
+
+    .agent-desc {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    /* ACTIONS */
+    .card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .action-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 5px 11px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.12s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .action-run { background: var(--terra); color: #fff; }
+    .action-run:hover { background: var(--terra-dim); }
+    .action-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .action-ghost:hover { color: var(--ink); border-color: rgba(31,26,23,0.2); }
+
+    /* LOGIC EXPAND */
+    .logic-section { padding: 0 18px 14px; }
+
+    .logic-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: var(--terra);
+      padding: 0; display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.12s;
+    }
+    .logic-toggle:hover { opacity: 0.7; }
+
+    .logic-panel { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #EEEAE6; }
+    .logic-panel.open { display: block; }
+
+    .check-item { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #EEEAE6; }
+    .check-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+    .check-hd { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+    .check-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--terra); }
+
+    .sev-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 1px 5px; border-radius: 3px; }
+    .sev-critical { background: rgba(200,50,50,0.08); color: #B03030; }
+    .sev-warning  { background: rgba(180,120,20,0.08); color: #8A6010; }
+    .sev-info     { background: rgba(200,92,56,0.06);  color: #A84828; }
+
+    .check-why { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 6px; }
+
+    .check-filter-code {
+      background: #1E1208;
+      border: 1px solid rgba(200,92,56,0.1);
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: #D4A090;
+      overflow-x: auto;
+      white-space: pre;
+      margin-bottom: 5px;
+    }
+
+    .check-fix { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #1E6B42; }
+
+    /* CARD FOOTER */
+    .card-footer {
+      padding: 9px 18px;
+      border-top: 1px solid #EEEAE6;
+      background: #FDFCFB;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .crm-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    .crm-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--subtle);
+    }
+
+    .check-stat { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--subtle); }
+
+    /* EMPTY STATE */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 0;
+      color: var(--subtle);
+      font-size: 13px;
+    }
+
+    /* CTA */
     .contribute-cta {
       background: #2A1A12;
-      padding: 80px 0;
+      padding: 60px 32px;
       text-align: center;
     }
 
     .contribute-cta h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 4vw, 48px);
+      font-size: 30px;
       font-weight: 600;
-      margin-bottom: 12px;
       color: #EEE8E2;
+      margin-bottom: 10px;
     }
-
     .contribute-cta h2 span { color: var(--terra); }
 
     .contribute-cta p {
-      color: rgba(238,232,226,0.6);
-      font-size: 16px;
-      max-width: 480px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
+      color: rgba(238,232,226,0.5);
+      font-size: 13px;
+      max-width: 440px;
+      margin: 0 auto 24px;
+      line-height: 1.65;
     }
 
-    .contribute-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .contribute-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      text-align: center;
-      padding: 80px 0;
-      color: var(--muted);
-      font-size: 14px;
-      grid-column: 1 / -1;
+    .btn-cta-ghost {
+      display: inline-flex; align-items: center;
+      padding: 8px 18px; border-radius: 6px;
+      font-size: 13px; font-weight: 500; text-decoration: none;
+      border: 1px solid rgba(238,232,226,0.15);
+      color: rgba(238,232,226,0.65);
+      transition: all 0.12s;
     }
+    .btn-cta-ghost:hover { border-color: rgba(238,232,226,0.4); color: #EEE8E2; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: #1F1208;
-      padding: 32px 40px;
-      text-align: center;
-    }
+    /* FOOTER */
+    footer { background: #1F1208; padding: 24px 32px; text-align: center; }
 
     .footer-links {
-      display: flex; gap: 24px; justify-content: center;
-      margin-bottom: 16px; list-style: none; flex-wrap: wrap;
+      display: flex; gap: 20px; justify-content: center;
+      margin-bottom: 10px; list-style: none; flex-wrap: wrap;
     }
+    .footer-links a { font-size: 12px; color: rgba(238,232,226,0.35); text-decoration: none; transition: color 0.12s; }
+    .footer-links a:hover { color: rgba(238,232,226,0.7); }
 
-    .footer-links a { font-size: 13px; color: rgba(238,232,226,0.4); text-decoration: none; transition: color 0.15s; }
-    .footer-links a:hover { color: rgba(238,232,226,0.8); }
-    .footer-copy { font-size: 12px; color: rgba(200,92,56,0.4); font-family: 'JetBrains Mono', monospace; }
+    .footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: rgba(200,92,56,0.35); }
 
-    @media (max-width: 860px) {
-      nav { padding: 0 20px; }
+    @media (max-width: 700px) {
+      nav { padding: 0 16px; }
       .nav-links { display: none; }
-      .container { padding: 0 20px; }
+      .main-wrap { padding: 28px 16px 60px; }
       .agent-grid { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -477,73 +376,51 @@
     </a>
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
-      <li><a href="/agents.html" style="color:var(--terra);">Agent Hub</a></li>
+      <li><a href="/agents.html" class="active">Agent Hub</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
-      <li><a href="/request-agent.html">Request an Agent</a></li>
+      <li><a href="/request-agent.html">Request</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
     <a href="https://app.revtown.io" class="btn btn-primary">Get Started Free</a>
   </nav>
 
-  <main>
-    <div class="container">
+  <main class="main-wrap">
 
-      <!-- HEADER -->
-      <div class="page-header">
-        <div class="section-label">// the town directory</div>
-        <h1>Meet the <span class="re">residents.</span></h1>
-        <p>Every specialist in town watches a different corner of your CRM. Browse them, run them, or add one of your own.</p>
-
-        <!-- FILTERS -->
-        <div class="filters" id="filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="live">Live</button>
-          <button class="filter-btn" data-filter="soon">Coming soon</button>
-          <button class="filter-btn" data-filter="hubspot">HubSpot</button>
-          <button class="filter-btn" data-filter="salesforce">Salesforce</button>
-          <button class="filter-btn" data-filter="community">Community</button>
+    <div class="page-header">
+      <h1 class="page-title"><span class="re">Rev</span>town Agent Hub</h1>
+      <p class="page-desc">Browse, run, or fork RevOps specialists. Each agent watches a different corner of your CRM.</p>
+      <div class="toolbar">
+        <div class="filter-pills" id="filters">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="live">Live</button>
+          <button class="filter-pill" data-filter="soon">Coming soon</button>
+          <button class="filter-pill" data-filter="hubspot">HubSpot</button>
+          <button class="filter-pill" data-filter="salesforce">Salesforce</button>
+          <button class="filter-pill" data-filter="community">Community</button>
         </div>
-
-        <!-- STATS -->
-        <div class="hub-stats" id="hub-stats">
-          <div class="hub-stat">
-            <span class="hub-stat-num" id="stat-total">—</span>
-            <span class="hub-stat-label">Total Agents</span>
-          </div>
-          <div class="hub-stat">
-            <span class="hub-stat-num" id="stat-live">—</span>
-            <span class="hub-stat-label">Live Now</span>
-          </div>
-          <div class="hub-stat">
-            <span class="hub-stat-num" id="stat-checks">—</span>
-            <span class="hub-stat-label">Total Checks</span>
-          </div>
-          <div class="hub-stat">
-            <span class="hub-stat-num" id="stat-community">—</span>
-            <span class="hub-stat-label">Community</span>
-          </div>
+        <div class="hub-stats">
+          <span class="hub-stat"><strong id="stat-total">—</strong> agents</span>
+          <span class="hub-stat"><strong id="stat-live">—</strong> live</span>
+          <span class="hub-stat"><strong id="stat-checks">—</strong> checks</span>
+          <span class="hub-stat"><strong id="stat-community">—</strong> community</span>
         </div>
       </div>
-
-      <!-- AGENT GRID -->
-      <div class="agent-grid" id="agent-grid">
-        <div class="empty-state">Loading agents...</div>
-      </div>
-
     </div>
 
-    <!-- CONTRIBUTE CTA -->
-    <section class="contribute-cta">
-      <div class="container">
-        <h2>The town needs <span>your expertise.</span></h2>
-        <p>Every specialist in Revtown was contributed by a practitioner who ran that motion. An agent is a <code style="font-size:14px;color:var(--terra);">CLAUDE.md</code> — your domain knowledge, encoded. Click "view logic" on any live agent to see how simple it is, then fork one.</p>
-        <div class="contribute-btns">
-          <a href="https://github.com/LeRevOps/leclaw/blob/master/CONTRIBUTING.md" target="_blank" class="btn btn-primary">Read the contributing guide →</a>
-          <a href="/request-agent.html" class="btn btn-outline" style="color:#EEE8E2;border-color:rgba(238,232,226,0.2);" onmouseover="this.style.borderColor='rgba(238,232,226,0.5)'" onmouseout="this.style.borderColor='rgba(238,232,226,0.2)'">Request an agent instead →</a>
-        </div>
-      </div>
-    </section>
+    <div class="agent-grid" id="agent-grid">
+      <div class="empty-state">Loading agents...</div>
+    </div>
+
   </main>
+
+  <section class="contribute-cta">
+    <h2>The town needs <span>your expertise.</span></h2>
+    <p>Click "view logic" on any live agent to see how it's built. An agent is a <code style="font-family:'JetBrains Mono',monospace;color:var(--terra);font-size:11px;">CLAUDE.md</code> — your domain knowledge, encoded.</p>
+    <div class="contribute-btns">
+      <a href="https://github.com/LeRevOps/leclaw/blob/master/CONTRIBUTING.md" target="_blank" class="btn btn-primary">Contributing guide →</a>
+      <a href="/request-agent.html" class="btn-cta-ghost">Request an agent →</a>
+    </div>
+  </section>
 
   <footer>
     <ul class="footer-links">
@@ -559,21 +436,6 @@
   </footer>
 
   <script>
-    const STATUS_LABEL = {
-      live:    'live',
-      beta:    'beta',
-      soon:    'bientôt',
-      planned: 'planned',
-    };
-
-    const STATUS_CLASS = {
-      live:    'status-live',
-      beta:    'status-beta',
-      soon:    'status-soon',
-      planned: 'status-planned',
-    };
-
-    // Claude Projects system prompts — copy-paste for non-technical users
     const CLAUDE_PROMPTS = {
       'le-data-quality': `You are Le Data Quality, a resident specialist from Revtown — the open-source GTM agent hub. Your job is to audit CRM data quality for RevOps teams.
 
@@ -610,48 +472,46 @@ For each issue: count affected deals, name specific deals if shared, explain the
 End every audit with a pipeline health score (0–100) and the top 3 things to fix before the next forecast review.`
     };
 
+    const DOMAIN_COLOR = {
+      'data-quality': { bg: '#FEF3EE', fg: '#C85C38' },
+      'pipeline':     { bg: '#EEF6F0', fg: '#2D8653' },
+      'bdr':          { bg: '#EEF2FE', fg: '#3B5EC8' },
+      'activities':   { bg: '#F5EFFE', fg: '#6D28D9' },
+      'forecast':     { bg: '#FFFBEB', fg: '#B45309' },
+      'duplicates':   { bg: '#FDF2F8', fg: '#BE185D' },
+      'commission':   { bg: '#F0FDFA', fg: '#0D9488' },
+      'routing':      { bg: '#FFF7ED', fg: '#C2410C' },
+      'qbr':          { bg: '#EEF2FF', fg: '#4338CA' },
+      'renewal':      { bg: '#FFF1F2', fg: '#BE123C' },
+      'territory':    { bg: '#F7FEE7', fg: '#65A30D' },
+    };
+
+    const STATUS_CLASS = { live: 'status-live', beta: 'status-beta', soon: 'status-soon', planned: 'status-planned' };
+    const STATUS_LABEL = { live: 'live', beta: 'beta', soon: 'coming soon', planned: 'planned' };
+
+    function getInitials(name) {
+      const parts = name.replace(/^le-/, '').split('-');
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return parts.slice(0, 2).map(p => p[0].toUpperCase()).join('');
+    }
+
+    function getAvatarStyle(domain) {
+      const c = DOMAIN_COLOR[domain] || { bg: '#F5F0EB', fg: '#7A6E68' };
+      return `background:${c.bg};color:${c.fg};`;
+    }
+
     function copyToClipboard(text, btn) {
       navigator.clipboard.writeText(text).then(() => {
         const orig = btn.textContent;
         btn.textContent = 'Copied!';
-        btn.style.background = 'rgba(45,134,83,0.15)';
+        btn.style.background = 'rgba(45,134,83,0.1)';
         btn.style.color = '#1E6B42';
         btn.style.borderColor = 'rgba(45,134,83,0.3)';
         setTimeout(() => {
           btn.textContent = orig;
-          btn.style.background = '';
-          btn.style.color = '';
-          btn.style.borderColor = '';
+          btn.style.cssText = '';
         }, 2000);
       });
-    }
-
-    let allAgents = [];
-    let activeFilter = 'all';
-
-    async function loadRegistry() {
-      const res = await fetch('/registry.json');
-      const data = await res.json();
-      allAgents = data.agents;
-      updateStats();
-      renderGrid(allAgents);
-    }
-
-    function updateStats() {
-      document.getElementById('stat-total').textContent = allAgents.length;
-      document.getElementById('stat-live').textContent = allAgents.filter(a => a.status === 'live' || a.status === 'beta').length;
-      document.getElementById('stat-checks').textContent = allAgents.reduce((sum, a) => sum + (a.checkCount || 0), 0);
-      document.getElementById('stat-community').textContent = allAgents.filter(a => a.author.type === 'community').length;
-    }
-
-    function filterAgents(filter) {
-      if (filter === 'all') return allAgents;
-      if (filter === 'live') return allAgents.filter(a => a.status === 'live' || a.status === 'beta');
-      if (filter === 'soon') return allAgents.filter(a => a.status === 'soon');
-      if (filter === 'hubspot') return allAgents.filter(a => a.crm.includes('hubspot'));
-      if (filter === 'salesforce') return allAgents.filter(a => a.crm.includes('salesforce'));
-      if (filter === 'community') return allAgents.filter(a => a.author.type === 'community');
-      return allAgents;
     }
 
     function severityClass(s) {
@@ -659,88 +519,81 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
     }
 
     function renderChecks(checks) {
-      if (!checks || checks.length === 0) return '';
+      if (!checks || !checks.length) return '';
       return checks.map(c => `
         <div class="check-item">
-          <div class="check-header">
+          <div class="check-hd">
             <span class="check-id">${c.id}</span>
-            <span class="severity-badge ${severityClass(c.severity)}">${c.severity}</span>
-            ${c.writeback ? `<span class="severity-badge" style="background:rgba(180,140,20,0.1);color:#8A6010;">write-back</span>` : ''}
+            <span class="sev-badge ${severityClass(c.severity)}">${c.severity}</span>
+            ${c.writeback ? `<span class="sev-badge" style="background:rgba(180,140,20,0.08);color:#8A6010;">write-back</span>` : ''}
           </div>
           ${c.why ? `<p class="check-why">${c.why}</p>` : ''}
-          <div class="check-filter">${JSON.stringify(c.filterGroups, null, 2)}</div>
+          <div class="check-filter-code">${JSON.stringify(c.filterGroups, null, 2)}</div>
           ${c.note ? `<p class="check-why" style="color:rgba(122,110,104,0.5);font-size:10px;">ℹ ${c.note}</p>` : ''}
           <p class="check-fix">→ ${c.fix}</p>
         </div>
       `).join('');
     }
 
+    let allAgents = [];
+
     function renderGrid(agents) {
       const grid = document.getElementById('agent-grid');
-
-      if (agents.length === 0) {
-        grid.innerHTML = '<div class="empty-state">No agents match this filter yet.</div>';
+      if (!agents.length) {
+        grid.innerHTML = '<div class="empty-state">No agents match this filter.</div>';
         return;
       }
 
       grid.innerHTML = agents.map((agent, idx) => {
         const isLive = agent.status === 'live' || agent.status === 'beta';
-        const cardClass = isLive ? 'agent-card is-live' : 'agent-card';
+        const initials = getInitials(agent.name);
+        const avatarStyle = getAvatarStyle(agent.domain);
         const panelId = `logic-${idx}`;
-
-        const crmTags = agent.crm.map(c =>
-          `<span class="agent-crm">${c}</span>`
-        ).join('');
-
-        const tags = (agent.tags || []).slice(0, 3).map(t =>
-          `<span class="agent-tag">${t}</span>`
-        ).join('');
-
-        const checksLabel = agent.checkCount > 0 ? `${agent.checkCount} checks` : '';
-
-        const authorLabel = agent.author.type === 'community'
-          ? `by <span>${agent.author.name}</span>`
-          : `<span>Revtown core</span>`;
-
+        const statusCls = STATUS_CLASS[agent.status] || 'status-planned';
+        const statusTxt = STATUS_LABEL[agent.status] || agent.status;
+        const authorText = agent.author.type === 'community' ? agent.author.name : 'revtown/core';
+        const crmChips = agent.crm.map(c => `<span class="crm-chip">${c}</span>`).join('');
+        const checkStat = agent.checkCount > 0 ? `<span class="check-stat">${agent.checkCount} checks</span>` : '';
         const claudePrompt = CLAUDE_PROMPTS[agent.name];
 
-        const logicSection = isLive && agent.checks ? `
-          <button class="logic-toggle" onclick="toggleLogic('${panelId}', this)">
-            <span>▸</span> view logic
-          </button>
-          <div class="logic-panel" id="${panelId}">
-            ${renderChecks(agent.checks)}
+        const actions = isLive ? `
+          <div class="card-actions">
+            <a href="https://app.revtown.io" target="_blank" class="action-btn action-run">Run →</a>
+            ${claudePrompt ? `<button onclick="copyToClipboard(CLAUDE_PROMPTS['${agent.name}'], this)" class="action-btn action-ghost">Copy for Claude</button>` : ''}
+            <a href="https://github.com/LeRevOps/leclaw/tree/master/agents/${agent.name}" target="_blank" class="action-btn action-ghost">Fork</a>
+          </div>
+        ` : agent.status === 'soon' ? `
+          <div class="card-actions">
+            <a href="/request-agent.html" class="action-btn action-ghost">Request early access</a>
           </div>
         ` : '';
 
-        const liveActions = isLive ? `
-          <div style="display:flex;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid var(--border-sm);flex-wrap:wrap;">
-            <a href="https://app.revtown.io" target="_blank" style="flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:7px 10px;border-radius:6px;background:var(--terra);color:#FAF8F5;text-decoration:none;text-align:center;transition:background 0.15s;" onmouseover="this.style.background='#A84828'" onmouseout="this.style.background='var(--terra)'">Run →</a>
-            ${claudePrompt ? `<button onclick="copyToClipboard(CLAUDE_PROMPTS['${agent.name}'], this)" style="flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:7px 10px;border-radius:6px;border:1px solid rgba(200,92,56,0.35);background:transparent;color:var(--terra);cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='var(--terra-pale)'" onmouseout="this.style.background='transparent'">Copy for Claude</button>` : ''}
-            <a href="https://github.com/LeRevOps/leclaw/tree/master/agents/${agent.name}" target="_blank" style="flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:7px 10px;border-radius:6px;border:1px solid var(--border-sm);background:transparent;color:var(--muted);text-decoration:none;text-align:center;transition:all 0.15s;" onmouseover="this.style.color='var(--ink)';this.style.borderColor='rgba(31,26,23,0.2)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border-sm)'">Fork</a>
+        const logicSection = isLive && agent.checks && agent.checks.length > 0 ? `
+          <div class="logic-section">
+            <button class="logic-toggle" onclick="toggleLogic('${panelId}', this)"><span>▸</span> view logic</button>
+            <div class="logic-panel" id="${panelId}">${renderChecks(agent.checks)}</div>
           </div>
         ` : '';
-
-        const footerAction = !isLive
-          ? agent.status === 'soon'
-            ? `<a href="/request-agent.html" class="agent-link" style="color:var(--muted)">Request early access →</a>`
-            : `<a href="/request-agent.html" class="agent-link" style="color:rgba(122,110,104,0.4)">Vote →</a>`
-          : '';
 
         return `
-          <div class="${cardClass}" style="display:flex;flex-direction:column;">
-            <div class="agent-card-top">
-              <div class="agent-name">${agent.name}</div>
-              <span class="agent-status ${STATUS_CLASS[agent.status] || 'status-planned'}">${STATUS_LABEL[agent.status] || agent.status}</span>
-            </div>
-            <p class="agent-desc">${agent.description}</p>
-            <div class="agent-meta">
-              ${crmTags}
-              ${tags}
+          <div class="agent-card">
+            <div class="card-body">
+              <div class="card-header">
+                <div class="agent-avatar" style="${avatarStyle}">${initials}</div>
+                <div class="card-title">
+                  <div class="agent-name">${agent.name}</div>
+                  <div class="agent-namespace">${authorText}</div>
+                </div>
+                <span class="status-pill ${statusCls}">${statusTxt}</span>
+              </div>
+              <p class="agent-desc">${agent.description}</p>
+              ${actions}
             </div>
             ${logicSection}
-            ${liveActions}
-            ${!isLive ? `<div class="agent-card-footer"><div><div class="agent-author">${authorLabel}</div>${checksLabel ? `<div class="agent-checks">${checksLabel}</div>` : ''}</div>${footerAction}</div>` : `<div style="margin-top:6px;"><div class="agent-author">${authorLabel}</div>${checksLabel ? `<div class="agent-checks">${checksLabel}</div>` : ''}</div>`}
+            <div class="card-footer">
+              <div class="crm-chips">${crmChips}</div>
+              ${checkStat}
+            </div>
           </div>
         `;
       }).join('');
@@ -748,21 +601,38 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
 
     function toggleLogic(panelId, btn) {
       const panel = document.getElementById(panelId);
-      const isOpen = panel.classList.toggle('open');
-      btn.querySelector('span').textContent = isOpen ? '▾' : '▸';
-      btn.childNodes[1].textContent = isOpen ? ' hide logic' : ' view logic';
+      const open = panel.classList.toggle('open');
+      btn.querySelector('span').textContent = open ? '▾' : '▸';
+      btn.childNodes[1].textContent = open ? ' hide logic' : ' view logic';
     }
 
-    // Filter buttons
-    document.getElementById('filters').addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-btn');
+    function filterAgents(f) {
+      if (f === 'all') return allAgents;
+      if (f === 'live') return allAgents.filter(a => a.status === 'live' || a.status === 'beta');
+      if (f === 'soon') return allAgents.filter(a => a.status === 'soon');
+      if (f === 'hubspot') return allAgents.filter(a => a.crm.includes('hubspot'));
+      if (f === 'salesforce') return allAgents.filter(a => a.crm.includes('salesforce'));
+      if (f === 'community') return allAgents.filter(a => a.author.type === 'community');
+      return allAgents;
+    }
+
+    async function loadRegistry() {
+      const res = await fetch('/registry.json');
+      const data = await res.json();
+      allAgents = data.agents;
+      document.getElementById('stat-total').textContent = allAgents.length;
+      document.getElementById('stat-live').textContent = allAgents.filter(a => a.status === 'live' || a.status === 'beta').length;
+      document.getElementById('stat-checks').textContent = allAgents.reduce((s, a) => s + (a.checkCount || 0), 0);
+      document.getElementById('stat-community').textContent = allAgents.filter(a => a.author.type === 'community').length;
+      renderGrid(allAgents);
+    }
+
+    document.getElementById('filters').addEventListener('click', e => {
+      const btn = e.target.closest('.filter-pill');
       if (!btn) return;
-
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      activeFilter = btn.dataset.filter;
-      renderGrid(filterAgents(activeFilter));
+      renderGrid(filterAgents(btn.dataset.filter));
     });
 
     loadRegistry();
