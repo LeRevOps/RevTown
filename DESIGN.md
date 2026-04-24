@@ -14,8 +14,8 @@ colors:
   parchment-border:  "oklch(90% 0.008 50)"
   warm-white:        "oklch(98.5% 0.007 52)"
   card-surface:      "oklch(99.5% 0.004 52)"
-  filing-room:       "oklch(11% 0.02 35)"
-  deep-filing-room:  "oklch(7% 0.012 35)"
+  filing-room:       "oklch(10% 0.004 52)"
+  deep-filing-room:  "oklch(7% 0.003 52)"
   light-on-dark:     "oklch(93% 0.01 52)"
 typography:
   display:
@@ -127,8 +127,8 @@ A restrained palette built on one accent and a single warm neutral family. Chrom
 - **Parchment Border** (`oklch(90% 0.008 50)`): All borders at rest. Cards, filter pills, CRM chips, card footer dividers.
 - **Warm White** (`oklch(98.5% 0.007 52)`): Page background on the homepage.
 - **Card Surface** (`oklch(99.5% 0.004 52)`): Card backgrounds, filter pill default background. Barely distinguishable from Warm White — the tint matters for OKLCH coherence, not visual drama.
-- **Filing Room** (`oklch(11% 0.02 35)`): Dark section backgrounds (CTA, contribute section). Below 12% lightness, hue 35 reads as near-black with a faint orange warmth — not brown. Brown happens between 14–22%; going darker eliminates it.
-- **Deep Filing Room** (`oklch(7% 0.012 35)`): Footer background. Essentially black with the faintest terracotta breath. The darkest surface in the system.
+- **Filing Room** (`oklch(10% 0.004 52)`): Dark section backgrounds (CTA, contribute section). Near-black, barely tinted warm. The terracotta accent does all the work within it — the background just disappears.
+- **Deep Filing Room** (`oklch(7% 0.003 52)`): Footer background. Near-pure black with a whisper of warmth. Same approach as Docker Hub, LangChain, and Cursor — the dark is neutral, the accent is the voice.
 - **Light on Dark** (`oklch(93% 0.01 52)`): Text and button labels rendered on Filing Room or Deep Filing Room surfaces.
 
 ### Named Rules
@@ -136,7 +136,7 @@ A restrained palette built on one accent and a single warm neutral family. Chrom
 
 **The No-Pure-White Rule.** Every neutral must be tinted toward hue 52, chroma ≥ 0.004. `oklch(100% 0 0)` is prohibited. If a surface looks grey, it is the wrong color.
 
-**The Hue-Lock Rule.** The palette splits cleanly into two hue families: light surfaces use hue 50–52 (warm white, card, border, muted text), dark surfaces use hue 35 (the brand terracotta taken to near-black). Never introduce a third hue family. Cool grey has no place in this system.
+**The Hue-Lock Rule.** All surfaces share hue 50–52 — light and dark. The dark sections are the same hue family as the warm white, just taken to near-black. The terracotta accent (hue 35) is the only departure from this family, and it appears on both light and dark surfaces as the sole voice of color.
 
 ## 3. Typography
 
