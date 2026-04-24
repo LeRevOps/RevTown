@@ -14,8 +14,8 @@ colors:
   parchment-border:  "oklch(90% 0.008 50)"
   warm-white:        "oklch(98.5% 0.007 52)"
   card-surface:      "oklch(99.5% 0.004 52)"
-  filing-room:       "oklch(18% 0.04 35)"
-  deep-filing-room:  "oklch(13% 0.025 35)"
+  filing-room:       "oklch(11% 0.02 35)"
+  deep-filing-room:  "oklch(7% 0.012 35)"
   light-on-dark:     "oklch(93% 0.01 52)"
 typography:
   display:
@@ -127,8 +127,8 @@ A restrained palette built on one accent and a single warm neutral family. Chrom
 - **Parchment Border** (`oklch(90% 0.008 50)`): All borders at rest. Cards, filter pills, CRM chips, card footer dividers.
 - **Warm White** (`oklch(98.5% 0.007 52)`): Page background on the homepage.
 - **Card Surface** (`oklch(99.5% 0.004 52)`): Card backgrounds, filter pill default background. Barely distinguishable from Warm White — the tint matters for OKLCH coherence, not visual drama.
-- **Filing Room** (`oklch(18% 0.04 35)`): Dark section backgrounds (CTA, contribute section). A deep dark expression of the brand hue — the terracotta taken to near-black. Not brown; the orange reads through.
-- **Deep Filing Room** (`oklch(13% 0.025 35)`): Footer background. Same hue as Filing Room, lower lightness. The darkest surface in the system.
+- **Filing Room** (`oklch(11% 0.02 35)`): Dark section backgrounds (CTA, contribute section). Below 12% lightness, hue 35 reads as near-black with a faint orange warmth — not brown. Brown happens between 14–22%; going darker eliminates it.
+- **Deep Filing Room** (`oklch(7% 0.012 35)`): Footer background. Essentially black with the faintest terracotta breath. The darkest surface in the system.
 - **Light on Dark** (`oklch(93% 0.01 52)`): Text and button labels rendered on Filing Room or Deep Filing Room surfaces.
 
 ### Named Rules
