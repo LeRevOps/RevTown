@@ -77,7 +77,7 @@
 
     /* HERO */
     .hero {
-      padding: 140px 40px 80px;
+      padding: 140px 40px 56px;
       max-width: 780px;
       margin: 0 auto;
     }
@@ -142,23 +142,33 @@
 
     /* AGENTS PREVIEW */
     .agents-section {
-      padding: 0 40px 80px;
+      padding: 48px 40px 80px;
       max-width: 1200px;
       margin: 0 auto;
     }
 
     .section-head {
       display: flex;
-      align-items: baseline;
+      align-items: flex-end;
       justify-content: space-between;
       margin-bottom: 16px;
       gap: 16px;
       flex-wrap: wrap;
     }
 
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--terra);
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
+      font-size: 28px;
       font-weight: 600;
       color: var(--ink);
     }
@@ -179,6 +189,11 @@
       gap: 10px;
     }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     .agent-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -189,6 +204,7 @@
       transition: box-shadow 0.15s, border-color 0.15s;
       text-decoration: none;
       color: inherit;
+      animation: fadeUp 0.2s ease-out both;
     }
     .agent-card:hover {
       box-shadow: 0 2px 12px oklch(17% 0.012 50 / 0.07);
@@ -409,7 +425,10 @@
 
   <section class="agents-section" id="agents">
     <div class="section-head">
-      <div class="section-title">Meet the residents</div>
+      <div>
+        <div class="section-label">// the town directory</div>
+        <div class="section-title">Meet the residents</div>
+      </div>
       <a href="/agents.html" class="view-all-link">View all agents →</a>
     </div>
     <div class="agent-grid" id="agent-grid">
@@ -489,7 +508,7 @@
         const checkStat = agent.checkCount > 0 ? `<span class="check-stat">${agent.checkCount} checks</span>` : '';
 
         return `
-          <a href="/agents.html" class="agent-card">
+          <a href="/agents.html" class="agent-card" style="animation-delay:${Math.min(idx * 0.04, 0.32)}s">
             <div class="card-body">
               <div class="card-header">
                 <div class="agent-avatar" style="${avatarStyle}">${initials}</div>

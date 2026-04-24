@@ -70,15 +70,12 @@
     .btn-primary { background: var(--terra); color: var(--light-txt); }
     .btn-primary:hover { background: var(--terra-dim); }
 
-    /* MAIN */
-    .main-wrap {
+    /* PAGE HEADER (scrolls away) */
+    .page-header {
       max-width: 1160px;
       margin: 0 auto;
-      padding: 40px 32px 80px;
+      padding: 40px 32px 28px;
     }
-
-    /* PAGE HEADER */
-    .page-header { margin-bottom: 24px; }
 
     .page-title {
       font-family: 'Cormorant Garamond', serif;
@@ -89,10 +86,22 @@
     }
     .page-title .re { color: var(--terra); }
 
-    .page-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .page-desc { font-size: 13px; color: var(--muted); }
 
-    /* TOOLBAR */
-    .toolbar {
+    /* STICKY FILTER BAR */
+    .filter-bar {
+      position: sticky;
+      top: 54px;
+      z-index: 50;
+      background: oklch(97% 0.008 52 / 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 32px;
+    }
+
+    .filter-bar-inner {
+      max-width: 1160px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -126,9 +135,21 @@
     }
     .hub-stat strong { color: var(--ink); font-weight: 500; }
 
+    /* GRID WRAPPER */
+    .grid-wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 20px 32px 80px;
+    }
+
+    /* CARD ANIMATION */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* GRID */
     .agent-grid {
-      margin-top: 16px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(276px, 1fr));
       gap: 10px;
@@ -143,6 +164,7 @@
       display: flex;
       flex-direction: column;
       transition: box-shadow 0.15s, border-color 0.15s;
+      animation: fadeUp 0.2s ease-out both;
     }
     .agent-card:hover {
       box-shadow: 0 2px 12px oklch(17% 0.012 50 / 0.07);
@@ -305,10 +327,21 @@
     .empty-state {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 60px 0;
-      color: var(--subtle);
+      padding: 72px 0;
+      color: var(--muted);
       font-size: 13px;
     }
+
+    .empty-state p { margin-bottom: 12px; }
+
+    .empty-state-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--terra);
+      text-decoration: none;
+      transition: opacity 0.12s;
+    }
+    .empty-state-link:hover { opacity: 0.7; }
 
     /* CTA */
     .contribute-cta {
@@ -364,9 +397,11 @@
     @media (max-width: 700px) {
       nav { padding: 0 16px; }
       .nav-links { display: none; }
-      .main-wrap { padding: 28px 16px 60px; }
+      .page-header { padding: 28px 16px 20px; }
+      .filter-bar { padding: 10px 16px; }
+      .grid-wrap { padding: 16px 16px 60px; }
       .agent-grid { grid-template-columns: 1fr; }
-      .toolbar { flex-direction: column; align-items: flex-start; }
+      .filter-bar-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -387,34 +422,35 @@
     <a href="https://app.revtown.io" class="btn btn-primary">Get Started Free</a>
   </nav>
 
-  <main class="main-wrap">
+  <div class="page-header">
+    <h1 class="page-title"><span class="re">Rev</span>town Agent Hub</h1>
+    <p class="page-desc">Browse, run, or fork RevOps specialists. Each agent watches a different corner of your CRM.</p>
+  </div>
 
-    <div class="page-header">
-      <h1 class="page-title"><span class="re">Rev</span>town Agent Hub</h1>
-      <p class="page-desc">Browse, run, or fork RevOps specialists. Each agent watches a different corner of your CRM.</p>
-      <div class="toolbar">
-        <div class="filter-pills" id="filters">
-          <button class="filter-pill active" data-filter="all">All</button>
-          <button class="filter-pill" data-filter="live">Live</button>
-          <button class="filter-pill" data-filter="soon">Coming soon</button>
-          <button class="filter-pill" data-filter="hubspot">HubSpot</button>
-          <button class="filter-pill" data-filter="salesforce">Salesforce</button>
-          <button class="filter-pill" data-filter="community">Community</button>
-        </div>
-        <div class="hub-stats">
-          <span class="hub-stat"><strong id="stat-total">—</strong> agents</span>
-          <span class="hub-stat"><strong id="stat-live">—</strong> live</span>
-          <span class="hub-stat"><strong id="stat-checks">—</strong> checks</span>
-          <span class="hub-stat"><strong id="stat-community">—</strong> community</span>
-        </div>
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="filter-pills" id="filters">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="live">Live</button>
+        <button class="filter-pill" data-filter="soon">Coming soon</button>
+        <button class="filter-pill" data-filter="hubspot">HubSpot</button>
+        <button class="filter-pill" data-filter="salesforce">Salesforce</button>
+        <button class="filter-pill" data-filter="community">Community</button>
+      </div>
+      <div class="hub-stats">
+        <span class="hub-stat"><strong id="stat-total">—</strong> agents</span>
+        <span class="hub-stat"><strong id="stat-live">—</strong> live</span>
+        <span class="hub-stat"><strong id="stat-checks">—</strong> checks</span>
+        <span class="hub-stat"><strong id="stat-community">—</strong> community</span>
       </div>
     </div>
+  </div>
 
+  <div class="grid-wrap">
     <div class="agent-grid" id="agent-grid">
-      <div class="empty-state">Loading agents...</div>
+      <div class="empty-state"><p>Loading agents...</p></div>
     </div>
-
-  </main>
+  </div>
 
   <section class="contribute-cta">
     <h2>The town needs <span>your expertise.</span></h2>
@@ -539,8 +575,13 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
 
     function renderGrid(agents) {
       const grid = document.getElementById('agent-grid');
+
       if (!agents.length) {
-        grid.innerHTML = '<div class="empty-state">No agents match this filter.</div>';
+        grid.innerHTML = `
+          <div class="empty-state">
+            <p>No agents match this filter.</p>
+            <a href="/request-agent.html" class="empty-state-link">Request an agent →</a>
+          </div>`;
         return;
       }
 
@@ -555,6 +596,7 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
         const crmChips = agent.crm.map(c => `<span class="crm-chip">${c}</span>`).join('');
         const checkStat = agent.checkCount > 0 ? `<span class="check-stat">${agent.checkCount} checks</span>` : '';
         const claudePrompt = CLAUDE_PROMPTS[agent.name];
+        const delay = Math.min(idx * 0.04, 0.32);
 
         const actions = isLive ? `
           <div class="card-actions">
@@ -576,7 +618,7 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
         ` : '';
 
         return `
-          <div class="agent-card">
+          <div class="agent-card" style="animation-delay:${delay}s">
             <div class="card-body">
               <div class="card-header">
                 <div class="agent-avatar" style="${avatarStyle}">${initials}</div>
