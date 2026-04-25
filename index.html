@@ -89,28 +89,29 @@
     .welcome-sign {
       display: inline-flex;
       flex-direction: column;
-      align-items: center;
-      gap: 10px;
       border: 2px solid var(--terra);
-      padding: 32px 72px;
-      position: relative;
-      margin-bottom: 28px;
+      min-width: 460px;
+      overflow: hidden;
+      margin-bottom: 32px;
     }
 
-    .welcome-sign::after {
-      content: '';
-      position: absolute;
-      inset: 8px;
-      border: 1px solid oklch(57% 0.14 35 / 0.28);
-      pointer-events: none;
-    }
-
-    .sign-eyebrow {
+    .sign-top-band {
+      background: var(--terra);
+      color: var(--light-txt);
+      text-align: center;
+      padding: 10px 48px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: var(--muted);
+    }
+
+    .sign-main {
+      background: var(--card);
+      padding: 36px 72px;
+      text-align: center;
+      border-top: 1px solid oklch(57% 0.14 35 / 0.15);
+      border-bottom: 1px solid oklch(57% 0.14 35 / 0.15);
     }
 
     .sign-name {
@@ -124,13 +125,15 @@
 
     .sign-name .re { color: var(--terra); }
 
-    .sign-pop {
+    .sign-bottom-band {
+      background: var(--terra-pale);
+      color: var(--terra-dim);
+      text-align: center;
+      padding: 9px 48px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--subtle);
-      margin-top: 2px;
     }
 
     .hero-pill {
@@ -411,7 +414,8 @@
       nav { padding: 0 20px; }
       .nav-links { display: none; }
       .hero { padding: 60px 20px 48px; }
-      .welcome-sign { padding: 22px 36px; }
+      .welcome-sign { min-width: 0; width: 100%; max-width: 420px; }
+      .sign-main { padding: 28px 40px; }
       .agents-section { padding: 40px 20px 60px; }
       .agent-grid { grid-template-columns: 1fr; }
       .cta-section { padding: 60px 20px; }
@@ -434,9 +438,11 @@
 
   <section class="hero">
     <div class="welcome-sign">
-      <div class="sign-eyebrow">Welcome to</div>
-      <div class="sign-name"><span class="re">Rev</span>town!</div>
-      <div class="sign-pop" id="sign-pop">· · ·</div>
+      <div class="sign-top-band">Welcome to</div>
+      <div class="sign-main">
+        <div class="sign-name"><span class="re">Rev</span>town!</div>
+      </div>
+      <div class="sign-bottom-band" id="sign-pop">· · ·</div>
     </div>
 
     <p class="hero-tagline">
