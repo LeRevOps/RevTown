@@ -342,6 +342,25 @@
     }
     .empty-state-link:hover { opacity: 0.7; }
 
+    /* FOCUS RINGS */
+    a:focus-visible,
+    button:focus-visible,
+    .filter-pill:focus-visible,
+    .action-btn:focus-visible,
+    .logic-toggle:focus-visible { outline: 2px solid oklch(57% 0.14 35); outline-offset: 2px; }
+
+    /* SKELETON LOADER */
+    @keyframes skPulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+    .sk-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; animation: skPulse 1.6s ease-in-out infinite; }
+    .sk-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .sk-footer { padding: 9px 18px; border-top: 1px solid oklch(93% 0.007 52); background: oklch(99% 0.005 52); }
+    .sk-header { display: flex; align-items: flex-start; gap: 12px; }
+    .sk-avatar { width: 44px; height: 44px; border-radius: 8px; background: oklch(93% 0.007 52); flex-shrink: 0; }
+    .sk-title { flex: 1; display: flex; flex-direction: column; gap: 5px; padding-top: 4px; }
+    .sk-line { background: oklch(93% 0.007 52); border-radius: 3px; height: 10px; }
+    .sk-line.w70 { width: 70%; } .sk-line.w40 { width: 40%; height: 9px; }
+    .sk-line.w100 { width: 100%; } .sk-line.w75 { width: 75%; } .sk-line.w55 { width: 55%; height: 9px; }
+
     /* CTA */
     .contribute-cta {
       background: var(--dark-bg);
@@ -535,6 +554,8 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
       return `background:${c.bg};color:${c.fg};`;
     }
 
+    const SKEL = `<div class="sk-card"><div class="sk-body"><div class="sk-header"><div class="sk-avatar"></div><div class="sk-title"><div class="sk-line w70"></div><div class="sk-line w40"></div></div></div><div class="sk-line w100"></div><div class="sk-line w75"></div></div><div class="sk-footer"><div class="sk-line w55"></div></div></div>`;
+
     function copyToClipboard(text, btn) {
       navigator.clipboard.writeText(text).then(() => {
         const orig = btn.textContent;
@@ -543,6 +564,12 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
         btn.style.color = 'oklch(44% 0.1 148)';
         btn.style.borderColor = 'oklch(52% 0.11 148 / 0.3)';
         setTimeout(() => { btn.textContent = orig; btn.style.cssText = ''; }, 2000);
+      }).catch(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copy failed';
+        btn.style.background = 'oklch(50% 0.18 20 / 0.08)';
+        btn.style.color = 'oklch(42% 0.14 20)';
+        setTimeout(() => { btn.textContent = orig; btn.style.cssText = ''; }, 2500);
       });
     }
 
@@ -655,14 +682,23 @@ End every audit with a pipeline health score (0–100) and the top 3 things to f
     }
 
     async function loadRegistry() {
-      const res = await fetch('/registry.json');
-      const data = await res.json();
-      allAgents = data.agents;
-      document.getElementById('stat-total').textContent = allAgents.length;
-      document.getElementById('stat-live').textContent = allAgents.filter(a => a.status === 'live' || a.status === 'beta').length;
-      document.getElementById('stat-checks').textContent = allAgents.reduce((s, a) => s + (a.checkCount || 0), 0);
-      document.getElementById('stat-community').textContent = allAgents.filter(a => a.author.type === 'community').length;
-      renderGrid(allAgents);
+      const grid = document.getElementById('agent-grid');
+      grid.innerHTML = Array(9).fill(SKEL).join('');
+
+      try {
+        const res = await fetch('/registry.json');
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+        allAgents = data.agents;
+        document.getElementById('stat-total').textContent = allAgents.length;
+        document.getElementById('stat-live').textContent = allAgents.filter(a => a.status === 'live' || a.status === 'beta').length;
+        document.getElementById('stat-checks').textContent = allAgents.reduce((s, a) => s + (a.checkCount || 0), 0);
+        document.getElementById('stat-community').textContent = allAgents.filter(a => a.author.type === 'community').length;
+        renderGrid(allAgents);
+      } catch (err) {
+        console.error('Failed to load agents:', err);
+        grid.innerHTML = `<div class="empty-state"><p>Could not load agents.</p><a class="empty-state-link" href="" onclick="location.reload();return false">Refresh →</a></div>`;
+      }
     }
 
     document.getElementById('filters').addEventListener('click', e => {

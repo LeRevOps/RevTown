@@ -3,119 +3,133 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service — LeClaw</title>
+  <title>Terms of Service — Revtown</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #080E14; --bg-card: #0C1620; --sky: #7EC8E3;
-      --green: #4ADE80; --white: #EEF2F6; --muted: #8899AA;
-      --border: rgba(126,200,227,0.12); --border-sm: rgba(255,255,255,0.06);
+      --bg:        oklch(97% 0.008 52);
+      --terra:     oklch(57% 0.14 35);
+      --terra-dim: oklch(49% 0.13 35);
+      --ink:       oklch(17% 0.012 50);
+      --muted:     oklch(46% 0.01 50);
+      --border:    oklch(90% 0.008 50);
+      --darker-bg: oklch(7% 0.003 52);
+      --light-txt: oklch(93% 0.01 52);
     }
-    body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: radial-gradient(circle, rgba(126,200,227,0.06) 1px, transparent 1px);
-      background-size: 32px 32px; pointer-events: none; z-index: 0;
-    }
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.75; }
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px; height: 60px;
-      background: rgba(8,14,20,0.85); backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-sm);
+      padding: 0 32px; height: 54px;
+      background: oklch(97% 0.008 52 / 0.96); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; }
-    .nav-wordmark .le { color: var(--sky); }
-    .nav-wordmark .claw { color: var(--white); }
-    main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 120px 40px 80px; }
-    .label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 16px; }
-    h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; margin-bottom: 8px; }
-    .updated { font-size: 13px; color: var(--muted); margin-bottom: 48px; }
-    h2 { font-size: 18px; font-weight: 600; color: var(--white); margin: 40px 0 12px; }
-    p { color: var(--muted); margin-bottom: 16px; }
-    ul { color: var(--muted); padding-left: 20px; margin-bottom: 16px; }
-    li { margin-bottom: 8px; }
-    strong { color: var(--white); font-weight: 500; }
-    a { color: var(--sky); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    footer { position: relative; z-index: 1; border-top: 1px solid var(--border-sm); padding: 32px 40px; text-align: center; }
-    .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; list-style: none; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
-    .footer-links a:hover { color: var(--white); }
-    .footer-copy { font-size: 12px; color: var(--muted); }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-wordmark { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; }
+    .nav-wordmark .re { color: var(--terra); }
+    .nav-wordmark .town { color: var(--ink); }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { color: oklch(46% 0.01 50); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.12s; }
+    .nav-links a:hover { color: var(--ink); }
+    .btn-nav { display: inline-flex; padding: 7px 16px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; border: none; background: var(--terra); color: var(--light-txt); transition: background 0.12s; }
+    .btn-nav:hover { background: var(--terra-dim); }
+    main { max-width: 720px; margin: 0 auto; padding: 64px 32px 80px; }
+    .page-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--terra); opacity: 0.8; margin-bottom: 12px; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 52px); font-weight: 600; line-height: 1.05; color: var(--ink); margin-bottom: 8px; }
+    .page-sub { font-size: 13px; color: oklch(46% 0.01 50); margin-bottom: 48px; }
+    h2 { font-size: 15px; font-weight: 600; color: var(--ink); margin: 40px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    p { color: oklch(46% 0.01 50); margin-bottom: 16px; }
+    ul { color: oklch(46% 0.01 50); padding-left: 20px; margin-bottom: 16px; }
+    li { margin-bottom: 6px; }
+    strong { color: var(--ink); font-weight: 600; }
+    a { color: var(--terra); text-decoration: none; transition: opacity 0.12s; }
+    a:hover { opacity: 0.7; }
+    a:focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
+    code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: oklch(93% 0.007 52); padding: 2px 6px; border-radius: 4px; color: var(--ink); }
+    footer { background: var(--darker-bg); padding: 24px 32px; text-align: center; }
+    .footer-links { display: flex; gap: 20px; justify-content: center; margin-bottom: 10px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: oklch(93% 0.01 52 / 0.35); text-decoration: none; transition: color 0.12s; }
+    .footer-links a:hover { color: oklch(93% 0.01 52 / 0.7); }
+    .footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: oklch(57% 0.14 35 / 0.35); }
+    @media (max-width: 600px) { nav { padding: 0 16px; } .nav-links { display: none; } main { padding: 48px 16px 60px; } }
   </style>
 </head>
 <body>
-
   <nav>
     <a href="/" class="nav-logo">
-      <span class="nav-wordmark"><span class="le">Le</span><span class="claw">Claw</span></span>
+      <div class="nav-wordmark"><span class="re">Rev</span><span class="town">town</span></div>
     </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/agents.html">Agent Hub</a></li>
+      <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
+    </ul>
+    <a href="https://app.revtown.io" class="btn-nav">Open dashboard</a>
   </nav>
 
   <main>
-    <div class="label">// legal</div>
+    <div class="page-label">// legal</div>
     <h1>Terms of Service</h1>
-    <p class="updated">Last updated: March 2026</p>
+    <p class="page-sub">Last updated: March 2026</p>
 
-    <p>These terms govern your use of LeClaw's hosted service at app.leclaw.io and the open source framework at leclaw.io. By creating an account or using the service, you agree to these terms. If you do not agree, do not use the service.</p>
+    <p>These terms govern your use of Revtown's hosted service at app.revtown.io and the open source framework at revtown.io. By creating an account or using the service, you agree to these terms.</p>
 
     <h2>The service</h2>
-    <p>LeClaw provides a RevOps agent framework that connects to CRM platforms (HubSpot, Salesforce) and runs automated checks against your data. The hosted dashboard (app.leclaw.io) runs agents on a schedule and delivers results via the dashboard and Slack. The open source CLI (<code>npx leclaw</code>) runs agents on your own machine using your own credentials.</p>
+    <p>Revtown provides a RevOps agent framework that connects to CRM platforms (HubSpot, Salesforce) and runs automated checks against your data. The hosted dashboard (app.revtown.io) runs agents on a schedule and delivers results via the dashboard and Slack. The open source CLI (<code>npx revtown</code>) runs agents on your own machine using your own credentials.</p>
 
     <h2>Shadow mode and write-back</h2>
-    <p><strong>LeClaw operates in shadow mode by default.</strong> This means agents read your CRM data but do not modify, delete, or create any records unless you explicitly enable write-back mode. Write-back mode is a paid feature that requires deliberate activation. You will always be informed before any write operation is performed.</p>
+    <p><strong>Revtown operates in shadow mode by default.</strong> This means agents read your CRM data but do not modify, delete, or create any records unless you explicitly enable write-back mode. Write-back mode is a paid feature that requires deliberate activation. You will always be informed before any write operation is performed.</p>
 
     <h2>Your responsibilities</h2>
     <ul>
-      <li>You are responsible for ensuring you have the authority to connect your CRM to LeClaw</li>
+      <li>You are responsible for ensuring you have the authority to connect your CRM to Revtown</li>
       <li>You must keep your account credentials and API keys secure</li>
-      <li>You may not use LeClaw to access CRM data you are not authorized to access</li>
+      <li>You may not use Revtown to access CRM data you are not authorized to access</li>
       <li>You may not attempt to reverse engineer, scrape, or abuse the service</li>
       <li>You may not resell or sublicense access to the hosted service without written permission</li>
     </ul>
 
     <h2>Open source framework</h2>
-    <p>The <code>@leclaw/core</code> npm package and the contents of the <a href="https://github.com/LeRevOps/leclaw" target="_blank">LeRevOps/leclaw</a> repository are licensed under the MIT License. You are free to use, fork, modify, and distribute the framework subject to the terms of that license. These Terms of Service apply to the hosted product only, not the open source framework.</p>
+    <p>The <code>@revtown/core</code> npm package and the contents of the <a href="https://github.com/LeRevOps/leclaw" target="_blank">LeRevOps/leclaw</a> repository are licensed under the MIT License. You are free to use, fork, modify, and distribute the framework subject to the terms of that license. These Terms of Service apply to the hosted product only, not the open source framework.</p>
 
     <h2>Data and privacy</h2>
-    <p>Your use of the service is also governed by our <a href="/privacy.html">Privacy Policy</a>. LeClaw does not sell your data. Raw CRM records are never stored. Only run metadata (counts, scores, timestamps) is persisted.</p>
+    <p>Your use of the service is also governed by our <a href="/privacy.html">Privacy Policy</a>. Revtown does not sell your data. Raw CRM records are never stored. Only run metadata (counts, scores, timestamps) is persisted.</p>
 
     <h2>Availability</h2>
-    <p>We aim for high availability but do not guarantee uninterrupted service. Scheduled maintenance or unexpected outages may occur. LeClaw is not liable for any losses resulting from service unavailability.</p>
+    <p>We aim for high availability but do not guarantee uninterrupted service. Scheduled maintenance or unexpected outages may occur. Revtown is not liable for any losses resulting from service unavailability.</p>
 
     <h2>Limitation of liability</h2>
-    <p>LeClaw is provided "as is" without warranties of any kind. To the maximum extent permitted by law, LeClaw and its operators are not liable for any indirect, incidental, special, or consequential damages arising from your use of the service — including but not limited to data loss, revenue loss, or CRM disruptions.</p>
-    <p>LeClaw's total liability for any claim arising from use of the service shall not exceed the amount you paid to LeClaw in the 12 months preceding the claim.</p>
+    <p>Revtown is provided "as is" without warranties of any kind. To the maximum extent permitted by law, Revtown and its operators are not liable for any indirect, incidental, special, or consequential damages arising from your use of the service.</p>
+    <p>Revtown's total liability for any claim shall not exceed the amount you paid to Revtown in the 12 months preceding the claim.</p>
 
     <h2>Termination</h2>
-    <p>You may stop using the service at any time. You can delete your account by emailing <a href="mailto:hello@leclaw.io">hello@leclaw.io</a>. We may suspend or terminate accounts that violate these terms.</p>
+    <p>You may stop using the service at any time. You can delete your account by emailing <a href="mailto:hello@revtown.io">hello@revtown.io</a>. We may suspend or terminate accounts that violate these terms.</p>
     <p>Upon termination, your run history and stored credentials will be deleted within 30 days.</p>
 
     <h2>Changes to these terms</h2>
-    <p>We may update these terms. We will notify active users by email before material changes take effect. Continued use of the service after changes constitutes acceptance of the updated terms.</p>
+    <p>We may update these terms. We will notify active users by email before material changes take effect.</p>
 
     <h2>Governing law</h2>
     <p>These terms are governed by the laws of the State of New York, without regard to conflict of law principles.</p>
 
     <h2>Contact</h2>
-    <p>Questions about these terms: <a href="mailto:hello@leclaw.io">hello@leclaw.io</a></p>
+    <p>Questions about these terms: <a href="mailto:hello@revtown.io">hello@revtown.io</a></p>
   </main>
 
   <footer>
     <ul class="footer-links">
       <li><a href="/">Home</a></li>
+      <li><a href="/agents.html">Agent Hub</a></li>
       <li><a href="/privacy.html">Privacy</a></li>
       <li><a href="/terms.html">Terms</a></li>
       <li><a href="/security.html">Security</a></li>
+      <li><a href="/contact.html">Contact</a></li>
       <li><a href="https://github.com/LeRevOps/leclaw" target="_blank">GitHub</a></li>
     </ul>
-    <p class="footer-copy">© 2026 LeClaw. Your RevOps team. Runs 24/7.</p>
+    <p class="footer-copy">© 2026 Revtown. The open-source GTM agent hub.</p>
   </footer>
-
 </body>
 </html>
