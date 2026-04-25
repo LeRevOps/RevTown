@@ -494,7 +494,7 @@
       document.getElementById('stat-total-text').textContent = agents.length;
 
       const grid = document.getElementById('agent-grid');
-      grid.innerHTML = agents.map(agent => {
+      grid.innerHTML = agents.map((agent, idx) => {
         const initials = getInitials(agent.name);
         const avatarStyle = getAvatarStyle(agent.domain);
         const statusCls = STATUS_CLASS[agent.status] || 'status-planned';
